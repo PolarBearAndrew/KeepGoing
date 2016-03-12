@@ -3,20 +3,21 @@ var webpack = require('webpack');
 
 module.exports = {
 
-  devtool: 'source-map',
+	devtool: 'source-map',
 
-  module: {
-    loaders: [{
-      test: /\.js$/,
-      loader: 'babel',
-      exclude: /(node_modules)/,
-      query: {
-        optional: ['runtime'],
-        cacheDirectory: true,
-        stage: 0
-      }
-    }],
-  },
+	module: {
+		loaders: [
+			{
+				test: /\.js$/,
+				loader: 'babel',
+				exclude: /(node_modules)/,
+				query: {
+					optional: ['runtime'],
+					cacheDirectory: true,
+					stage: 0
+				}
+			},
+		],
+	},
 
 };
-

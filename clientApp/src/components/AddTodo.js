@@ -1,33 +1,28 @@
-// import { Component, PropTypes } from 'react';
+
 import React, { Component, PropTypes } from 'react';
-import { Input, Button } from 'react-bootstrap';
 
 export default class AddTodo extends Component {
+
 	render() {
 		return (
 			<div>
-				<Input
-					type="text"
-					ref="input" // TODO: 這個有問題
-					placeholder="新工作"
-					buttonAfter={this.addButton()}/>
+				<input
+					type='text'
+					placeholder='新工作'
+					ref={ (c) => this.newJob = c }
+				/>
+				<button onClick={e => this.handleClick(e)}>
+					新增工作
+				</button>
 			</div>
 		);
 	}
 
-	addButton(){
-		return (
-			<Button bsStyle='primary' onClick={e => this.handleClick(e)}>
-				新增工作
-			</Button>
-		);
-	}
-
 	handleClick(e) {
-		const node = this.refs.input;
-		const text = node.value.trim();
+		console.log('newJobText', );
+		let text = this.newJob.value;
 		this.props.onAddClick(text);
-		node.value = '';
+		this.newJob.value = '';
 	}
 }
 
