@@ -33,12 +33,14 @@ class App extends Component {
 					}
 				/>
 
-				<Footer
-					filter={visibilityFilter}
-					onFilterChange={ nextFilter =>
-						dispatch(setVisibilityFilter(nextFilter))
-					}
-				/>
+				{
+				// <Footer
+				// 	filter={visibilityFilter}
+				// 	onFilterChange={ nextFilter =>
+				// 		dispatch(setVisibilityFilter(nextFilter))
+				// 	}
+				// />
+				}
 
 			</div>
 		);
