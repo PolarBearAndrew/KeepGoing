@@ -37,7 +37,6 @@ export default class AddTodo extends Component {
 
 	handleClick(e) {
 
-		// 如果未輸入工作項目名稱, 不新增
 		if(
 			! this.newJob ||
 			! this.newJob.value ||
@@ -51,7 +50,7 @@ export default class AddTodo extends Component {
 		this.newJob.value = '';
 
 	}
-	
+
 }
 
 AddTodo.propTypes = {

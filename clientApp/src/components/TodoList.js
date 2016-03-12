@@ -4,15 +4,15 @@ import Todo from './Todo'
 export default class TodoList extends Component {
 	render() {
 		return (
-			<ul>
+			<div className="ui container">
 				{this.props.todos.map((todo, index) =>
 					<Todo
 						{...todo}
 						key={index}
 						onClick={() => this.props.onTodoClick(index)} />
 				)}
-			</ul>
-		)
+			</div>
+		);
 	}
 }
 
@@ -22,4 +22,4 @@ TodoList.propTypes = {
 		text: PropTypes.string.isRequired,
 		completed: PropTypes.bool.isRequired
 	}).isRequired).isRequired
-}
+};

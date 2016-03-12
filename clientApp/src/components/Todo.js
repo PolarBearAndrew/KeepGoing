@@ -1,22 +1,40 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 
 export default class Todo extends Component {
+
 	render() {
+
+		let styles = {};
+
+		styles.segment = {
+			width : '900px',
+		};
+
 		return (
-			<li
-				onClick={this.props.onClick}
-				style={{
-					textDecoration: this.props.completed ? 'line-through' : 'none',
-					cursor: this.props.completed ? 'default' : 'pointer'
-				}}>
+			<div
+				className="ui segment"
+				style={styles.segment}>
 				{this.props.text}
-			</li>
-		)
+			</div>
+		);
 	}
+
 }
 
 Todo.propTypes = {
-	onClick: PropTypes.func.isRequired,
+
+	// func
+	onClick : PropTypes.func.isRequired,
+	onCheck : PropTypes.func.isRequired,
+
+	// props
 	text: PropTypes.string.isRequired,
 	completed: PropTypes.bool.isRequired
-}
+};
+
+
+// {
+// 	// <li onClick={this.props.onClick}>
+// 	// 	{this.props.text}
+// 	// </li>
+// }

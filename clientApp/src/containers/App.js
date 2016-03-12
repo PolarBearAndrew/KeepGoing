@@ -34,6 +34,7 @@ class App extends Component {
 				/>
 
 				{
+
 				// <Footer
 				// 	filter={visibilityFilter}
 				// 	onFilterChange={ nextFilter =>
@@ -48,7 +49,9 @@ class App extends Component {
 }
 
 App.propTypes = {
+
 	visibleTodos: PropTypes.arrayOf(PropTypes.shape({
+		// 這邊需要重新寫
 		text: PropTypes.string.isRequired,
 		completed: PropTypes.bool.isRequired
 	})),
@@ -56,7 +59,7 @@ App.propTypes = {
 		'SHOW_ALL',
 		'SHOW_COMPLETED',
 		'SHOW_ACTIVE'
-	]).isRequired
+	]).isRequired,
 };
 
 function selectTodos(todos, filter) {
