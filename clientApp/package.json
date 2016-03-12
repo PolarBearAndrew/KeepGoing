@@ -1,47 +1,29 @@
 {
-  "name": "todoList",
+  "name": "redux-demo1",
   "version": "1.0.0",
-  "description": "todolist for myself",
   "main": "index.js",
   "scripts": {
-    "start": "node server.js",
-    "deploy": "webpack -p --progress --config webpack.production.config.js"
+    "start": "webpack-dev-server --progress --colors --entry ./src/index.js --output-file bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "dependencies": {
-    "extract-text-webpack-plugin": "^0.8.2",
-    "react": "^0.13.3",
-    "react-redux": "^0.2.2",
-    "redux": "^1.0.0-rc",
-    "superagent": "^1.2.0"
-  },
+  "author": "",
+  "license": "ISC",
   "devDependencies": {
-    "babel-core": "^5.8.3",
-    "babel-loader": "^5.3.2",
-    "css-loader": "^0.15.5",
-    "eslint": "^0.24.1",
-    "eslint-loader": "^0.14.2",
-    "eslint-plugin-react": "^3.0.0",
-    "file-loader": "^0.8.4",
-    "node-sass": "^3.2.0",
-    "opn": "^3.0.2",
-    "redux-devtools": "^0.1.0",
-    "sass-loader": "^1.0.3",
-    "style-loader": "^0.12.3",
-    "url-loader": "^0.5.6",
-    "webpack": "^1.10.5",
-    "webpack-dev-server": "^1.10.1"
+    "babel": "^5.8.34",
+    "babel-loader": "^5.4.0",
+    "babel-runtime": "^5.8.34",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4",
+    "redux-devtools": "^3.0.0-beta-3",
+    "redux-devtools-dock-monitor": "^1.0.0-beta-3",
+    "redux-devtools-log-monitor": "^1.0.0-beta-3",
+    "webpack": "^1.12.9",
+    "webpack-dev-server": "^1.12.1"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/PolarBearAndrew/KeepGoing"
-  },
-  "keywords": [
-    "todolist"
-  ],
-  "author": "AndrewChen",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/PolarBearAndrew/KeepGoing/issues"
-  },
-  "homepage": "https://github.com/PolarBearAndrew/KeepGoing"
+  "description": "",
+  "dependencies": {
+    "react-bootstrap": "~0.28.1"
+  }
 }
