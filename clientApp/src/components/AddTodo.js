@@ -5,31 +5,39 @@ export default class AddTodo extends Component {
 
 	render() {
 
+		let styles = {};
+
+		styles.input = {
+			width : '400px',
+		};
+
 		return (
 
-			<div className='ui left icon input right labeled'>
+			<div className='ui input left icon right labeled'>
 
 				<i className="plus icon"></i>
 
 				<input
 					type='text'
+					style={styles.input}
 					placeholder=' New Jobs'
 					ref={ (c) => this.newJob = c }
 				/>
 
 				<a
 					className="ui blue tag label"
-					onClick={e => this.handleClick(e)}
-				>
+					onClick={e => this.handleClick(e)}>
 					ADD TODO
 				</a>
-				
+
+
 			</div>
 		);
 	}
 
 	handleClick(e) {
 
+		// 如果未輸入工作項目名稱, 不新增
 		if(
 			! this.newJob ||
 			! this.newJob.value ||
@@ -37,10 +45,13 @@ export default class AddTodo extends Component {
 		) {
 			return ;
 		};
+
 		let text = this.newJob.value;
 		this.props.onAddClick(text);
 		this.newJob.value = '';
+
 	}
+	
 }
 
 AddTodo.propTypes = {
