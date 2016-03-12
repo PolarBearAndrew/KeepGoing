@@ -8,18 +8,25 @@ export default class AddTodo extends Component {
 			<div>
 				<input
 					type='text'
-					placeholder='新工作'
+					placeholder=' Add new job'
 					ref={ (c) => this.newJob = c }
 				/>
 				<button onClick={e => this.handleClick(e)}>
-					新增工作
+					ADD TODO
 				</button>
 			</div>
 		);
 	}
 
 	handleClick(e) {
-		console.log('newJobText', );
+
+		if(
+			! this.newJob ||
+			! this.newJob.value ||
+			this.newJob.value == ''
+		) {
+			return ;
+		};
 		let text = this.newJob.value;
 		this.props.onAddClick(text);
 		this.newJob.value = '';
