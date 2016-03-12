@@ -3,14 +3,16 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --hot --entry ./src/index.js --output-file bundle.js",
+    "start": "node devServer.js",
+    "start:webpack": "webpack-dev-server --progress --colors --hot --entry ./src/index.js --output-file bundle.js",
+    "build": "webpack --content-base",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "babel": "^5.8.34",
-		"babel-eslint": "~5.0.0-beta6",
+    "babel-eslint": "~5.0.0-beta6",
     "babel-loader": "^5.4.0",
     "babel-runtime": "^5.8.34",
     "eslint": "~1.10.3",
@@ -24,9 +26,13 @@
     "redux-devtools-dock-monitor": "^1.0.0-beta-3",
     "redux-devtools-log-monitor": "^1.0.0-beta-3",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.12.1"
+    "express": "~4.13.4",
+    "rimraf": "~2.5.1",
+    "webpack-dev-server": "^1.12.1",
+    "webpack-dev-middleware": "~1.5.1",
+    "webpack-hot-middleware": "~2.6.2"
   },
-  "description": "",
+  "description": "A better todoList for myself",
   "dependencies": {
     "react-bootstrap": "~0.28.1"
   }

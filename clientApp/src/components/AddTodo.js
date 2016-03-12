@@ -8,7 +8,7 @@ export default class AddTodo extends Component {
 			<div>
 				<input
 					type='text'
-					placeholder=' Add new job'
+					placeholder=' New Jobs'
 					ref={ (c) => this.newJob = c }
 				/>
 				<button onClick={e => this.handleClick(e)}>
