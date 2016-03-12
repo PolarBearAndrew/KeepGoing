@@ -4,16 +4,26 @@ import React, { Component, PropTypes } from 'react';
 export default class AddTodo extends Component {
 
 	render() {
+
 		return (
-			<div>
+
+			<div className='ui left icon input right labeled'>
+
+				<i className="plus icon"></i>
+
 				<input
 					type='text'
 					placeholder=' New Jobs'
 					ref={ (c) => this.newJob = c }
 				/>
-				<button onClick={e => this.handleClick(e)}>
+
+				<a
+					className="ui blue tag label"
+					onClick={e => this.handleClick(e)}
+				>
 					ADD TODO
-				</button>
+				</a>
+				
 			</div>
 		);
 	}
