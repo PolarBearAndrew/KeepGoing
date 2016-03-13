@@ -15,7 +15,9 @@ class MainComponent extends React.Component {
 		let styles = {};
 
 		styles.forkMeOnGithub = {
-			position : 'absolute; top: 0; right: 0;',
+			position : 'absolute',
+			top : 0,
+			right : 0,
 			border : 0,
 		};
 
