@@ -7,6 +7,7 @@ import AddTodo from '../components/AddTodo';
 import Footer from '../components/Footer';
 import TodoList from '../components/TodoList';
 import NavBar from '../components/NavBar';
+import LeftMenu from '../components/LeftMenu';
 
 class App extends Component {
 
@@ -17,41 +18,46 @@ class App extends Component {
 		let styles = {};
 
 		styles.wrapper = {
-			width: '400px',
-			marginLeft: '420px', // 需要預留左側的寬度
 			marginTop: '12px',
+			peddingLeft : '24px',
 		};
 
 		return (
-			<div style={styles.wrapper}>
+			<div className='ui grid'>
 
-				<NavBar />
+				<LeftMenu />
 
-				<AddTodo
-					onAddClick={ text =>
-						dispatch(addTodo(text))
+				<div className='seven wide column' style={styles.wrapper}>
+
+					<NavBar />
+
+					<AddTodo
+						onAddClick={ text =>
+							dispatch(addTodo(text))
+						}
+					/>
+
+					<br/>
+					<br/>
+
+					<TodoList
+						todos={visibleTodos}
+						onTodoClick={ index =>
+							dispatch(completeTodo(index))
+						}
+					/>
+
+					{
+
+					// <Footer
+					// 	filter={visibilityFilter}
+					// 	onFilterChange={ nextFilter =>
+					// 		dispatch(setVisibilityFilter(nextFilter))
+					// 	}
+					// />
 					}
-				/>
 
-				<br/>
-				<br/>
-
-				<TodoList
-					todos={visibleTodos}
-					onTodoClick={ index =>
-						dispatch(completeTodo(index))
-					}
-				/>
-
-				{
-
-				// <Footer
-				// 	filter={visibilityFilter}
-				// 	onFilterChange={ nextFilter =>
-				// 		dispatch(setVisibilityFilter(nextFilter))
-				// 	}
-				// />
-				}
+				</div>
 
 			</div>
 		);
