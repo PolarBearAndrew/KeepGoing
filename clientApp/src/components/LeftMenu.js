@@ -14,23 +14,19 @@ export default class LeftMenu extends Component {
 		};
 
 		return (
-			<div className='four wide column'>
-
-				<div className="ui vertical fluid tabular menu" style={styles.menu}>
-					<a className="item">
-						Bio
-					</a>
-					<a className="item">
-						Pics
-					</a>
-					<a className="item">
-						Companies
-					</a>
-					<a className="item active">
-						Links
-					</a>
-				</div>
-
+			<div className="ui vertical fluid tabular menu" style={styles.menu}>
+				<a className="item">
+					Bio
+				</a>
+				<a className="item">
+					Pics
+				</a>
+				<a className="item">
+					Companies
+				</a>
+				<a className="item active">
+					Links
+				</a>
 			</div>
 		);
 	}

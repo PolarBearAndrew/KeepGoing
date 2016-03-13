@@ -25,8 +25,10 @@ class App extends Component {
 		return (
 			<div className='ui grid'>
 
-				<LeftMenu />
-
+				<div className='four wide column'>
+					<LeftMenu />
+				</div>
+				
 				<div className='seven wide column' style={styles.wrapper}>
 
 					<NavBar />
