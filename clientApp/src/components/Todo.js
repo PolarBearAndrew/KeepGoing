@@ -1,4 +1,7 @@
+
 import React, { Component, PropTypes } from 'react';
+
+import { Width } from '../config/Styles';
 
 export default class Todo extends Component {
 
@@ -7,7 +10,7 @@ export default class Todo extends Component {
 		let styles = {};
 
 		styles.segment = {
-			width : '900px',
+			width : Width.MAIN_CONTENT.toString() + 'px',
 		};
 
 		return (

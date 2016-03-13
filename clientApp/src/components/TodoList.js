@@ -3,8 +3,15 @@ import Todo from './Todo'
 
 export default class TodoList extends Component {
 	render() {
+
+		let styles = {};
+
+		styles.wrapper = {
+			marginTop : '20px',
+		};
+
 		return (
-			<div className="ui container">
+			<div className="ui container" style={styles.warpper}>
 				{this.props.todos.map((todo, index) =>
 					<Todo
 						{...todo}
@@ -13,6 +20,7 @@ export default class TodoList extends Component {
 				)}
 			</div>
 		);
+
 	}
 }
 

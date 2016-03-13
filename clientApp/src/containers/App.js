@@ -6,25 +6,35 @@ import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '.
 import AddTodo from '../components/AddTodo';
 import Footer from '../components/Footer';
 import TodoList from '../components/TodoList';
+import NavBar from '../components/NavBar';
 
 class App extends Component {
+
 	render() {
 		// 藉由 connect() 呼叫注入：
 		const { dispatch, visibleTodos, visibilityFilter } = this.props;
 
-		let myStyle = {
+		let styles = {};
+
+		styles.wrapper = {
 			width: '400px',
-			margin: '0 auto',
+			marginLeft: '420px', // 需要預留左側的寬度
 			marginTop: '12px',
 		};
+
 		return (
-			<div style={myStyle}>
+			<div style={styles.wrapper}>
+
+				<NavBar />
 
 				<AddTodo
 					onAddClick={ text =>
 						dispatch(addTodo(text))
 					}
 				/>
+
+				<br/>
+				<br/>
 
 				<TodoList
 					todos={visibleTodos}
@@ -62,7 +72,7 @@ App.propTypes = {
 	]).isRequired,
 };
 
-function selectTodos(todos, filter) {
+function todoFilter(todos, filter) {
 	switch (filter) { // eslint 的 switch 縮排也太奇怪了...
 		case VisibilityFilters.SHOW_ALL:
 			return todos;
@@ -74,10 +84,9 @@ function selectTodos(todos, filter) {
 }
 
 // 我們想要從給定的全域 state 注入哪些 props？
-// 附註：使用 https://github.com/faassen/reselect 可以獲得更好的效能。
 function select(state) {
 	return {
-		visibleTodos: selectTodos(state.todos, state.visibilityFilter),
+		visibleTodos: todoFilter(state.todos, state.visibilityFilter),
 		visibilityFilter: state.visibilityFilter
 	};
 }

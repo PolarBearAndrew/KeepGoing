@@ -1,19 +1,23 @@
 
 import React, { Component, PropTypes } from 'react';
 
+import { Width } from '../config/Styles';
+
 export default class AddTodo extends Component {
 
 	render() {
 
 		let styles = {};
 
+		let inputWidth = Width.MAIN_CONTENT - 117;
+
 		styles.input = {
-			width : '400px',
+			width : inputWidth.toString() + 'px',
 		};
 
 		return (
 
-			<div className='ui input left icon right labeled'>
+			<div className='ui input left icon right labeled' >
 
 				<i className="plus icon"></i>
 
