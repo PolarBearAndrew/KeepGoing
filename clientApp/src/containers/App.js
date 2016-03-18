@@ -20,12 +20,16 @@ class App extends Component {
 		var menuList = [
 			{
 				id : 1,
-				text : 'Today\'s Job',
+				text : 'Today\'s Jobs',
 				active : true,
 			},
 			{
 				id : 2,
-				text : 'Weekly Job',
+				text : 'Weekly Jobs',
+			},
+			{
+				id : 3,
+				text : 'All Jobs',
 			},
 		];
 		this.state = {menuList};

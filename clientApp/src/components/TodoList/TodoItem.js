@@ -27,8 +27,8 @@ export default class TodoItem extends Component {
 TodoItem.propTypes = {
 
 	// func
-	onClick : PropTypes.func.isRequired,
-	onCheck : PropTypes.func.isRequired,
+	// onClick : PropTypes.func.isRequired,
+	// onCheck : PropTypes.func.isRequired,
 
 	// props
 	text: PropTypes.string.isRequired,
