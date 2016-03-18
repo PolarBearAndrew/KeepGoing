@@ -13,11 +13,27 @@ export default class TodoItem extends Component {
 			width : Width.MAIN_CONTENT.toString() + 'px',
 		};
 
+		styles.checkIcon = {
+			cursor : 'pointer',
+		};
+
+		styles.title = {
+
+		};
+
 		return (
 			<div
-				className="ui segment"
+				className='ui segment'
 				style={styles.segment}>
-				{this.props.title}
+
+				<h3
+					className='ui header'
+					style={styles.title}
+				>
+					<i className='check icon big' style={styles.checkIcon}></i>
+					<div className='content'>{this.props.title}</div>
+				</h3>
+
 			</div>
 		);
 	}
