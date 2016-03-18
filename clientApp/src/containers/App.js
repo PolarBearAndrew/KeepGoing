@@ -89,7 +89,6 @@ class App extends Component {
 }
 
 App.propTypes = {
-
 	visibleTodos: PropTypes.arrayOf(PropTypes.shape({
 		// 這邊需要重新寫
 		text: PropTypes.string.isRequired,
