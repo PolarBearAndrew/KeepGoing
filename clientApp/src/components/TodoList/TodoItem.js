@@ -1,5 +1,6 @@
 
 import React, { Component, PropTypes } from 'react';
+import moment from 'moment';
 
 import { Width } from '../../config/Styles';
 
@@ -30,9 +31,21 @@ export default class TodoItem extends Component {
 					className='ui header'
 					style={styles.title}
 				>
-					<i className='check icon big' style={styles.checkIcon}></i>
+					<i className='check icon' style={styles.checkIcon}></i>
 					<div className='content'>{this.props.title}</div>
 				</h3>
+
+				<div className='ui grid'>
+					<div className='one wide column'></div>
+					<div className='three wide column'>
+						<i className='clock icon large'></i>
+						{this.props.needTime} hr
+					</div>
+					<div className='five wide column'>
+						<i className='calendar icon large'></i>
+						{moment(this.props.expectTime).format('YYYY/MM/DD HH:mm')}
+					</div>
+				</div>
 
 			</div>
 		);
@@ -55,7 +68,7 @@ TodoItem.propTypes = {
 	// not required
 	desc : PropTypes.string,
 	endAt : PropTypes.string,
-	needTime : PropTypes.string,
+	needTime : PropTypes.number,
 	expectTime : PropTypes.string,
 };
 

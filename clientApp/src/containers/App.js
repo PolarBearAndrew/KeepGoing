@@ -39,7 +39,7 @@ class App extends Component {
 				title : '記得補念過去幾天的英文',
 				desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
 				priority : 1,
-				needTime : date,
+				needTime : 1.5,
 				expectTime : date,
 				endAt : date,
 				completed : false,

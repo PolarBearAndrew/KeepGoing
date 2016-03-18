@@ -34,6 +34,7 @@
   },
   "description": "A better todoList for myself",
   "dependencies": {
-    "react-bootstrap": "~0.28.1"
+    "react-bootstrap": "~0.28.1",
+    "moment": "~2.12.0"
   }
 }

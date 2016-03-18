@@ -44,7 +44,7 @@ var TodoList = React.createClass({
 			// not required
 			desc : PropTypes.string,
 			endAt : PropTypes.string,
-			needTime : PropTypes.string,
+			needTime : PropTypes.number,
 			expectTime : PropTypes.string,
 		}).isRequired).isRequired
 	},
