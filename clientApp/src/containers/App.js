@@ -1,14 +1,17 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+// import { addTodo, completeTodo } from '../action/actions.js';
 import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../action/actions.js';
 
-// components
+// component
 import NavBar from '../components/NavBar.js';
-import LeftMenu from '../components/LeftMenu.js';
 import AddTodo from '../components/AddTodo.js';
-import TodoList from '../components/TodoList/';
 import Footer from '../components/Footer';
+
+// components
+import LeftMenu from '../components/LeftMenu/';
+import TodoList from '../components/TodoList/';
 
 class App extends Component {
 
@@ -23,11 +26,25 @@ class App extends Component {
 			peddingLeft : '24px',
 		};
 
+		var menuList = [
+			{
+				id : 1,
+				text : 'Today\'s Job',
+				active : true,
+			},
+			{
+				id : 2,
+				text : 'Weekly Job',
+			},
+		];
+
 		return (
 			<div className='ui grid'>
 
 				<div className='four wide column'>
-					<LeftMenu />
+					<LeftMenu
+						menuList={menuList}
+					/>
 				</div>
 
 				<div className='seven wide column' style={styles.wrapper}>

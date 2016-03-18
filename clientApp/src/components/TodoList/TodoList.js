@@ -1,3 +1,4 @@
+
 import React, { Component, PropTypes } from 'react';
 import Todo from './TodoItem';
 
@@ -13,12 +14,15 @@ export default class TodoList extends Component {
 
 		return (
 			<div className="ui container" style={styles.warpper}>
-				{this.props.todos.map((todo, index) =>
-					<Todo
-						{...todo}
-						key={index}
-						onClick={() => this.props.onTodoClick(index)} />
-				)}
+				{
+					this.props.todos.map( (todo, index) => 
+						<Todo
+							{...todo}
+							key={index}
+							onClick={ () => this.props.onTodoClick(index) }
+						/>
+					)
+				}
 			</div>
 		);
 
