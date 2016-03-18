@@ -15,17 +15,8 @@ import TodoList from '../components/TodoList/';
 
 class App extends Component {
 
-	render() {
-		// 藉由 connect() 呼叫注入：
-		const { dispatch, visibleTodos, visibilityFilter } = this.props;
-
-		let styles = {};
-
-		styles.wrapper = {
-			marginTop: '12px',
-			peddingLeft : '24px',
-		};
-
+	constructor(props, context) {
+		super(props, context);
 		var menuList = [
 			{
 				id : 1,
@@ -37,13 +28,27 @@ class App extends Component {
 				text : 'Weekly Job',
 			},
 		];
+		this.state = {menuList};
+	}
+
+	render() {
+
+		// 藉由 connect() 呼叫注入：
+		const { dispatch, visibleTodos, visibilityFilter } = this.props;
+
+		let styles = {};
+
+		styles.wrapper = {
+			marginTop: '12px',
+			peddingLeft : '24px',
+		};
 
 		return (
 			<div className='ui grid'>
 
 				<div className='four wide column'>
 					<LeftMenu
-						menuList={menuList}
+						menuList={this.state.menuList}
 					/>
 				</div>
 
