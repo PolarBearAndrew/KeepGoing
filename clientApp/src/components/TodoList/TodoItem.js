@@ -17,7 +17,7 @@ export default class TodoItem extends Component {
 			<div
 				className="ui segment"
 				style={styles.segment}>
-				{this.props.text}
+				{this.props.title}
 			</div>
 		);
 	}
@@ -31,8 +31,16 @@ TodoItem.propTypes = {
 	// onCheck : PropTypes.func.isRequired,
 
 	// props
-	text: PropTypes.string.isRequired,
-	completed: PropTypes.bool.isRequired
+	// is required
+	id : PropTypes.number.isRequired,
+	title : PropTypes.string.isRequired,
+	completed : PropTypes.bool.isRequired,
+	priority : PropTypes.number.isRequired,
+	// not required
+	desc : PropTypes.string,
+	endAt : PropTypes.string,
+	needTime : PropTypes.string,
+	expectTime : PropTypes.string,
 };
 
 

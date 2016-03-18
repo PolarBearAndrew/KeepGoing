@@ -2,9 +2,15 @@
 import React, { Component, PropTypes } from 'react';
 import Todo from './TodoItem';
 
-export default class TodoList extends Component {
+// export default class TodoList extends Component {
+var TodoList = React.createClass({
 
-	render() {
+	// getDefaultProps : function() {
+	//
+	// 	return {todos};
+	// },
+
+	render : function() {
 
 		let styles = {};
 
@@ -15,7 +21,7 @@ export default class TodoList extends Component {
 		return (
 			<div className="ui container" style={styles.warpper}>
 				{
-					this.props.todos.map( (todo, index) => 
+					this.props.todos.map( (todo, index) =>
 						<Todo
 							{...todo}
 							key={index}
@@ -25,14 +31,25 @@ export default class TodoList extends Component {
 				}
 			</div>
 		);
+	},
 
-	}
-}
+	propTypes : {
+		onTodoClick : PropTypes.func.isRequired,
+		todos : PropTypes.arrayOf(PropTypes.shape({
+			// required
+			id : PropTypes.number.isRequired,
+			title : PropTypes.string.isRequired,
+			completed : PropTypes.bool.isRequired,
+			priority : PropTypes.number.isRequired,
+			// not required
+			desc : PropTypes.string,
+			endAt : PropTypes.string,
+			needTime : PropTypes.string,
+			expectTime : PropTypes.string,
+		}).isRequired).isRequired
+	},
 
-TodoList.propTypes = {
-	onTodoClick: PropTypes.func.isRequired,
-	todos: PropTypes.arrayOf(PropTypes.shape({
-		text: PropTypes.string.isRequired,
-		completed: PropTypes.bool.isRequired
-	}).isRequired).isRequired
-};
+});
+
+export default TodoList;
+//

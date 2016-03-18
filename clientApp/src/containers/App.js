@@ -32,7 +32,20 @@ class App extends Component {
 				text : 'All Jobs',
 			},
 		];
-		this.state = {menuList};
+		var date = (new Date()).toString();
+		var todos = [
+			{
+				id : 1,
+				title : '記得補念過去幾天的英文',
+				desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
+				priority : 1,
+				needTime : date,
+				expectTime : date,
+				endAt : date,
+				completed : false,
+			},
+		];
+		this.state = {menuList, todos};
 	}
 
 	render() {
@@ -70,7 +83,7 @@ class App extends Component {
 					<br/>
 
 					<TodoList
-						todos={visibleTodos}
+						todos={this.state.todos}
 						onTodoClick={ index =>
 							dispatch(completeTodo(index))
 						}
