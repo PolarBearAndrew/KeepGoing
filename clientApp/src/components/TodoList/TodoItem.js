@@ -1,9 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import { Width } from '../config/Styles';
+import { Width } from '../../config/Styles';
 
-export default class Todo extends Component {
+export default class TodoItem extends Component {
 
 	render() {
 
@@ -24,7 +24,7 @@ export default class Todo extends Component {
 
 }
 
-Todo.propTypes = {
+TodoItem.propTypes = {
 
 	// func
 	onClick : PropTypes.func.isRequired,

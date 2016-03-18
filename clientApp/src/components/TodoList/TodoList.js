@@ -1,7 +1,8 @@
-import React, { Component, PropTypes } from 'react'
-import Todo from './Todo'
+import React, { Component, PropTypes } from 'react';
+import Todo from './TodoItem';
 
 export default class TodoList extends Component {
+
 	render() {
 
 		let styles = {};

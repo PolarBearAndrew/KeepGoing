@@ -1,13 +1,14 @@
+
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../action/actions.js';
 
 // components
-import AddTodo from '../components/AddTodo';
+import NavBar from '../components/NavBar.js';
+import LeftMenu from '../components/LeftMenu.js';
+import AddTodo from '../components/AddTodo.js';
+import TodoList from '../components/TodoList/';
 import Footer from '../components/Footer';
-import TodoList from '../components/TodoList';
-import NavBar from '../components/NavBar';
-import LeftMenu from '../components/LeftMenu';
 
 class App extends Component {
 
@@ -28,7 +29,7 @@ class App extends Component {
 				<div className='four wide column'>
 					<LeftMenu />
 				</div>
-				
+
 				<div className='seven wide column' style={styles.wrapper}>
 
 					<NavBar />
@@ -50,7 +51,6 @@ class App extends Component {
 					/>
 
 					{
-
 					// <Footer
 					// 	filter={visibilityFilter}
 					// 	onFilterChange={ nextFilter =>
