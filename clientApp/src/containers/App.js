@@ -32,7 +32,7 @@ class App extends Component {
 				text : 'All Jobs',
 			},
 		];
-		var date = Date.now().toString(); // 這個以後用資料庫時間物件應該沒問題
+		var date = '2016/3/3 19:00';
 		var todos = [
 			{
 				id : 1,
