@@ -13,11 +13,11 @@ export const VisibilityFilters = {
 };
 
 // actions
-export function add(text) {
-	return { type: TODO_ADD, text };
+export function addTodo(todo) {
+	return { type: TODO_ADD, ...todo };
 }
 
-export function complete(index) {
+export function completeTodo(index) {
 	return { type: TODO_COMPLETE, index };
 }
 

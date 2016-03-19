@@ -1,4 +1,7 @@
+
+import moment from 'moment';
 import { combineReducers } from 'redux';
+
 import {
 	TODO_ADD,
 	TODO_COMPLETE,
@@ -33,9 +36,15 @@ function todos(state = [], action) {
 			return [
 				...state,
 				{
-					text: action.text,
-					completed: false
-				}
+					id : action.id || 123,
+					title : action.title,
+					desc : action.desc || null,
+					priority : action.priority || 2,
+					needTime : action.needTime || 30,
+					expectTime : moment().toString(),
+					endAt : null,
+					completed : false,
+				},
 			];
 		case TODO_COMPLETE :
 			return [

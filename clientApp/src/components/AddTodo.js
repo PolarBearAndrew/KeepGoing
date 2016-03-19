@@ -39,19 +39,22 @@ export default class AddTodo extends Component {
 	}
 
 	handleClick(e) {
-
+		// 至少輸入 todo.title 才可建立
 		if(
 			! this.newJob ||
 			! this.newJob.value ||
 			this.newJob.value == ''
 		) {
-			return ;
+			return false;
 		};
-
-		let text = this.newJob.value;
-		this.props.onAddClick(text);
+		let todo = {
+			title : this.newJob.value,
+			// priority : 2,
+			// needTime : action.needTime || 30,
+			// expectTime : moment().toString(),
+		};
+		this.props.onAddClick(todo);
 		this.newJob.value = '';
-
 	}
 
 }
