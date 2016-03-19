@@ -39,7 +39,7 @@ function todos(state = [], action) {
 					id : action.id || 123,
 					title : action.title,
 					desc : action.desc || null,
-					priority : action.priority || 2,
+					priority : action.priority || 0,
 					needTime : action.needTime || 30,
 					expectTime : moment().add(1, 'days').format('YYYY-MM-DD'), // 預設為明天的代辦事項
 					endAt : null,
