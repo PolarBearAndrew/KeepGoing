@@ -1,6 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
+moment.locale('zh-TW');
 
 import { Width } from '../../config/Styles.js';
 import _PRIORITYS_ from '../../config/Priority.js';
@@ -28,6 +29,8 @@ export default class TodoItem extends Component {
 			styles.title = null;
 		}
 
+		const expectTime = moment(this.props.expectTime);
+
 		return (
 			<div
 				className='ui segment'
@@ -49,9 +52,11 @@ export default class TodoItem extends Component {
 						<i className='clock icon large'></i>
 						{parseTimeStr(this.props.needTime)}
 					</div>
-					<div className='five wide column'>
+					<div className='seven wide column'>
 						<i className='calendar icon large'></i>
-						{moment(this.props.expectTime).format('YYYY/MM/DD HH:mm')}
+						{expectTime.format('YYYY/MM/DD dddd')}
+						&nbsp;
+						{', (' + expectTime.fromNow() + ')'}
 					</div>
 				</div>
 
