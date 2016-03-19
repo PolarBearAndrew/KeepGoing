@@ -1,42 +1,59 @@
-import { combineReducers } from 'redux'
-import { ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters } from '../action/actions.js'
-const { SHOW_ALL } = VisibilityFilters
+import { combineReducers } from 'redux';
+import {
+	TODO_ADD,
+	TODO_COMPLETE,
+	FILTER_SET_VISIBILITY,
+	FILTER_SET_PRIORITY,
+	VisibilityFilters
+} from '../actions/todo.js';
+
+const { SHOW_ALL } = VisibilityFilters;
 
 function visibilityFilter(state = SHOW_ALL, action) {
 	switch (action.type) {
-	case SET_VISIBILITY_FILTER:
-		return action.filter
-	default:
-		return state
+		case FILTER_SET_VISIBILITY :
+			return action.visibilityFilter;
+		default :
+			return state;
+	}
+}
+
+function priorityFilter(state = 0, action) {
+	switch (action.type) {
+		case FILTER_SET_PRIORITY :
+			return action.priorityFilter;
+		default :
+			return state;
 	}
 }
 
 function todos(state = [], action) {
 	switch (action.type) {
-	case ADD_TODO:
-		return [
-			...state,
-			{
-				text: action.text,
-				completed: false
-			}
-		];
-	case COMPLETE_TODO:
-		return [
-			...state.slice(0, action.index),
-			Object.assign({}, state[action.index], {
-				completed: true
-			}),
-			...state.slice(action.index + 1)
-		];
-	default:
-		return state;
+		case TODO_ADD :
+			return [
+				...state,
+				{
+					text: action.text,
+					completed: false
+				}
+			];
+		case TODO_COMPLETE :
+			return [
+				...state.slice(0, action.index),
+				Object.assign({}, state[action.index], {
+					completed : true
+				}),
+				...state.slice(action.index + 1)
+			];
+		default :
+			return state;
 	}
 }
 
 const todoApp = combineReducers({
 	visibilityFilter,
-	todos
-})
+	todos,
+	priorityFilter,
+});
 
-export default todoApp
+export default todoApp;

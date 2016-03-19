@@ -34,7 +34,6 @@ export default class AddTodo extends Component {
 					ADD TODO
 				</a>
 
-
 			</div>
 		);
 	}

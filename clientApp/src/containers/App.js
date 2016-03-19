@@ -1,8 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+// import { FILTER_SET_VISIBILITY, VisibilityFilters } from '../actions/todo.js';
 // import { addTodo, completeTodo } from '../action/actions.js';
-import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../action/actions.js';
+import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions/todo.js';
 
 // component
 import NavBar from '../components/NavBar.js';
@@ -32,7 +33,7 @@ class App extends Component {
 				text : 'All Jobs',
 			},
 		];
-		var date = '2016/3/3 19:00';
+		var date = '2016/3/3';
 		var todos = [
 			{
 				id : 1,
@@ -105,7 +106,7 @@ class App extends Component {
 
 					<AddTodo
 						onAddClick={ text =>
-							dispatch(addTodo(text))
+							dispatch(todo.add(text))
 						}
 					/>
 
@@ -115,7 +116,7 @@ class App extends Component {
 					<TodoList
 						todos={this.state.todos}
 						onTodoClick={ index =>
-							dispatch(completeTodo(index))
+							dispatch(todos.completeTodo(index))
 						}
 					/>
 
@@ -123,7 +124,7 @@ class App extends Component {
 					// <Footer
 					// 	filter={visibilityFilter}
 					// 	onFilterChange={ nextFilter =>
-					// 		dispatch(setVisibilityFilter(nextFilter))
+					// 		dispatch(todos.setVisibilityFilter(nextFilter))
 					// 	}
 					// />
 					}
@@ -136,20 +137,31 @@ class App extends Component {
 }
 
 App.propTypes = {
+	// todos
 	visibleTodos: PropTypes.arrayOf(PropTypes.shape({
-		// 這邊需要重新寫
-		text: PropTypes.string.isRequired,
-		completed: PropTypes.bool.isRequired
+		id : PropTypes.number.isRequired,
+		title : PropTypes.string.isRequired,
+		completed : PropTypes.bool.isRequired,
+		priority : PropTypes.number.isRequired,
+		desc : PropTypes.string,
+		endAt : PropTypes.string,
+		needTime : PropTypes.number,
+		expectTime : PropTypes.string,
 	})),
+	// 可見度篩選
 	visibilityFilter: PropTypes.oneOf([
 		'SHOW_ALL',
 		'SHOW_COMPLETED',
 		'SHOW_ACTIVE'
 	]).isRequired,
+	// 優先權篩選器
+	priorityFilter: PropTypes.oneOf([
+		0, 1, 2, 3, 4,
+	]).isRequired,
 };
 
-function todoFilter(todos, filter) {
-	switch (filter) { // eslint 的 switch 縮排也太奇怪了...
+function todoVisibilityFilter(todos, filter) {
+	switch (filter) {
 		case VisibilityFilters.SHOW_ALL:
 			return todos;
 		case VisibilityFilters.SHOW_COMPLETED:
@@ -159,13 +171,20 @@ function todoFilter(todos, filter) {
 	}
 }
 
-// 我們想要從給定的全域 state 注入哪些 props？
-function select(state) {
+function todoPriorityFilter(todos, filter) {
+	if(!filter || filter == 0)
+		return todos;
+	else
+		return todos.filter(todo => filter == todo.priority);
+}
+
+function data(state) {
+	let todoTemps = todoVisibilityFilter(state.todos, state.visibilityFilter);
 	return {
-		visibleTodos: todoFilter(state.todos, state.visibilityFilter),
-		visibilityFilter: state.visibilityFilter
+		visibleTodos : todoPriorityFilter(todoTemps, state.priorityFilter),
+		visibilityFilter : state.visibilityFilter,
+		priorityFilter : state.priorityFilter,
 	};
 }
 
-// 把 component 包起來以注入 dispatch 和 state 進去
-export default connect(select)(App);
+export default connect(data)(App);
