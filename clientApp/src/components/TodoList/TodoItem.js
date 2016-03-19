@@ -2,7 +2,9 @@
 import React, { Component, PropTypes } from 'react';
 import moment from 'moment';
 
-import { Width } from '../../config/Styles';
+import { Width } from '../../config/Styles.js';
+import _PRIORITYS_ from '../../config/Priority.js';
+
 
 export default class TodoItem extends Component {
 
@@ -18,14 +20,20 @@ export default class TodoItem extends Component {
 			cursor : 'pointer',
 		};
 
-		styles.title = {
-
-		};
+		// 是否擁有 priority 標籤
+		if(this.props.priority > 0 ) {
+			styles.title = { marginTop : '-27px' };
+		}
+		else {
+			styles.title = null;
+		}
 
 		return (
 			<div
 				className='ui segment'
 				style={styles.segment}>
+
+				{priorityRibon(this.props.priority)}
 
 				<h3
 					className='ui header'
@@ -51,6 +59,22 @@ export default class TodoItem extends Component {
 		);
 	}
 
+}
+
+function priorityRibon(priority) {
+	if(priority <= 0) {
+		return null;
+	}
+	if(priority > 4) {
+		priority = 4;
+	}
+	let target = _PRIORITYS_[priority];
+	return (
+		<a className={"ui right ribbon label " + target.color}>
+			<i className={"icon " + target.icon}></i>
+			{target.text}
+		</a>
+	);
 }
 
 TodoItem.propTypes = {

@@ -44,6 +44,36 @@ class App extends Component {
 				endAt : date,
 				completed : false,
 			},
+			{
+				id : 2,
+				title : '跟蔡政欽去饒河街夜市',
+				desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
+				priority : 2,
+				needTime : 3,
+				expectTime : date,
+				endAt : date,
+				completed : false,
+			},
+			{
+				id : 3,
+				title : '把 fdrShop 當時多的 issue 刪掉',
+				desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
+				priority : 3,
+				needTime : 1.5,
+				expectTime : date,
+				endAt : date,
+				completed : false,
+			},
+			{
+				id : 2,
+				title : '完成todolist',
+				desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
+				priority : 0,
+				needTime : 1.5,
+				expectTime : date,
+				endAt : date,
+				completed : false,
+			},
 		];
 		this.state = {menuList, todos};
 	}
