@@ -47,7 +47,7 @@ export default class TodoItem extends Component {
 					<div className='one wide column'></div>
 					<div className='three wide column'>
 						<i className='clock icon large'></i>
-						{this.props.needTime} hr
+						{parseTimeStr(this.props.needTime)}
 					</div>
 					<div className='five wide column'>
 						<i className='calendar icon large'></i>
@@ -75,6 +75,16 @@ function priorityRibon(priority) {
 			{target.text}
 		</a>
 	);
+}
+
+function parseTimeStr(needTime) {
+	if(needTime < 60) {
+		return needTime.toString() + ' min';
+	}
+	else {
+		let hr = Math.ceil(needTime / 60 * 10) / 10; // 小數點第一位
+		return (hr).toString() + ' hr';
+	}
 }
 
 TodoItem.propTypes = {
