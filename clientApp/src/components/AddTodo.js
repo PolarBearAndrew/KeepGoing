@@ -26,6 +26,7 @@ export default class AddTodo extends Component {
 					style={styles.input}
 					placeholder=' New Jobs'
 					ref={ (c) => this.newJob = c }
+					onKeyDown={this.handleKeyDown.bind(this)}
 				/>
 
 				<a
@@ -55,6 +56,13 @@ export default class AddTodo extends Component {
 		};
 		this.props.onAddClick(todo);
 		this.newJob.value = '';
+	}
+
+	handleKeyDown(e) {
+		// enter
+		if(e.keyCode == 13) {
+			return this.handleClick();
+		}
 	}
 
 }
