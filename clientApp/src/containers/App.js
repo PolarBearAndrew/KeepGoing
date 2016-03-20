@@ -110,6 +110,8 @@ class App extends Component {
 						}
 					/>
 
+					<p></p>
+
 					<FilterBox/>
 
 					<TodoList
