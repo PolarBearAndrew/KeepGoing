@@ -10,6 +10,12 @@ import store from './store/index.js';
 let rootElement = document.getElementById('MainApp');
 
 class MainComponent extends React.Component {
+
+	constructor() {
+		super();
+		localStorage.setItem("debug", "app:*");
+	}
+
 	render() {
 
 		let styles = {};
@@ -49,3 +55,8 @@ ReactDOM.render(
 	<MainComponent/>,
 	rootElement
 );
+
+// global variable
+import moment from 'moment';
+moment.locale('zh-TW');
+window.moment = moment;

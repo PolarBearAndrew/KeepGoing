@@ -1,7 +1,5 @@
 
-import moment from 'moment';
 import { combineReducers } from 'redux';
-
 import {
 	TODO_ADD,
 	TODO_COMPLETE,
@@ -11,6 +9,7 @@ import {
 } from '../actions/todo.js';
 
 const { SHOW_ALL } = VisibilityFilters;
+const debug = require('debug')('app:reducers');
 
 function visibilityFilter(state = SHOW_ALL, action) {
 	switch (action.type) {
@@ -32,11 +31,11 @@ function priorityFilter(state = 0, action) {
 
 function todos(state = [], action) {
 	switch (action.type) {
+
 		case TODO_ADD :
 			return [
-				...state,
 				{
-					id : action.id || 123,
+					id : action.id || Math.ceil(Math.random() * 10000),
 					title : action.title,
 					desc : action.desc || null,
 					priority : action.priority || 0,
@@ -45,15 +44,13 @@ function todos(state = [], action) {
 					endAt : null,
 					completed : false,
 				},
+				...state,
 			];
+
 		case TODO_COMPLETE :
-			return [
-				...state.slice(0, action.index),
-				Object.assign({}, state[action.index], {
-					completed : true
-				}),
-				...state.slice(action.index + 1)
-			];
+			debug('TODO_COMPLETE %j', action);
+			return state.filter( todo => todo.id != action.id);
+
 		default :
 			return state;
 	}

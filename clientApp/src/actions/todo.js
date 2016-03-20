@@ -17,8 +17,8 @@ export function addTodo(todo) {
 	return { type: TODO_ADD, ...todo };
 }
 
-export function completeTodo(index) {
-	return { type: TODO_COMPLETE, index };
+export function completeTodo(id) {
+	return { type: TODO_COMPLETE, id };
 }
 
 export function setVisibilityFilter(filter) {

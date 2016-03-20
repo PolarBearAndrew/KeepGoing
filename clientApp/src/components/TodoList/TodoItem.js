@@ -1,7 +1,5 @@
 
 import React, { Component, PropTypes } from 'react';
-import moment from 'moment';
-moment.locale('zh-TW');
 
 import { Width } from '../../config/Styles.js';
 import _PRIORITYS_ from '../../config/Priority.js';
@@ -42,7 +40,11 @@ export default class TodoItem extends Component {
 					className='ui header'
 					style={styles.title}
 				>
-					<i className='check icon' style={styles.checkIcon}></i>
+					<i
+						className='check icon'
+						style={styles.checkIcon}
+						onClick={this.props.onComplete}
+					></i>
 					<div className='content'>{this.props.title}</div>
 				</h3>
 
@@ -56,7 +58,7 @@ export default class TodoItem extends Component {
 						<i className='calendar icon large'></i>
 						{expectTime.format('YYYY/MM/DD dddd')}
 						&nbsp;
-						{', (' + expectTime.fromNow() + ')'}
+						{' (' + expectTime.fromNow() + ')'}
 					</div>
 				</div>
 
@@ -96,7 +98,7 @@ TodoItem.propTypes = {
 
 	// func
 	// onClick : PropTypes.func.isRequired,
-	// onCheck : PropTypes.func.isRequired,
+	onComplete : PropTypes.func.isRequired,
 
 	// props
 	// is required

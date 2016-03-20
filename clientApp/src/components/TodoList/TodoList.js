@@ -25,7 +25,7 @@ var TodoList = React.createClass({
 						<Todo
 							{...todo}
 							key={index}
-							onClick={ () => this.props.onTodoClick(index) }
+							onComplete={ () => this.props.onComplete(todo.id) }
 						/>
 					)
 				}
@@ -34,7 +34,7 @@ var TodoList = React.createClass({
 	},
 
 	propTypes : {
-		onTodoClick : PropTypes.func.isRequired,
+		onComplete : PropTypes.func.isRequired,
 		todos : PropTypes.arrayOf(PropTypes.shape({
 			// required
 			id : PropTypes.number.isRequired,

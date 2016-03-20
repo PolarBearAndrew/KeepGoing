@@ -116,8 +116,8 @@ class App extends Component {
 
 					<TodoList
 						todos={visibleTodos}
-						onTodoClick={ index =>
-							dispatch(completeTodo(index))
+						onComplete={ id =>
+							dispatch(completeTodo(id))
 						}
 					/>
 
