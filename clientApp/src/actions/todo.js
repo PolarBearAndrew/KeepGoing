@@ -5,9 +5,10 @@
 export const TODO_ADD = 'TODO_ADD';
 export const TODO_COMPLETE = 'TODO_COMPLETE';
 export const TODO_REMOVE = 'TODO_REMOVE';
+
 export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
 export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
-//export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
+export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
 
 // ==========================================
 // filter types
@@ -40,6 +41,10 @@ export function setCompletedFilter(filter) {
 
 export function setPriorityFilter(filter) {
 	return { type : FILTER_SET_PRIORITY, filter };
+}
+
+export function setNeeTimeFilter(filter) {
+	return { type : FILTER_SET_NEETTIME, filter };
 }
 
 

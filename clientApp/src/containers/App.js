@@ -8,8 +8,10 @@ import {
 	// funcs
 	setCompletedFilter,
 	setPriorityFilter,
+	setNeeTimeFilter,
 	//filters
-	CompletedFilters, } from '../actions/todo.js';
+	CompletedFilters,
+} from '../actions/todo.js';
 
 // component
 import NavBar from '../components/NavBar.js';
@@ -94,7 +96,9 @@ class App extends Component {
 			dispatch,
 			visibleTodos,
 			completedFilter,
-			priorityFilter, } = this.props;
+			priorityFilter,
+			needTimeFilter,
+		} = this.props;
 
 		let styles = {};
 
@@ -128,11 +132,15 @@ class App extends Component {
 					<FilterBox
 						priorityFilter={priorityFilter}
 						completedFilter={completedFilter}
+						needTimeFilter={needTimeFilter}
 						setPriorityFilter={ index =>
 							dispatch(setPriorityFilter(index))
 						}
 						setCompletedFilter={ filter =>
 							dispatch(setCompletedFilter(filter))
+						}
+						setNeeTimeFilter={ filter =>
+							dispatch(setNeeTimeFilter(filter))
 						}
 					/>
 
@@ -174,6 +182,9 @@ App.propTypes = {
 	]).isRequired,
 };
 
+// ==========================================
+// todo filter
+// ==========================================
 function todoCompletedFilter(todos, filter) {
 	switch (filter) {
 		case CompletedFilters.SHOW_ALL:
@@ -186,21 +197,33 @@ function todoCompletedFilter(todos, filter) {
 }
 
 function todoPriorityFilter(todos, filter) {
-	if(!filter || filter == 0) {
+	if(!filter || filter == 0)
 		return todos;
-	}
-	else {
+	else
 		return todos.filter(todo => filter == todo.priority);
-	}
+}
+
+function todoNeedTimeFilter(todos, filter) {
+	if(!filter || filter == 0)
+		return todos;
+	else
+		return todos.filter(todo => todo.needTime >= filter);
+}
+
+function todoFilters(state) {
+	let todoTemps;
+	todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
+	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
+	todoTemps = todoNeedTimeFilter(todoTemps, state.needTimeFilter);
+	return todoTemps;
 }
 
 function data(state) {
-	let todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
-	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
 	return {
-		visibleTodos : todoTemps,
+		visibleTodos : todoFilters(state),
 		completedFilter : state.completedFilter,
 		priorityFilter : state.priorityFilter,
+		needTimeFilter : state.needTimeFilter,
 	};
 }
 
