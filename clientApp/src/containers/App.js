@@ -1,7 +1,15 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import { addTodo, completeTodo, setCompletedFilter, CompletedFilters } from '../actions/todo.js';
+import {
+	// todos
+	addTodo,
+	completeTodo,
+	// funcs
+	setCompletedFilter,
+	setPriorityFilter,
+	//filters
+	CompletedFilters, } from '../actions/todo.js';
 
 // component
 import NavBar from '../components/NavBar.js';
@@ -82,7 +90,11 @@ class App extends Component {
 	render() {
 
 		// 藉由 connect() 呼叫注入：
-		const { dispatch, visibleTodos, completedFilter } = this.props;
+		const {
+			dispatch,
+			visibleTodos,
+			completedFilter,
+			priorityFilter, } = this.props;
 
 		let styles = {};
 
@@ -112,7 +124,12 @@ class App extends Component {
 
 					<p></p>
 
-					<FilterBox/>
+					<FilterBox
+						priorityFilter={priorityFilter}
+						setPriorityFilter={ index =>
+							dispatch(setPriorityFilter(index))
+						}
+					/>
 
 					<TodoList
 						todos={visibleTodos}

@@ -65,9 +65,10 @@ function completedFilter(state = SHOW_ALL, action) {
 }
 
 function priorityFilter(state = 0, action) {
+	debug('priorityFilter %j', action);
 	switch (action.type) {
 		case FILTER_SET_PRIORITY :
-			return action.priorityFilter;
+			return action.filter;
 		default :
 			return state;
 	}

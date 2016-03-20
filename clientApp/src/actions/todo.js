@@ -38,6 +38,11 @@ export function setCompletedFilter(filter) {
 	return { type : FILTER_SET_COMPLETED, filter };
 }
 
+export function setPriorityFilter(filter) {
+	return { type : FILTER_SET_PRIORITY, filter };
+}
+
+
 // ==========================================
 //
 // ==========================================

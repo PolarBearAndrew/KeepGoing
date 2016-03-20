@@ -70,7 +70,7 @@ let FilterBox = React.createClass({
 								Priority
 							</div>
 							<div className="scrolling menu">
-								{buildPriorityItems(Prioritys)}
+								{this.buildPriorityItems(Prioritys)}
 							</div>
 						</div>
 					</div>
@@ -87,23 +87,21 @@ let FilterBox = React.createClass({
 		);
 	},
 
+	buildPriorityItems(prioritys) {
+		return prioritys.map( (priority, index) => {
+			return (
+				<div className='item' key={index} data-index={index} onClick={ () => {
+					this.props.setPriorityFilter(index);
+				}}>
+					<div className={'ui empty circular label ' + priority.color}></div>
+					{priority.text}
+				</div>
+			);
+		});
+	},
+
 });
 
-//{buildPriorityItems(Prioritys)}
-
-function buildPriorityItems(prioritys) {
-	return prioritys.map( (priority, index) => {
-		return (
-			<div className='item' key={index} data-index={index} onClick={ () => {
-				console.log('123');
-				return false;
-			}}>
-				<div className={'ui empty circular label ' + priority.color}></div>
-				{priority.text}
-			</div>
-		);
-	});
-}
-
+// require setPriorityFilter
 
 export default FilterBox;
