@@ -1,29 +1,70 @@
 
 import React, { Component, PropTypes } from 'react';
 
+import { Width } from '../config/Styles';
+
 export default class AddTodo extends Component {
 
 	render() {
+
+		let styles = {};
+
+		let inputWidth = Width.MAIN_CONTENT - 117;
+
+		styles.input = {
+			width : inputWidth.toString() + 'px',
+		};
+
 		return (
-			<div>
+
+			<div className='ui input left icon right labeled' >
+
+				<i className="plus icon"></i>
+
 				<input
 					type='text'
-					placeholder='新工作'
+					style={styles.input}
+					placeholder=' New Jobs'
 					ref={ (c) => this.newJob = c }
+					onKeyDown={this.handleKeyDown.bind(this)}
 				/>
-				<button onClick={e => this.handleClick(e)}>
-					新增工作
-				</button>
+
+				<a
+					className="ui blue tag label"
+					onClick={e => this.handleClick(e)}>
+					ADD TODO
+				</a>
+
 			</div>
 		);
 	}
 
 	handleClick(e) {
-		console.log('newJobText', );
-		let text = this.newJob.value;
-		this.props.onAddClick(text);
+		// 至少輸入 todo.title 才可建立
+		if(
+			! this.newJob ||
+			! this.newJob.value ||
+			this.newJob.value == ''
+		) {
+			return false;
+		};
+		let todo = {
+			title : this.newJob.value,
+			// priority : 2,
+			// needTime : action.needTime || 30,
+			// expectTime : moment().toString(),
+		};
+		this.props.onAddClick(todo);
 		this.newJob.value = '';
 	}
+
+	handleKeyDown(e) {
+		// enter
+		if(e.keyCode == 13) {
+			return this.handleClick();
+		}
+	}
+
 }
 
 AddTodo.propTypes = {

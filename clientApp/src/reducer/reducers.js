@@ -1,42 +1,65 @@
-import { combineReducers } from 'redux'
-import { ADD_TODO, COMPLETE_TODO, SET_VISIBILITY_FILTER, VisibilityFilters } from '../action/actions.js'
-const { SHOW_ALL } = VisibilityFilters
+
+import { combineReducers } from 'redux';
+import {
+	TODO_ADD,
+	TODO_COMPLETE,
+	FILTER_SET_VISIBILITY,
+	FILTER_SET_PRIORITY,
+	VisibilityFilters
+} from '../actions/todo.js';
+
+const { SHOW_ALL } = VisibilityFilters;
+const debug = require('debug')('app:reducers');
 
 function visibilityFilter(state = SHOW_ALL, action) {
 	switch (action.type) {
-	case SET_VISIBILITY_FILTER:
-		return action.filter
-	default:
-		return state
+		case FILTER_SET_VISIBILITY :
+			return action.visibilityFilter;
+		default :
+			return state;
+	}
+}
+
+function priorityFilter(state = 0, action) {
+	switch (action.type) {
+		case FILTER_SET_PRIORITY :
+			return action.priorityFilter;
+		default :
+			return state;
 	}
 }
 
 function todos(state = [], action) {
 	switch (action.type) {
-	case ADD_TODO:
-		return [
-			...state,
-			{
-				text: action.text,
-				completed: false
-			}
-		];
-	case COMPLETE_TODO:
-		return [
-			...state.slice(0, action.index),
-			Object.assign({}, state[action.index], {
-				completed: true
-			}),
-			...state.slice(action.index + 1)
-		];
-	default:
-		return state;
+
+		case TODO_ADD :
+			return [
+				{
+					id : action.id || Math.ceil(Math.random() * 10000),
+					title : action.title,
+					desc : action.desc || null,
+					priority : action.priority || 0,
+					needTime : action.needTime || 30,
+					expectTime : moment().add(1, 'days').format('YYYY-MM-DD'), // 預設為明天的代辦事項
+					endAt : null,
+					completed : false,
+				},
+				...state,
+			];
+
+		case TODO_COMPLETE :
+			debug('TODO_COMPLETE %j', action);
+			return state.filter( todo => todo.id != action.id);
+
+		default :
+			return state;
 	}
 }
 
 const todoApp = combineReducers({
 	visibilityFilter,
-	todos
-})
+	priorityFilter,
+	todos,
+});
 
-export default todoApp
+export default todoApp;
