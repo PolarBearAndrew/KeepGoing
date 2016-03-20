@@ -35,6 +35,7 @@ let TodoItem = React.createClass({
 			this.props.completed == true
 		) {
 			checkIconClass = 'check icon green';
+			styles.segment.opacity = 0.5;
 		}
 		else {
 			checkIconClass = 'check icon disabled';
