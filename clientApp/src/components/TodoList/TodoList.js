@@ -27,6 +27,7 @@ var TodoList = React.createClass({
 							{...todo}
 							key={index}
 							onComplete={ () => this.props.onComplete(todo.id) }
+							setPriorityFilter={this.props.setPriorityFilter}
 						/>
 					)
 				}
@@ -35,6 +36,9 @@ var TodoList = React.createClass({
 	},
 
 	propTypes : {
+
+		setPriorityFilter : PropTypes.func.isRequired,
+
 		onComplete : PropTypes.func.isRequired,
 		todos : PropTypes.arrayOf(PropTypes.shape({
 			// required

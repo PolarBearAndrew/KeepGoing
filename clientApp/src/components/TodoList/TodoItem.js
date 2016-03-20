@@ -46,7 +46,7 @@ let TodoItem = React.createClass({
 				className='ui segment'
 				style={styles.segment}>
 
-				{priorityRibon(this.props.priority)}
+				{this.priorityRibon(this.props.priority)}
 
 				<h3
 					className='ui header'
@@ -66,7 +66,7 @@ let TodoItem = React.createClass({
 					<div className='one wide column'></div>
 					<div className='three wide column'>
 						<i className='clock icon large'></i>
-						{parseTimeStr(this.props.needTime)}
+						{this.parseTimeStr(this.props.needTime)}
 					</div>
 					<div className='seven wide column'>
 						<i className='calendar icon large'></i>
@@ -89,10 +89,40 @@ let TodoItem = React.createClass({
 		this.setState({hoverCheckIcon: false});
 	},
 
+	priorityRibon() {
+		let priority = this.props.priority;
+		if(priority <= 0) {
+			return null;
+		}
+		if(priority > 4) {
+			priority = 4;
+		}
+		let target = _PRIORITYS_[priority];
+		return (
+			<a
+				className={"ui right ribbon label " + target.color}
+				onClick={this.props.setPriorityFilter.bind(null, priority)}
+			>
+				<i className={"icon " + target.icon}></i>
+				{target.text}
+			</a>
+		);
+	},
+
+	parseTimeStr(needTime) {
+		if(needTime < 60) {
+			return needTime.toString() + ' min';
+		}
+		else {
+			let hr = Math.ceil(needTime / 60 * 10) / 10; // 小數點第一位
+			return (hr).toString() + ' hr';
+		}
+	},
+
 	propTypes : {
 		// func
 		onComplete : PropTypes.func.isRequired,
-		// onClick : PropTypes.func.isRequired,
+		setPriorityFilter : PropTypes.func.isRequired,
 
 		// props
 		// is required
@@ -108,31 +138,5 @@ let TodoItem = React.createClass({
 	},
 
 });
-
-function priorityRibon(priority) {
-	if(priority <= 0) {
-		return null;
-	}
-	if(priority > 4) {
-		priority = 4;
-	}
-	let target = _PRIORITYS_[priority];
-	return (
-		<a className={"ui right ribbon label " + target.color}>
-			<i className={"icon " + target.icon}></i>
-			{target.text}
-		</a>
-	);
-}
-
-function parseTimeStr(needTime) {
-	if(needTime < 60) {
-		return needTime.toString() + ' min';
-	}
-	else {
-		let hr = Math.ceil(needTime / 60 * 10) / 10; // 小數點第一位
-		return (hr).toString() + ' hr';
-	}
-}
 
 export default TodoItem;

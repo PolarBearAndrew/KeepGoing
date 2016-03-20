@@ -149,6 +149,9 @@ class App extends Component {
 						onComplete={ id =>
 							dispatch(completeTodo(id))
 						}
+						setPriorityFilter={ index =>
+							dispatch(setPriorityFilter(index))
+						}
 					/>
 
 				</div>
