@@ -33,7 +33,7 @@ class MainComponent extends React.Component {
 					<div>
 						<App />
 						{
-								<DevTools/>
+								// <DevTools/>
 						}
 					</div>
 				</Provider>

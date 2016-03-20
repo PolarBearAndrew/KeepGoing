@@ -4,30 +4,36 @@ import React, { Component, PropTypes } from 'react';
 import { Width } from '../../config/Styles.js';
 import _PRIORITYS_ from '../../config/Priority.js';
 
+let TodoItem = React.createClass({
 
-export default class TodoItem extends Component {
+	getInitialState() {
+		return {
+			hoverCheckIcon: false,
+		};
+	},
 
 	render() {
 
 		let styles = {};
+		let checkIconClass;
+		const expectTime = moment(this.props.expectTime);
 
 		styles.segment = {
 			width : Width.MAIN_CONTENT.toString() + 'px',
 		};
-
 		styles.checkIcon = {
 			cursor : 'pointer',
 		};
-
 		// 是否擁有 priority 標籤
-		if(this.props.priority > 0 ) {
+		if(this.props.priority > 0 )
 			styles.title = { marginTop : '-27px' };
-		}
-		else {
+		else
 			styles.title = null;
-		}
 
-		const expectTime = moment(this.props.expectTime);
+		if(this.state.hoverCheckIcon)
+			checkIconClass = 'check icon green';
+		else
+			checkIconClass = 'check icon';
 
 		return (
 			<div
@@ -41,9 +47,11 @@ export default class TodoItem extends Component {
 					style={styles.title}
 				>
 					<i
-						className='check icon'
+						className={checkIconClass}
 						style={styles.checkIcon}
 						onClick={this.props.onComplete}
+						onMouseOver={this.mouseOver}
+						onMouseOut={this.mouseOut}
 					></i>
 					<div className='content'>{this.props.title}</div>
 				</h3>
@@ -64,9 +72,36 @@ export default class TodoItem extends Component {
 
 			</div>
 		);
-	}
 
-}
+	},
+
+	mouseOver() {
+		this.setState({hoverCheckIcon: true});
+	},
+
+	mouseOut() {
+		this.setState({hoverCheckIcon: false});
+	},
+
+	propTypes : {
+		// func
+		onComplete : PropTypes.func.isRequired,
+		// onClick : PropTypes.func.isRequired,
+
+		// props
+		// is required
+		id : PropTypes.number.isRequired,
+		title : PropTypes.string.isRequired,
+		completed : PropTypes.bool.isRequired,
+		priority : PropTypes.number.isRequired,
+		// not required
+		desc : PropTypes.string,
+		endAt : PropTypes.string,
+		needTime : PropTypes.number,
+		expectTime : PropTypes.string,
+	},
+
+});
 
 function priorityRibon(priority) {
 	if(priority <= 0) {
@@ -94,25 +129,7 @@ function parseTimeStr(needTime) {
 	}
 }
 
-TodoItem.propTypes = {
-
-	// func
-	// onClick : PropTypes.func.isRequired,
-	onComplete : PropTypes.func.isRequired,
-
-	// props
-	// is required
-	id : PropTypes.number.isRequired,
-	title : PropTypes.string.isRequired,
-	completed : PropTypes.bool.isRequired,
-	priority : PropTypes.number.isRequired,
-	// not required
-	desc : PropTypes.string,
-	endAt : PropTypes.string,
-	needTime : PropTypes.number,
-	expectTime : PropTypes.string,
-};
-
+export default TodoItem
 
 // {
 // 	// <li onClick={this.props.onClick}>

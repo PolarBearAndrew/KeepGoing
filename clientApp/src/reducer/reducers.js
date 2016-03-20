@@ -1,10 +1,14 @@
 
 import { combineReducers } from 'redux';
 import {
+	// todo action
 	TODO_ADD,
 	TODO_COMPLETE,
+	TODO_REMOVE,
+	// todo filter action
 	FILTER_SET_VISIBILITY,
 	FILTER_SET_PRIORITY,
+	// todo filter types
 	VisibilityFilters
 } from '../actions/todo.js';
 
@@ -50,6 +54,10 @@ function todos(state = [], action) {
 
 		case TODO_COMPLETE :
 			debug('TODO_COMPLETE %j', action);
+			return state.filter( todo => todo.id != action.id);
+
+		case TODO_REMOVE :
+			debug('TODO_REMOVE %j', action);
 			return state.filter( todo => todo.id != action.id);
 
 		default :
