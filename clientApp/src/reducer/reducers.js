@@ -12,7 +12,7 @@ import {
 	CompletedFilters,
 } from '../actions/todo.js';
 
-const { SHOW_ALL } = CompletedFilters;
+const { SHOW_ACTIVE } = CompletedFilters;
 const debug = require('debug')('app:reducers');
 
 
@@ -40,7 +40,10 @@ function todos(state = [], action) {
 
 		case TODO_COMPLETE :
 			debug('TODO_COMPLETE %j', action);
-			return state.filter( todo => todo.id != action.id);
+			return state.map( todo => {
+				if(todo.id == action.id) todo.completed = true;
+				return todo;
+			});
 
 		case TODO_REMOVE :
 			debug('TODO_REMOVE %j', action);
@@ -54,7 +57,7 @@ function todos(state = [], action) {
 // ==========================================
 // filters
 // ==========================================
-function completedFilter(state = SHOW_ALL, action) {
+function completedFilter(state = SHOW_ACTIVE, action) {
 	debug('completedFilter %j', action);
 	switch (action.type) {
 		case FILTER_SET_COMPLETED :

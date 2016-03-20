@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import Prioritys from '../config/Priority.js';
-
+import { CompletedFilters } from '../actions/todo.js';
 
 let FilterBox = React.createClass({
 
@@ -39,6 +39,14 @@ let FilterBox = React.createClass({
 		const priority = Prioritys[this.props.priorityFilter] ||
 			{ color : 'black', text : 'Priority Filter' };
 
+		const completedItems = [
+			{ text : '未完成', status : 0, value : CompletedFilters.SHOW_ACTIVE },
+			{ text : '已完成', status : 0, value : CompletedFilters.SHOW_COMPLETED },
+			{ text : '全部', status : 0, value : CompletedFilters.SHOW_ALL },
+		];
+
+		const {completedFilter} = this.props;
+
 		return (
 			<div className="ui grid" style={styles.warpper}>
 
@@ -46,9 +54,7 @@ let FilterBox = React.createClass({
 
 				<div className='six wide column'>
 					<div className="ui buttons mini">
-						<button className="ui button" >全部</button>
-						<button className="ui button" >已完成</button>
-						<button className="ui button olive" >未完成</button>
+						{this.buildCompletedItems(completedItems, completedFilter)}
 					</div>
 				</div>
 
@@ -78,7 +84,7 @@ let FilterBox = React.createClass({
 
 				<div className='four wide column'>
 					<div className="ui left icon input mini" style={styles.inputNeedTime}>
-						<input type="text" placeholder="min..."/>
+						<input type="text" placeholder=":min"/>
 						<i className="clock icon"></i>
 					</div>
 				</div>
@@ -100,8 +106,31 @@ let FilterBox = React.createClass({
 		});
 	},
 
+	buildCompletedItems(completedItems, filter) {
+		completedItems.forEach( item => {
+			if(item.value == filter) item.status = 1;
+		});
+		return completedItems.map( item => {
+			let style = item.status ? 'ui button olive' : 'ui button';
+			return (
+				<button
+					className={style}
+					key={item.value}
+					onClick={ () => {
+						this.props.setCompletedFilter(item.value);
+					}}
+				>
+					{item.text}
+				</button>
+			);
+		});
+	},
+
 });
 
 // require setPriorityFilter
+// require setCompletedFilter
+// require completedFilter
+// require priorityFilter
 
 export default FilterBox;

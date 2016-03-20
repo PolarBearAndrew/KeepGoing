@@ -126,8 +126,12 @@ class App extends Component {
 
 					<FilterBox
 						priorityFilter={priorityFilter}
+						completedFilter={completedFilter}
 						setPriorityFilter={ index =>
 							dispatch(setPriorityFilter(index))
+						}
+						setCompletedFilter={ filter =>
+							dispatch(setCompletedFilter(filter))
 						}
 					/>
 
@@ -135,13 +139,6 @@ class App extends Component {
 						todos={visibleTodos}
 						onComplete={ id =>
 							dispatch(completeTodo(id))
-						}
-					/>
-
-					<Footer
-						filter={completedFilter}
-						onFilterChange={ nextFilter =>
-							dispatch(setCompletedFilter(nextFilter))
 						}
 					/>
 
