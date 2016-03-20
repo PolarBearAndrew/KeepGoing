@@ -9,6 +9,7 @@ import {
 	FILTER_SET_COMPLETED,
 	FILTER_SET_PRIORITY,
 	FILTER_SET_NEETTIME,
+	FILTERS_RESET,
 	// todo filter types
 	CompletedFilters,
 } from '../actions/todo.js';
@@ -63,6 +64,8 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 	switch (action.type) {
 		case FILTER_SET_COMPLETED :
 			return action.filter;
+		case FILTERS_RESET :
+			return action.filter || SHOW_ACTIVE;
 		default :
 			return state;
 	}
@@ -73,6 +76,8 @@ function priorityFilter(state = 0, action) {
 	switch (action.type) {
 		case FILTER_SET_PRIORITY :
 			return action.filter;
+		case FILTERS_RESET :
+			return 0;
 		default :
 			return state;
 	}
@@ -83,6 +88,8 @@ function needTimeFilter(state = null, action) {
 	switch (action.type) {
 		case FILTER_SET_NEETTIME :
 			return action.filter;
+		case FILTERS_RESET :
+			return null;
 		default :
 			return state;
 	}

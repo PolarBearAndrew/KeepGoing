@@ -28,7 +28,7 @@ let FilterBox = React.createClass({
 
 		styles.wrapper = {
 			marginTop : '10px',
-			marginBottom : '100px',
+			// marginBottom : '100px',
 		};
 
 		styles.inputNeedTime = {
@@ -37,6 +37,10 @@ let FilterBox = React.createClass({
 
 		styles.colorBall = {
 			marginLeft : '-10px',
+		};
+
+		styles.resetIcon = {
+			marginTop : '-10px',
 		};
 
 		const priority = Prioritys[this.props.priorityFilter] ||
@@ -55,14 +59,14 @@ let FilterBox = React.createClass({
 
 				<div className='one wide column'></div>
 
-				<div className='six wide column'>
+				<div className='seven wide column'>
 					<div className="ui buttons mini">
 						{this.buildCompletedItems(completedItems, completedFilter)}
 					</div>
 				</div>
 
-				<div className='five wide column'>
-					<div className="ui floating dropdown labeled icon button">
+				<div className='four wide column'>
+					<div className="ui floating dropdown labeled icon button mini">
 						<i className="filter icon"></i>
 						<span className='text' style={styles.colorBall}>
 							<div className={'ui empty circular label ' + priority.color}></div>
@@ -138,7 +142,10 @@ let FilterBox = React.createClass({
 					className={style}
 					key={item.value}
 					onClick={ () => {
-						this.props.setCompletedFilter(item.value);
+						return this.props.setCompletedFilter(item.value);
+					}}
+					onDoubleClick={ () => {
+						return this.props.resetAllFilters(item.value);
 					}}
 				>
 					{item.text}

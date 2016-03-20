@@ -9,6 +9,7 @@ import {
 	setCompletedFilter,
 	setPriorityFilter,
 	setNeeTimeFilter,
+	resetAllFilters,
 	//filters
 	CompletedFilters,
 } from '../actions/todo.js';
@@ -142,6 +143,9 @@ class App extends Component {
 						setNeeTimeFilter={ filter =>
 							dispatch(setNeeTimeFilter(filter))
 						}
+						resetAllFilters={ (filter) =>
+							dispatch(resetAllFilters(filter))
+						}
 					/>
 
 					<TodoList
@@ -210,7 +214,7 @@ function todoNeedTimeFilter(todos, filter) {
 	if(!filter || filter == 0)
 		return todos;
 	else
-		return todos.filter(todo => todo.needTime >= filter);
+		return todos.filter(todo => todo.needTime <= (filter + 5));
 }
 
 function todoFilters(state) {
