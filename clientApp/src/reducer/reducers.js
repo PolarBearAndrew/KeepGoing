@@ -37,7 +37,7 @@ function todos(state = [], action) {
 	switch (action.type) {
 
 		case TODO_ADD :
-			debug('TODO_COMPLETE %j', action);
+			debug('TODO_ADD %j', action);
 			return [
 				{
 					id : action.id || Math.ceil(Math.random() * 10000),
