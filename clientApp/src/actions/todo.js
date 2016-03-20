@@ -5,13 +5,14 @@
 export const TODO_ADD = 'TODO_ADD';
 export const TODO_COMPLETE = 'TODO_COMPLETE';
 export const TODO_REMOVE = 'TODO_REMOVE';
-export const FILTER_SET_VISIBILITY = 'FILTER_SET_VISIBILITY';
+export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
 export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
+//export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
 
 // ==========================================
 // filter types
 // ==========================================
-export const VisibilityFilters = {
+export const CompletedFilters = {
 	SHOW_ALL: 'SHOW_ALL',
 	SHOW_COMPLETED: 'SHOW_COMPLETED',
 	SHOW_ACTIVE: 'SHOW_ACTIVE'
@@ -33,10 +34,10 @@ export function removeTodo(id) {
 	return { type: TODO_REMOVE, id };
 }
 
-export function setVisibilityFilter(filter) {
-	return { type: FILTER_SET_VISIBILITY, filter };
+export function setCompletedFilter(filter) {
+	return { type : FILTER_SET_COMPLETED, filter };
 }
 
 // ==========================================
-// 
+//
 // ==========================================

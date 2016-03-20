@@ -15,11 +15,12 @@ var TodoList = React.createClass({
 		let styles = {};
 
 		styles.wrapper = {
-			marginTop : '20px',
+			marginTop : '0px',
 		};
 
 		return (
 			<div className="ui container" style={styles.warpper}>
+				<p></p>
 				{
 					this.props.todos.map( (todo, index) =>
 						<Todo
@@ -52,4 +53,3 @@ var TodoList = React.createClass({
 });
 
 export default TodoList;
-//

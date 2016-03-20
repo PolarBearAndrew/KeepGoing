@@ -1,14 +1,13 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-// import { FILTER_SET_VISIBILITY, VisibilityFilters } from '../actions/todo.js';
-// import { addTodo, completeTodo } from '../action/actions.js';
-import { addTodo, completeTodo, setVisibilityFilter, VisibilityFilters } from '../actions/todo.js';
+import { addTodo, completeTodo, setCompletedFilter, CompletedFilters } from '../actions/todo.js';
 
 // component
 import NavBar from '../components/NavBar.js';
 import AddTodo from '../components/AddTodo.js';
-// import Footer from '../components/Footer.js';
+import FilterBox from '../components/FilterBox.js';
+import Footer from '../components/Footer.js';
 
 // components
 import LeftMenu from '../components/LeftMenu/';
@@ -83,7 +82,7 @@ class App extends Component {
 	render() {
 
 		// 藉由 connect() 呼叫注入：
-		const { dispatch, visibleTodos, visibilityFilter } = this.props;
+		const { dispatch, visibleTodos, completedFilter } = this.props;
 
 		let styles = {};
 
@@ -111,8 +110,7 @@ class App extends Component {
 						}
 					/>
 
-					<br/>
-					<br/>
+					<FilterBox/>
 
 					<TodoList
 						todos={visibleTodos}
@@ -121,14 +119,12 @@ class App extends Component {
 						}
 					/>
 
-					{
-					// <Footer
-					// 	filter={visibilityFilter}
-					// 	onFilterChange={ nextFilter =>
-					// 		dispatch(todos.setVisibilityFilter(nextFilter))
-					// 	}
-					// />
-					}
+					<Footer
+						filter={completedFilter}
+						onFilterChange={ nextFilter =>
+							dispatch(setCompletedFilter(nextFilter))
+						}
+					/>
 
 				</div>
 
@@ -150,7 +146,7 @@ App.propTypes = {
 		expectTime : PropTypes.string,
 	})),
 	// 可見度篩選
-	visibilityFilter: PropTypes.oneOf([
+	completedFilter: PropTypes.oneOf([
 		'SHOW_ALL',
 		'SHOW_COMPLETED',
 		'SHOW_ACTIVE'
@@ -161,13 +157,13 @@ App.propTypes = {
 	]).isRequired,
 };
 
-function todoVisibilityFilter(todos, filter) {
+function todoCompletedFilter(todos, filter) {
 	switch (filter) {
-		case VisibilityFilters.SHOW_ALL:
+		case CompletedFilters.SHOW_ALL:
 			return todos;
-		case VisibilityFilters.SHOW_COMPLETED:
+		case CompletedFilters.SHOW_COMPLETED:
 			return todos.filter(todo => todo.completed);
-		case VisibilityFilters.SHOW_ACTIVE:
+		case CompletedFilters.SHOW_ACTIVE:
 			return todos.filter(todo => !todo.completed);
 	}
 }
@@ -182,10 +178,11 @@ function todoPriorityFilter(todos, filter) {
 }
 
 function data(state) {
-	let todoTemps = todoVisibilityFilter(state.todos, state.visibilityFilter);
+	let todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
+	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
 	return {
-		visibleTodos : todoPriorityFilter(todoTemps, state.priorityFilter),
-		visibilityFilter : state.visibilityFilter,
+		visibleTodos : todoTemps,
+		completedFilter : state.completedFilter,
 		priorityFilter : state.priorityFilter,
 	};
 }

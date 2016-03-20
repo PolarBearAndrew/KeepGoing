@@ -6,33 +6,19 @@ import {
 	TODO_COMPLETE,
 	TODO_REMOVE,
 	// todo filter action
-	FILTER_SET_VISIBILITY,
+	FILTER_SET_COMPLETED,
 	FILTER_SET_PRIORITY,
 	// todo filter types
-	VisibilityFilters
+	CompletedFilters,
 } from '../actions/todo.js';
 
-const { SHOW_ALL } = VisibilityFilters;
+const { SHOW_ALL } = CompletedFilters;
 const debug = require('debug')('app:reducers');
 
-function visibilityFilter(state = SHOW_ALL, action) {
-	switch (action.type) {
-		case FILTER_SET_VISIBILITY :
-			return action.visibilityFilter;
-		default :
-			return state;
-	}
-}
 
-function priorityFilter(state = 0, action) {
-	switch (action.type) {
-		case FILTER_SET_PRIORITY :
-			return action.priorityFilter;
-		default :
-			return state;
-	}
-}
-
+// ==========================================
+// todos
+// ==========================================
 function todos(state = [], action) {
 	switch (action.type) {
 
@@ -65,8 +51,30 @@ function todos(state = [], action) {
 	}
 }
 
+// ==========================================
+// filters
+// ==========================================
+function completedFilter(state = SHOW_ALL, action) {
+	debug('completedFilter %j', action);
+	switch (action.type) {
+		case FILTER_SET_COMPLETED :
+			return action.filter;
+		default :
+			return state;
+	}
+}
+
+function priorityFilter(state = 0, action) {
+	switch (action.type) {
+		case FILTER_SET_PRIORITY :
+			return action.priorityFilter;
+		default :
+			return state;
+	}
+}
+
 const todoApp = combineReducers({
-	visibilityFilter,
+	completedFilter,
 	priorityFilter,
 	todos,
 });
