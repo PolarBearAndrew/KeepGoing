@@ -134,10 +134,4 @@ function parseTimeStr(needTime) {
 	}
 }
 
-export default TodoItem
-
-// {
-// 	// <li onClick={this.props.onClick}>
-// 	// 	{this.props.text}
-// 	// </li>
-// }
+export default TodoItem;
