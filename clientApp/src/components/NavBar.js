@@ -18,15 +18,14 @@ export default class NavBar extends Component {
 			<div className="ui menu labeled icon" style={styles.navbar}>
 
 				<div className="item">
-					<img src="/images/logo.png" />
+					<i className="coffee icon"></i>
+					KEEP GOING
 				</div>
 
-				<a className="item">
-					<i className="bar chart icon"></i>
-					{'Statistics'}
-				</a>
-
 				{
+					// <a className="item">
+					// 	<i className="bar chart icon"></i>
+					// </a>
 					// right menu
 					// <div className="right menu">
 					// 	<a className="item">Sign Up</a>

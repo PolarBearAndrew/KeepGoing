@@ -30,10 +30,15 @@ let TodoItem = React.createClass({
 		else
 			styles.title = null;
 
-		if(this.state.hoverCheckIcon)
+		if(
+			this.state.hoverCheckIcon &&
+			this.props.completed == false
+		) {
 			checkIconClass = 'check icon green';
-		else
-			checkIconClass = 'check icon';
+		}
+		else {
+			checkIconClass = 'check icon disabled';
+		}
 
 		return (
 			<div
