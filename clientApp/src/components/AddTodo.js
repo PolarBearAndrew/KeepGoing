@@ -50,7 +50,7 @@ export default class AddTodo extends Component {
 		};
 		let todo = {
 			title : this.newJob.value,
-			// priority : 2,
+			priority : this.props.priorityFilter,
 			// needTime : action.needTime || 30,
 			// expectTime : moment().toString(),
 		};

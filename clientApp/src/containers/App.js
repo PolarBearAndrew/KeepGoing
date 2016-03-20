@@ -117,6 +117,7 @@ class App extends Component {
 					<NavBar />
 
 					<AddTodo
+						priorityFilter={priorityFilter}
 						onAddClick={ todo =>
 							dispatch(addTodo(todo))
 						}
