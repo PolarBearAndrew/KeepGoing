@@ -5,7 +5,28 @@ A todo list  for my self
 
 #### clientApp dev server
 
+安裝相依套件
+
+`$ npm install`
+
+請動開發用伺服器
+
 `$ npm start`
+
+#### serverApp
+
+安裝相依套件
+
+`$ npm install`
+
+安裝 babel-register
+
+`$ npm install babel-register`
+
+啟動伺服器 (在 KeepGoing/ 執行)
+
+`$ sh start.sh`
+
 
 *************************
 
