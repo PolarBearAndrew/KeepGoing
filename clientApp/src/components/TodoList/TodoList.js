@@ -5,10 +5,10 @@ import Todo from './TodoItem';
 // export default class TodoList extends Component {
 var TodoList = React.createClass({
 
-	// getDefaultProps : function() {
-	//
-	// 	return {todos};
-	// },
+	getInitialState : function() {
+		this.props.initTodo();
+		return {};
+	},
 
 	render : function() {
 

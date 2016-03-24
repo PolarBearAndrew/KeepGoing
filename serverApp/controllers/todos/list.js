@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
 		createTodo,
 	], err => {
 		if(err) return res.send(err);
-		return res.send(todos);
+		return res.send({ data : todos});
 	});
 
 	function createTodo(callback) {

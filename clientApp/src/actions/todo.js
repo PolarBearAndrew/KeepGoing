@@ -3,7 +3,7 @@ require('isomorphic-fetch');
 require('es6-promise').polyfill();
 // import 'babel-polyfill';
 
-var debug = require('debug')('clientApp:actions');
+var hostName = 'http://localhost:3000';
 
 // ==========================================
 // action types
@@ -28,9 +28,26 @@ export const CompletedFilters = {
 // ==========================================
 // init todo
 // ==========================================
+export const TODO_INIT = 'TODO_INIT';
+function todoInit(todos) {
+	return { type: TODO_INIT, todos };
+}
 
 export function initTodo() {
-	
+	return function(dispatch) {
+		fetch(hostName + '/api/v1/todo/', {
+			methed : 'get',
+		})
+		.then( res => res.json())
+		.then( res => {
+			console.log('init res', res);
+			let todos = res.data || [];
+			dispatch(todoInit(todos));
+		})
+		.catch( err => {
+			console.log('init err');
+		});
+	};
 }
 
 // ==========================================
@@ -57,7 +74,7 @@ export function addTodo(todo) {
 
 		dispatch(todoAdd(todo));
 
-		fetch('http://localhost:3000/api/v1/todo/', {
+		fetch(hostName + '/api/v1/todo/', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',
@@ -71,7 +88,7 @@ export function addTodo(todo) {
 			if(!res.data) {
 				return Promise.reject(new Error(res));
 			}
-			var ids = {
+			let ids = {
 				oldId : todo.id,
 				newId : res.data, // TODO: fetch fail
 			};

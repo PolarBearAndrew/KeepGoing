@@ -3,6 +3,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import {
 	// todos
+	initTodo,
 	addTodo,
 	completeTodo,
 	// funcs
@@ -43,50 +44,6 @@ class App extends Component {
 				text : 'All Jobs',
 			},
 		];
-		// 測試用 todo 資料, 可以準備刪除了
-		// var date = '2016/3/3';
-		// var todos = [
-		// 	{
-		// 		id : 1,
-		// 		title : '記得補念過去幾天的英文',
-		// 		desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
-		// 		priority : 1,
-		// 		needTime : 90,
-		// 		expectTime : date,
-		// 		endAt : date,
-		// 		completed : false,
-		// 	},
-		// 	{
-		// 		id : 2,
-		// 		title : '跟蔡政欽去饒河街夜市',
-		// 		desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
-		// 		priority : 2,
-		// 		needTime : 30,
-		// 		expectTime : date,
-		// 		endAt : date,
-		// 		completed : false,
-		// 	},
-		// 	{
-		// 		id : 3,
-		// 		title : '把 fdrShop 當時多的 issue 刪掉',
-		// 		desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
-		// 		priority : 3,
-		// 		needTime : 55,
-		// 		expectTime : date,
-		// 		endAt : date,
-		// 		completed : false,
-		// 	},
-		// 	{
-		// 		id : 2,
-		// 		title : '完成todolist',
-		// 		desc : '備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註備註',
-		// 		priority : 0,
-		// 		needTime : 400,
-		// 		expectTime : date,
-		// 		endAt : date,
-		// 		completed : false,
-		// 	},
-		// ];
 		this.state = {menuList};
 	}
 
@@ -150,6 +107,9 @@ class App extends Component {
 
 					<TodoList
 						todos={visibleTodos}
+						initTodo= { () =>
+							initTodo()(dispatch)
+						}
 						onComplete={ id =>
 							dispatch(completeTodo(id))
 						}

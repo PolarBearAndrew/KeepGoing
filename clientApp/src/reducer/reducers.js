@@ -3,7 +3,8 @@
 
 import { combineReducers } from 'redux';
 import {
-	// todo action
+	// todo
+	TODO_INIT,
 	TODO_ADD,
 	TODO_ADD_SUCCESS,
 	TODO_ADD_FAIL,
@@ -28,6 +29,10 @@ const debug = require('debug')('app:reducers.todos');
 function todos(state = [], action) {
 
 	switch (action.type) {
+
+		case TODO_INIT :
+			debug('TODO_INIT', action);
+			return action.todos;
 
 		case TODO_ADD :
 			debug('TODO_ADD %j', action);
