@@ -1,8 +1,12 @@
 
+// import lodash from 'lodash';
+
 import { combineReducers } from 'redux';
 import {
 	// todo action
 	TODO_ADD,
+	TODO_ADD_SUCCESS,
+	TODO_ADD_FAIL,
 	TODO_COMPLETE,
 	TODO_REMOVE,
 	// todo filter action
@@ -15,20 +19,21 @@ import {
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
-const debug = require('debug')('app:reducers');
+const debug = require('debug')('app:reducers.todos');
 
 
 // ==========================================
 // todos
 // ==========================================
 function todos(state = [], action) {
+
 	switch (action.type) {
 
 		case TODO_ADD :
 			debug('TODO_ADD %j', action);
 			return [
 				{
-					id : action.id || Math.ceil(Math.random() * 10000),
+					id : action.id,
 					title : action.title,
 					desc : action.desc || null,
 					priority : action.priority || 0,
@@ -39,6 +44,17 @@ function todos(state = [], action) {
 				},
 				...state,
 			];
+
+		case TODO_ADD_SUCCESS :
+			debug('TODO_ADD_SUCCESS %j', action);
+			return state.map(todo => {
+				if(todo.id == action.oldId) todo.id = action.newId;
+				return todo;
+			});
+
+		case TODO_ADD_FAIL :
+			debug('TODO_ADD_FAIL');
+			return state;
 
 		case TODO_COMPLETE :
 			debug('TODO_COMPLETE %j', action);
@@ -56,11 +72,13 @@ function todos(state = [], action) {
 	}
 }
 
+
+
 // ==========================================
 // filters
 // ==========================================
+
 function completedFilter(state = SHOW_ACTIVE, action) {
-	debug('completedFilter %j', action);
 	switch (action.type) {
 		case FILTER_SET_COMPLETED :
 			return action.filter;
@@ -72,7 +90,6 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 }
 
 function priorityFilter(state = 0, action) {
-	debug('priorityFilter %j', action);
 	switch (action.type) {
 		case FILTER_SET_PRIORITY :
 			return action.filter;
@@ -84,7 +101,6 @@ function priorityFilter(state = 0, action) {
 }
 
 function needTimeFilter(state = null, action) {
-	debug('needTimeFilter %j', action);
 	switch (action.type) {
 		case FILTER_SET_NEETTIME :
 			return action.filter;

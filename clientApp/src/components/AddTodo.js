@@ -47,8 +47,9 @@ export default class AddTodo extends Component {
 			this.newJob.value == ''
 		) {
 			return false;
-		};
+		}
 		let todo = {
+			id : Math.ceil(Math.random() * 1000000),
 			title : this.newJob.value,
 			priority : this.props.priorityFilter,
 			// needTime : action.needTime || 30,

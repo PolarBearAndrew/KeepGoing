@@ -124,7 +124,7 @@ class App extends Component {
 					<AddTodo
 						priorityFilter={priorityFilter}
 						onAddClick={ todo =>
-							dispatch(addTodo(todo))
+							addTodo(todo)(dispatch)
 						}
 					/>
 

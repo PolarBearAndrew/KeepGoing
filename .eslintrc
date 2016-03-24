@@ -1,0 +1,23 @@
+{
+    "rules": {
+        "indent": [2,"tab"],
+        "semi": [2,"always"],
+        "comma-dangle": 0,
+        "no-unused-vars": 1,
+        "no-console": 1
+    },
+    "env": {
+        "node": true,
+        "es6": true,
+    },
+    "globals": {
+        "_": true,
+        "async": true,
+        "validator": true,
+        "printf": true,
+        "app": true,
+        "moment": true,
+        "ravenClient": true
+    },
+    "extends": "eslint:recommended"
+}
