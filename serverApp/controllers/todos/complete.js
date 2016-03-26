@@ -2,6 +2,7 @@
 // 'use strict';
 
 var debug = require('debug')('serverApp:todo.update');
+var errors = require('../../config/').errors;
 var Promise = require('sequelize').Promise;
 var models = require('../../models/');
 var moment = require('moment');
@@ -15,7 +16,7 @@ module.exports = (req, res) => {
 		},
 	})
 	.then( todo => {
-		if(!todo) return Promise.reject(new Error('找不到該筆代辦事項'));
+		if(!todo) return Promise.reject(new Error(errors.TODO_NOT_FOUNT));
 		todo.completed = true;
 		todo.endAt = moment();
 		return todo.save();
