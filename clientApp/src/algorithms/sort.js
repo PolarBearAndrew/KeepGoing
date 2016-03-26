@@ -12,7 +12,7 @@ export default (todos) => {
 		// let completeB = todoB.completed ? 1 : 0;
 
 		if( expectTimeA != expectTimeB ) {
-			return todoA.id - todoB.id;
+			return todoB.id - todoA.id;
 		}
 		else if(todoA.priority != todoB.priority) {
 			return todoB.priority - todoA.priority;
