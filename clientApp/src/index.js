@@ -32,9 +32,7 @@ class MainComponent extends React.Component {
 				<Provider store={store}>
 					<div>
 						<App />
-						{
-								<DevTools/>
-						}
+						{ /* <DevTools/>  // 如果要用這個 store 裡面也有一行要改 // DevTools.instrument(), */ }
 					</div>
 				</Provider>
 
