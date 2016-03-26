@@ -11,10 +11,13 @@ var TodoList = React.createClass({
 
 		styles.wrapper = {
 			marginTop : '0px',
+			height : '705px',
+			'overflowX' :'visible',
+			'overflowY' :'scroll',
 		};
 
 		return (
-			<div className="ui container" style={styles.warpper}>
+			<div id='123' className="ui container" style={styles.wrapper}>
 				<p></p>
 				{
 					this.props.todos.map( (todo, index) =>
@@ -26,6 +29,7 @@ var TodoList = React.createClass({
 						/>
 					)
 				}
+				<p></p>
 			</div>
 		);
 	},
@@ -36,14 +40,12 @@ var TodoList = React.createClass({
 
 		onComplete : PropTypes.func.isRequired,
 		todos : PropTypes.arrayOf(PropTypes.shape({
-			// required
 			id : PropTypes.number.isRequired,
 			title : PropTypes.string.isRequired,
 			completed : PropTypes.bool.isRequired,
 			priority : PropTypes.number.isRequired,
 			needTime : PropTypes.number.isRequired,
 			expectAt : PropTypes.string.isRequired,
-			// not required
 			desc : PropTypes.string,
 			endAt : PropTypes.string,
 		}).isRequired).isRequired

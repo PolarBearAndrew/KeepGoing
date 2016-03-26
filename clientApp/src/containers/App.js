@@ -70,6 +70,8 @@ class App extends Component {
 		styles.wrapper = {
 			marginTop: '12px',
 			peddingLeft : '24px',
+			overflow : 'hidden',
+			height : '870px',
 		};
 
 		return (
@@ -81,7 +83,7 @@ class App extends Component {
 					/>
 				</div>
 
-				<div className='seven wide column' style={styles.wrapper}>
+				<div className='eight wide column' style={styles.wrapper}>
 
 					<NavBar />
 
