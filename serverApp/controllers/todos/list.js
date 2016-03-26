@@ -1,31 +1,21 @@
 
-// var _ = require('lodash');
-var async = require('async');
-var models = require('../../models/');
+'use strict';
+
 var debug = require('debug')('serverApp:todo.list');
+var models = require('../../models/');
 
-module.exports = (req, res, next) => {
+module.exports = (req, res) => {
 
-	var todos;
-
-	async.series([
-		// validate,
-		createTodo,
-	], err => {
-		if(err) return res.send(err);
-		return res.send({ data : todos});
+	models.todos.findAll({
+		where : {
+			trashed : false,
+		},
+	})
+	.then( todos => {
+		res.return(todos);
+	})
+	.catch( err => {
+		res.return(err);
 	});
-
-	function createTodo(callback) {
-		models.todos.findAll({
-			where : {
-				trashed : false,
-			},
-		}).complete(function(err, records){
-			if(err) return callback(err);
-			todos = records;
-			return callback();
-		});
-	}
 
 };

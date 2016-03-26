@@ -35,7 +35,7 @@ function todoInit(todos) {
 
 export function initTodo() {
 	return function(dispatch) {
-		fetch(hostName + '/api/v1/todo/', {
+		fetch(hostName + '/api/v1/todos', {
 			methed : 'get',
 		})
 		.then( res => res.json())
@@ -85,7 +85,7 @@ export function addTodo(todo) {
 
 		dispatch(todoAdd(todo));
 
-		fetch(hostName + '/api/v1/todo/', {
+		fetch(hostName + '/api/v1/todo', {
 			method: 'post',
 			headers: {
 				'Accept': 'application/json',

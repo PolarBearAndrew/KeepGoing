@@ -1,34 +1,25 @@
 
-var _ = require('lodash');
-var async = require('async');
-var models = require('../../models/');
+'use strict';
+
 var debug = require('debug')('serverApp:todo.create');
+var models = require('../../models/');
+var _ = require('lodash');
 
-module.exports = (req, res, next) => {
+module.exports = (req, res) => {
 
-	var todo;
+	var data = _.pick(req.body, [
+		'title', 'desc', 'priority', 'needTime',
+		'expectAt', 'endAt',
+	]);
 
-	async.series([
-		// validate,
-		createTodo,
-	], err => {
-		if(err) return res.send(err);
-		var str = JSON.stringify({ data : todo.id });
-		return res.send(str);
+	models.todos.create(
+		data, {validate: false}
+	)
+	.then( todo => {
+		res.return(todo);
+	})
+	.catch( err => {
+		res.return(err);
 	});
-
-	function createTodo(callback) {
-		var data = _.pick(req.body, [
-			'title', 'desc', 'priority', 'needTime',
-			'expectAt', 'endAt',
-		]);
-		models.todos.create(
-			data, {validate: false}
-		).complete(function(err, record){
-			if(err) return callback(err);
-			todo = record;
-			return callback();
-		});
-	}
 
 };
