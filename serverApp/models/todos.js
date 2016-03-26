@@ -43,7 +43,7 @@ module.exports = function(sequelize, models) {
 			validate : { isDate : true }
 		},
 
-		complete : {
+		completed : {
 			type : Sequelize.BOOLEAN,
 			allowNull : false,
 			defaultValue : false,

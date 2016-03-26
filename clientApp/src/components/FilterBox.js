@@ -110,12 +110,9 @@ let FilterBox = React.createClass({
 
 	handleNeedTimeFilterChange(e) {
 		let min = e.target.value || 0;
-		if(min < 10 && this.props.needTimeFilter >= 10)
-			return this.props.setNeeTimeFilter(parseInt(min, 10));
-		else if(min < 10)
-			return false;
-		else
-			return this.props.setNeeTimeFilter(parseInt(min, 10));
+		if(min < 10)
+			min = 0;
+		return this.props.setNeeTimeFilter(parseInt(min, 10));
 	},
 
 	buildPriorityItems(prioritys) {

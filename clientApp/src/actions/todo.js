@@ -40,7 +40,7 @@ export function initTodo() {
 		})
 		.then( res => res.json())
 		.then( res => {
-			console.log('init res', res);
+			console.log('init todos', res);
 			let todos = res.data || [];
 			dispatch(todoInit(todos));
 		})
@@ -55,20 +55,31 @@ export function initTodo() {
 // ==========================================
 export const TODO_ADD = 'TODO_ADD';
 function todoAdd(todo) {
-	return { type: TODO_ADD, ...todo };
+	return { type: TODO_ADD, todo };
 }
 
 export const TODO_ADD_SUCCESS = 'TODO_ADD_SUCCESS';
-function todoAddSuccess(todo) {
-	return { type: TODO_ADD_SUCCESS, ...todo };
+function todoAddSuccess(info) {
+	return { type: TODO_ADD_SUCCESS, ...info };
 }
 
 export const TODO_ADD_FAIL = 'TODO_ADD_FAIL';
-function todoAddFail(todo) {
-	return { type: TODO_ADD_FAIL, ...todo };
+function todoAddFail(info) {
+	return { type: TODO_ADD_FAIL, ...info };
 }
 
 export function addTodo(todo) {
+
+	todo = {
+		id : todo.id,
+		title : todo.title,
+		desc : todo.desc || null,
+		priority : todo.priority || 0,
+		needTime : todo.needTime || 30,
+		expectTime : moment().add(1, 'days').format('YYYY-MM-DD'), // 預設為明天的代辦事項
+		completed : false,
+		endAt : null,
+	};
 
 	return function(dispatch) {
 

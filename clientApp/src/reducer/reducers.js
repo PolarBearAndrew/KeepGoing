@@ -34,19 +34,10 @@ function todos(state = [], action) {
 			debug('TODO_INIT', action);
 			return action.todos;
 
-		case TODO_ADD :
+		case TODO_ADD : //  不能在這邊寫預設值, 會沒有寫進資料庫
 			debug('TODO_ADD %j', action);
 			return [
-				{
-					id : action.id,
-					title : action.title,
-					desc : action.desc || null,
-					priority : action.priority || 0,
-					needTime : action.needTime || 30,
-					expectTime : moment().add(1, 'days').format('YYYY-MM-DD'), // 預設為明天的代辦事項
-					endAt : null,
-					completed : false,
-				},
+				action.todo,
 				...state,
 			];
 
@@ -77,8 +68,6 @@ function todos(state = [], action) {
 	}
 }
 
-
-
 // ==========================================
 // filters
 // ==========================================
@@ -94,23 +83,24 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 	}
 }
 
-function priorityFilter(state = 0, action) {
+// index 1 = 無狀態
+function priorityFilter(state = 1, action) {
 	switch (action.type) {
 		case FILTER_SET_PRIORITY :
 			return action.filter;
 		case FILTERS_RESET :
-			return 0;
+			return 1;
 		default :
 			return state;
 	}
 }
 
-function needTimeFilter(state = null, action) {
+function needTimeFilter(state = 0, action) {
 	switch (action.type) {
 		case FILTER_SET_NEETTIME :
 			return action.filter;
 		case FILTERS_RESET :
-			return null;
+			return 0;
 		default :
 			return state;
 	}

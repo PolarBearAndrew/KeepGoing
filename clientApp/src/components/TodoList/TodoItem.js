@@ -25,7 +25,7 @@ let TodoItem = React.createClass({
 			cursor : 'pointer',
 		};
 		// 是否擁有 priority 標籤
-		if(this.props.priority > 0 )
+		if(this.showPriorityRibon())
 			styles.title = { marginTop : '-27px' };
 		else
 			styles.title = null;
@@ -47,7 +47,11 @@ let TodoItem = React.createClass({
 				className='ui segment'
 				style={styles.segment}>
 
-				{this.priorityRibon(this.props.priority)}
+				{
+					this.showPriorityRibon()
+						? this.buildPriorityRibon(this.props.priority)
+						: null
+				}
 
 				<h3
 					className='ui header'
@@ -90,14 +94,16 @@ let TodoItem = React.createClass({
 		this.setState({hoverCheckIcon: false});
 	},
 
-	priorityRibon() {
+	showPriorityRibon() {
 		let priority = this.props.priority;
-		if(priority <= 0) {
-			return null;
-		}
-		if(priority > 4) {
-			priority = 4;
-		}
+		let target = _PRIORITYS_[priority];
+		if(target.text == '無優先權')
+			return false;
+		else
+			return true;
+	},
+
+	buildPriorityRibon(priority) {
 		let target = _PRIORITYS_[priority];
 		return (
 			<a

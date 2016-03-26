@@ -5,11 +5,6 @@ import Todo from './TodoItem';
 // export default class TodoList extends Component {
 var TodoList = React.createClass({
 
-	getInitialState : function() {
-		this.props.initTodo();
-		return {};
-	},
-
 	render : function() {
 
 		let styles = {};

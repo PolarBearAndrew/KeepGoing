@@ -2,15 +2,15 @@
 export default [
   // priority = 0
 	{
-		text : '無優先權',
-		color : 'gray',
-		icon : 'bug',
-	},
-	// priority = 1
-	{
 		text : '延遲',
 		color : 'brown',
 		icon : 'spinner',
+	},
+	// priority = 1
+	{
+		text : '無優先權',
+		color : 'gray',
+		icon : 'bug',
 	},
 	// priority = 2
 	{

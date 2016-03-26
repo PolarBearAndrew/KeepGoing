@@ -1,19 +1,23 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+
+
 import {
 	// todos
 	initTodo,
 	addTodo,
 	completeTodo,
-	// funcs
+	// filters
 	setCompletedFilter,
 	setPriorityFilter,
 	setNeeTimeFilter,
 	resetAllFilters,
-	//filters
 	CompletedFilters,
 } from '../actions/todo.js';
+
+// Algoithms
+import sort from '../algorithms/sort.js';
 
 // component
 import NavBar from '../components/NavBar.js';
@@ -44,6 +48,9 @@ class App extends Component {
 				text : 'All Jobs',
 			},
 		];
+		if(this.props.visibleTodos) {
+			initTodo()(this.props.dispatch);
+		}
 		this.state = {menuList};
 	}
 
@@ -107,9 +114,6 @@ class App extends Component {
 
 					<TodoList
 						todos={visibleTodos}
-						initTodo= { () =>
-							initTodo()(dispatch)
-						}
 						onComplete={ id =>
 							dispatch(completeTodo(id))
 						}
@@ -124,6 +128,61 @@ class App extends Component {
 		);
 	}
 }
+
+// ==========================================
+// todo filter
+// ==========================================
+function todoCompletedFilter(todos, filter) {
+	switch (filter) {
+		case CompletedFilters.SHOW_ALL:
+			return todos;
+		case CompletedFilters.SHOW_COMPLETED:
+			return todos.filter(todo => todo.completed);
+		case CompletedFilters.SHOW_ACTIVE:
+			return todos.filter(todo => !todo.completed);
+	}
+}
+
+function todoPriorityFilter(todos, filter) {
+	switch (filter) {
+		case 1 :
+			return todos;
+		default :
+			return todos.filter(todo => filter == todo.priority);
+	}
+}
+
+const _RANGE = 5;
+
+function todoNeedTimeFilter(todos, filter) {
+	switch (filter) {
+		case 0 :
+			return todos;
+		default :
+			return todos.filter(todo => todo.needTime <= (filter + _RANGE));
+	}
+}
+
+function todoFilters(state) {
+	let todoTemps;
+	todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
+	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
+	todoTemps = todoNeedTimeFilter(todoTemps, state.needTimeFilter);
+	return sort(todoTemps);
+}
+
+function data(state) {
+	return {
+		visibleTodos : todoFilters(state),
+		completedFilter : state.completedFilter,
+		priorityFilter : state.priorityFilter,
+		needTimeFilter : state.needTimeFilter,
+	};
+}
+
+// ==========================================
+// props
+// ==========================================
 
 App.propTypes = {
 	// todos
@@ -148,50 +207,5 @@ App.propTypes = {
 		0, 1, 2, 3, 4,
 	]).isRequired,
 };
-
-// ==========================================
-// todo filter
-// ==========================================
-function todoCompletedFilter(todos, filter) {
-	switch (filter) {
-		case CompletedFilters.SHOW_ALL:
-			return todos;
-		case CompletedFilters.SHOW_COMPLETED:
-			return todos.filter(todo => todo.completed);
-		case CompletedFilters.SHOW_ACTIVE:
-			return todos.filter(todo => !todo.completed);
-	}
-}
-
-function todoPriorityFilter(todos, filter) {
-	if(!filter || filter == 0)
-		return todos;
-	else
-		return todos.filter(todo => filter == todo.priority);
-}
-
-function todoNeedTimeFilter(todos, filter) {
-	if(!filter || filter == 0)
-		return todos;
-	else
-		return todos.filter(todo => todo.needTime <= (filter + 5));
-}
-
-function todoFilters(state) {
-	let todoTemps;
-	todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
-	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
-	todoTemps = todoNeedTimeFilter(todoTemps, state.needTimeFilter);
-	return todoTemps;
-}
-
-function data(state) {
-	return {
-		visibleTodos : todoFilters(state),
-		completedFilter : state.completedFilter,
-		priorityFilter : state.priorityFilter,
-		needTimeFilter : state.needTimeFilter,
-	};
-}
 
 export default connect(data)(App);
