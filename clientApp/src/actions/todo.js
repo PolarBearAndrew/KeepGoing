@@ -3,6 +3,8 @@ require('isomorphic-fetch');
 require('es6-promise').polyfill();
 // import 'babel-polyfill';
 
+var debug = require('debug')('clientApp:todo.actions');
+
 var hostName = 'http://localhost:3000';
 
 // ==========================================
@@ -40,12 +42,11 @@ export function initTodo() {
 		})
 		.then( res => res.json())
 		.then( res => {
-			console.log('init todos', res);
 			let todos = res.data || [];
 			dispatch(todoInit(todos));
 		})
 		.catch( err => {
-			console.log('init err');
+			debug('init err');
 		});
 	};
 }
@@ -76,7 +77,7 @@ export function addTodo(todo) {
 		desc : todo.desc || null,
 		priority : todo.priority || 0,
 		needTime : todo.needTime || 30,
-		expectTime : moment().add(1, 'days').format('YYYY-MM-DD'), // 預設為明天的代辦事項
+		expectAt : moment().add(1, 'days').format('YYYY-MM-DD HH:mm'), // 預設為明天的代辦事項
 		completed : false,
 		endAt : null,
 	};
@@ -101,12 +102,12 @@ export function addTodo(todo) {
 			}
 			let ids = {
 				oldId : todo.id,
-				newId : res.data, // TODO: fetch fail
+				newId : parseInt(res.data, 10),
 			};
 			return dispatch(todoAddSuccess(ids));
 		})
 		.catch( err => {
-			console.log('addTodo fail', err);
+			debug('addTodo fail', err);
 			return dispatch(todoAddFail(todo.id));
 		});
 	};

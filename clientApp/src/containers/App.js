@@ -191,10 +191,10 @@ App.propTypes = {
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
 		priority : PropTypes.number.isRequired,
+		needTime : PropTypes.number.isRequired,
+		expectAt : PropTypes.string.isRequired,
 		desc : PropTypes.string,
 		endAt : PropTypes.string,
-		needTime : PropTypes.number,
-		expectTime : PropTypes.string,
 	})),
 	// 可見度篩選
 	completedFilter: PropTypes.oneOf([

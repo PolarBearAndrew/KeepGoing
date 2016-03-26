@@ -1,8 +1,10 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import { Width } from '../../config/Styles.js';
 import _PRIORITYS_ from '../../config/Priority.js';
+import { Width } from '../../config/Styles.js';
+
+import moment from 'moment';
 
 let TodoItem = React.createClass({
 
@@ -16,7 +18,7 @@ let TodoItem = React.createClass({
 
 		let styles = {};
 		let checkIconClass;
-		const expectTime = moment(this.props.expectTime);
+		let expectTime = moment(this.props.expectAt);
 
 		styles.segment = {
 			width : Width.MAIN_CONTENT.toString() + 'px',
@@ -75,7 +77,10 @@ let TodoItem = React.createClass({
 					</div>
 					<div className='seven wide column'>
 						<i className='calendar icon large'></i>
-						{expectTime.format('YYYY/MM/DD dddd')}
+						{
+							expectTime.format('YYYY/MM/DD dddd')
+							// expectTime.format('YYYY/MM/DD dddd HH:mm')
+						}
 						&nbsp;
 						{' (' + expectTime.fromNow() + ')'}
 					</div>
@@ -137,11 +142,11 @@ let TodoItem = React.createClass({
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
 		priority : PropTypes.number.isRequired,
+		needTime : PropTypes.number.isRequired,
+		expectAt : PropTypes.string.isRequired,
 		// not required
 		desc : PropTypes.string,
 		endAt : PropTypes.string,
-		needTime : PropTypes.number,
-		expectTime : PropTypes.string,
 	},
 
 });
