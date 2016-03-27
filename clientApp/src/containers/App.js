@@ -117,7 +117,7 @@ class App extends Component {
 					<TodoList
 						todos={visibleTodos}
 						onComplete={ id =>
-							dispatch(completeTodo(id))
+							completeTodo(id)(dispatch)
 						}
 						setPriorityFilter={ index =>
 							dispatch(setPriorityFilter(index))

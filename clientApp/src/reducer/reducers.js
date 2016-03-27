@@ -9,6 +9,8 @@ import {
 	TODO_ADD_SUCCESS,
 	TODO_ADD_FAIL,
 	TODO_COMPLETE,
+	TODO_COMPLETE_SUCCESS,
+	TODO_COMPLETE_FAIL,
 	TODO_REMOVE,
 	// todo filter action
 	FILTER_SET_COMPLETED,
@@ -28,39 +30,58 @@ const debug = require('debug')('app:reducers.todos');
 // ==========================================
 function todos(state = [], action) {
 
+	debug('type %s, action', action.type, action);
+
 	switch (action.type) {
 
+		// ==========================================
+		// init todo
+		// ==========================================
 		case TODO_INIT :
-			debug('TODO_INIT', action);
 			return action.todos;
 
+		// ==========================================
+		// add todo
+		// ==========================================
 		case TODO_ADD : //  不能在這邊寫預設值, 會沒有寫進資料庫
-			debug('TODO_ADD %j', action);
 			return [
 				action.todo,
 				...state,
 			];
 
 		case TODO_ADD_SUCCESS :
-			debug('TODO_ADD_SUCCESS %j', action);
 			return state.map(todo => {
 				if(todo.id == action.oldId) todo.id = action.newId;
 				return todo;
 			});
 
-		case TODO_ADD_FAIL :
-			debug('TODO_ADD_FAIL');
-			return state;
+		case TODO_ADD_FAIL : // 這逼要怎麼做處理
+			return state.filter(todo => {
+				return todo.id != action.id;
+			});
 
+		// ==========================================
+		// complete todo
+		// ==========================================
 		case TODO_COMPLETE :
-			debug('TODO_COMPLETE %j', action);
 			return state.map( todo => {
 				if(todo.id == action.id) todo.completed = true;
 				return todo;
 			});
 
+		case TODO_COMPLETE_SUCCESS :
+			return state;
+
+		case TODO_COMPLETE_FAIL :
+			return state.map( todo => {
+				if(todo.id == action.id) todo.completed = false;
+				return todo;
+			});
+
+		// ==========================================
+		// remove todo
+		// ==========================================
 		case TODO_REMOVE :
-			debug('TODO_REMOVE %j', action);
 			return state.filter( todo => todo.id != action.id);
 
 		default :

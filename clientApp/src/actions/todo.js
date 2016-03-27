@@ -10,7 +10,6 @@ var hostName = 'http://localhost:3000';
 // ==========================================
 // action types
 // ==========================================
-export const TODO_COMPLETE = 'TODO_COMPLETE';
 export const TODO_REMOVE = 'TODO_REMOVE';
 
 export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
@@ -38,7 +37,7 @@ function todoInit(todos) {
 export function initTodo() {
 	return function(dispatch) {
 		fetch(hostName + '/api/v1/todos', {
-			methed : 'get',
+			methed : 'GET',
 		})
 		.then( res => res.json())
 		.then( res => {
@@ -87,7 +86,7 @@ export function addTodo(todo) {
 		dispatch(todoAdd(todo));
 
 		fetch(hostName + '/api/v1/todo', {
-			method: 'post',
+			method: 'POST',
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
@@ -117,9 +116,36 @@ export function addTodo(todo) {
 // ==========================================
 // complete todo
 // ==========================================
+export const TODO_COMPLETE = 'TODO_COMPLETE';
+function todoCompleted(id) {
+	return { type: TODO_COMPLETE, id };
+}
+
+export const TODO_COMPLETE_SUCCESS = 'TODO_COMPLETE_SUCCESS';
+function todoCompletedSuccess(id) {
+	return { type: TODO_COMPLETE_SUCCESS, id };
+}
+
+export const TODO_COMPLETE_FAIL = 'TODO_COMPLETE_FAIL';
+function todoCompletedFail(id) {
+	return { type: TODO_COMPLETE_FAIL, id };
+}
 
 export function completeTodo(id) {
-	return { type: TODO_COMPLETE, id };
+	return function(dispatch) {
+
+		dispatch(todoCompleted(id));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString() + '/complete', {
+			method : 'PUT',
+		})
+		.then( res => {
+			todoCompletedSuccess(res.data);
+		})
+		.catch( err => {
+			todoCompletedFail(todoCompletedFail(id));
+		});
+	};
 }
 
 // ==========================================
