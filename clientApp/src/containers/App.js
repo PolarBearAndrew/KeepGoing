@@ -8,6 +8,7 @@ import {
 	initTodo,
 	addTodo,
 	completeTodo,
+	undoTodo,
 	// filters
 	setCompletedFilter,
 	setPriorityFilter,
@@ -118,6 +119,9 @@ class App extends Component {
 						todos={visibleTodos}
 						onComplete={ id =>
 							completeTodo(id)(dispatch)
+						}
+						onUndo={ id =>
+							undoTodo(id)(dispatch)
 						}
 						setPriorityFilter={ index =>
 							dispatch(setPriorityFilter(index))

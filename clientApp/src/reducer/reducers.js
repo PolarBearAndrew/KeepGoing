@@ -11,6 +11,9 @@ import {
 	TODO_COMPLETE,
 	TODO_COMPLETE_SUCCESS,
 	TODO_COMPLETE_FAIL,
+	TODO_UNDO,
+	TODO_UNDO_SUCCESS,
+	TODO_UNDO_FAIL,
 	TODO_REMOVE,
 	// todo filter action
 	FILTER_SET_COMPLETED,
@@ -75,6 +78,24 @@ function todos(state = [], action) {
 		case TODO_COMPLETE_FAIL :
 			return state.map( todo => {
 				if(todo.id == action.id) todo.completed = false;
+				return todo;
+			});
+
+		// ==========================================
+		// undo todo
+		// ==========================================
+		case TODO_UNDO :
+			return state.map( todo => {
+				if(todo.id == action.id) todo.completed = false;
+				return todo;
+			});
+
+		case TODO_UNDO_SUCCESS :
+			return state;
+
+		case TODO_UNDO_FAIL :
+			return state.map( todo => {
+				if(todo.id == action.id) todo.completed = true;
 				return todo;
 			});
 

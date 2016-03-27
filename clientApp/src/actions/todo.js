@@ -10,8 +10,6 @@ var hostName = 'http://localhost:3000';
 // ==========================================
 // action types
 // ==========================================
-export const TODO_REMOVE = 'TODO_REMOVE';
-
 export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
 export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
 export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
@@ -149,9 +147,44 @@ export function completeTodo(id) {
 }
 
 // ==========================================
+// undo todo
+// ==========================================
+export const TODO_UNDO = 'TODO_UNDO';
+function todoUndo(id) {
+	return { type: TODO_UNDO, id };
+}
+
+export const TODO_UNDO_SUCCESS = 'TODO_UNDO_SUCCESS';
+function todoUndoSuccess(id) {
+	return { type: TODO_UNDO_SUCCESS, id };
+}
+
+export const TODO_UNDO_FAIL = 'TODO_UNDO_FAIL';
+function todoUndoFail(id) {
+	return { type: TODO_UNDO_FAIL, id };
+}
+
+export function undoTodo(id) {
+	return function(dispatch) {
+
+		dispatch(todoUndo(id));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString() + '/undo', {
+			method : 'PUT',
+		})
+		.then( res => {
+			todoUndoSuccess(res.data);
+		})
+		.catch( err => {
+			todoCompletedFail(todoUndoFail(id));
+		});
+	};
+}
+
+// ==========================================
 // remove todo
 // ==========================================
-
+export const TODO_REMOVE = 'TODO_REMOVE';
 export function removeTodo(id) {
 	return { type: TODO_REMOVE, id };
 }

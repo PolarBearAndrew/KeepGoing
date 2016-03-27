@@ -19,6 +19,8 @@ let TodoItem = React.createClass({
 		let styles = {};
 		let checkIconClass;
 		let expectTime = moment(this.props.expectAt);
+		let hover = this.state.hoverCheckIcon;
+		let completed = this.props.completed;
 
 		styles.segment = {
 			width : Width.MAIN_CONTENT.toString() + 'px',
@@ -33,14 +35,18 @@ let TodoItem = React.createClass({
 			styles.title = null;
 
 
-		if(this.state.hoverCheckIcon) {
+		// icon status
+		if(hover && completed) {
+			checkIconClass = 'undo icon orange';
+		}
+		else if(hover && completed == false) {
 			checkIconClass = 'check icon green';
 		}
-		else if(this.props.completed) {
+		else if(hover == false && completed) {
 			checkIconClass = 'check icon green';
 			styles.segment.opacity = 0.6;
 		}
-		else {
+		else if(hover == false && completed == false) {
 			checkIconClass = 'check icon disabled';
 		}
 
@@ -62,7 +68,11 @@ let TodoItem = React.createClass({
 					<i
 						className={checkIconClass}
 						style={styles.checkIcon}
-						onClick={this.props.onComplete}
+						onClick={
+							this.props.completed
+							? this.props.onUndo
+							: this.props.onComplete
+						}
 						onMouseOver={this.mouseOver}
 						onMouseOut={this.mouseOut}
 					></i>
@@ -134,10 +144,9 @@ let TodoItem = React.createClass({
 	propTypes : {
 		// func
 		onComplete : PropTypes.func.isRequired,
+		onUndo : PropTypes.func.isRequired,
 		setPriorityFilter : PropTypes.func.isRequired,
-
-		// props
-		// is required
+		// variable
 		id : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
