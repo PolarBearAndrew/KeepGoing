@@ -210,7 +210,16 @@ export function resetAllFilters(filter) {
 	return { type : FILTERS_RESET, filter };
 }
 
+// ==========================================
+//	current todo
+// ==========================================
 
-// ==========================================
-//
-// ==========================================
+export const CURRENT_SET = 'CURRENT_SET';
+export function setCurrentTodo(id) {
+	return { type : CURRENT_SET, id };
+}
+
+export const CURRENT_CLEAR = 'CURRENT_CLEAR';
+export function clearCurrentTodo() {
+	return { type : CURRENT_CLEAR };
+}

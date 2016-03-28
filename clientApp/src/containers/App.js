@@ -14,6 +14,8 @@ import {
 	setPriorityFilter,
 	setNeeTimeFilter,
 	resetAllFilters,
+	setCurrentTodo,
+	// const
 	CompletedFilters,
 } from '../actions/todo.js';
 
@@ -25,6 +27,7 @@ import NavBar from '../components/NavBar.js';
 import AddTodo from '../components/AddTodo.js';
 import FilterBox from '../components/FilterBox.js';
 import Footer from '../components/Footer.js';
+import TodoPanel from '../components/TodoPanel.js';
 
 // components
 import LeftMenu from '../components/LeftMenu/';
@@ -73,6 +76,11 @@ class App extends Component {
 			peddingLeft : '24px',
 			overflow : 'hidden',
 			height : '870px',
+		};
+
+		styles.rightPanel = {
+			marginLeft : '-75px',
+			marginTop : '24px',
 		};
 
 		return (
@@ -126,14 +134,38 @@ class App extends Component {
 						setPriorityFilter={ index =>
 							dispatch(setPriorityFilter(index))
 						}
+						setCurrentTodo={ id =>
+							dispatch(setCurrentTodo(id))
+						}
 					/>
 
+				</div>
+
+				<div
+					style={styles.rightPanel}
+					className='two wide column'
+				>
+					{this.toggleTodoPanel(this.props.currentId)}
 				</div>
 
 			</div>
 		);
 	}
+
+	toggleTodoPanel(currentId) {
+		if(!currentId) return null;
+		return (
+			<TodoPanel
+				todoId={this.props.currentTodo.id}
+				{
+					...this.props.currentTodo
+				}
+			/>
+		);
+	}
+
 }
+
 
 // ==========================================
 // todo filter
@@ -158,9 +190,8 @@ function todoPriorityFilter(todos, filter) {
 	}
 }
 
-const _RANGE = 5;
-
 function todoNeedTimeFilter(todos, filter) {
+	const _RANGE = 5;
 	switch (filter) {
 		case 0 :
 			return todos;
@@ -177,8 +208,21 @@ function todoFilters(state) {
 	return sort(todoTemps);
 }
 
+function findCurrentTodo(state) {
+	console.log('state', state);
+	let targets = state.todos.filter( todo => {
+		return todo.id == state.currentId;
+	});
+	if(targets.length > 0)
+		return targets[0];
+	else
+		return {};
+}
+
 function data(state) {
 	return {
+		currentId : state.currentId,
+		currentTodo : findCurrentTodo(state),
 		visibleTodos : todoFilters(state),
 		completedFilter : state.completedFilter,
 		priorityFilter : state.priorityFilter,
@@ -190,18 +234,20 @@ function data(state) {
 // props
 // ==========================================
 
+let Todo = PropTypes.shape({
+	id : PropTypes.number.isRequired,
+	title : PropTypes.string.isRequired,
+	completed : PropTypes.bool.isRequired,
+	priority : PropTypes.number.isRequired,
+	needTime : PropTypes.number.isRequired,
+	expectAt : PropTypes.string.isRequired,
+	desc : PropTypes.string,
+	endAt : PropTypes.string,
+});
+
 App.propTypes = {
 	// todos
-	visibleTodos: PropTypes.arrayOf(PropTypes.shape({
-		id : PropTypes.number.isRequired,
-		title : PropTypes.string.isRequired,
-		completed : PropTypes.bool.isRequired,
-		priority : PropTypes.number.isRequired,
-		needTime : PropTypes.number.isRequired,
-		expectAt : PropTypes.string.isRequired,
-		desc : PropTypes.string,
-		endAt : PropTypes.string,
-	})),
+	visibleTodos: PropTypes.arrayOf(Todo),
 	// 可見度篩選
 	completedFilter: PropTypes.oneOf([
 		'SHOW_ALL',

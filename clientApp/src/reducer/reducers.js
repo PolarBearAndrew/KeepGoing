@@ -20,6 +20,8 @@ import {
 	FILTER_SET_PRIORITY,
 	FILTER_SET_NEETTIME,
 	FILTERS_RESET,
+	CURRENT_SET,
+	CURRENT_CLEAR,
 	// todo filter types
 	CompletedFilters,
 } from '../actions/todo.js';
@@ -148,10 +150,22 @@ function needTimeFilter(state = 0, action) {
 	}
 }
 
+function currentId(state = null, action) {
+	switch (action.type) {
+		case CURRENT_SET :
+			return action.id;
+		case CURRENT_CLEAR :
+			return null;
+		default :
+			return state;
+	}
+}
+
 const todoApp = combineReducers({
 	completedFilter,
 	priorityFilter,
 	needTimeFilter,
+	currentId,
 	todos,
 });
 

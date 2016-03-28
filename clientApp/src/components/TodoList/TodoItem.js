@@ -18,6 +18,7 @@ let TodoItem = React.createClass({
 
 		let styles = {};
 		let checkIconClass;
+		let segmentClass = 'ui segment ' + this.getPriorityColor();
 		let expectTime = moment(this.props.expectAt);
 		let hover = this.state.hoverCheckIcon;
 		let completed = this.props.completed;
@@ -38,6 +39,7 @@ let TodoItem = React.createClass({
 		// icon status
 		if(hover && completed) {
 			checkIconClass = 'undo icon orange';
+			segmentClass += ' secondary';
 		}
 		else if(hover && completed == false) {
 			checkIconClass = 'check icon green';
@@ -45,6 +47,7 @@ let TodoItem = React.createClass({
 		else if(hover == false && completed) {
 			checkIconClass = 'check icon green';
 			styles.segment.opacity = 0.6;
+			segmentClass += ' secondary';
 		}
 		else if(hover == false && completed == false) {
 			checkIconClass = 'check icon disabled';
@@ -52,7 +55,7 @@ let TodoItem = React.createClass({
 
 		return (
 			<div
-				className='ui segment'
+				className={segmentClass}
 				style={styles.segment}>
 
 				{
@@ -94,6 +97,14 @@ let TodoItem = React.createClass({
 						&nbsp;
 						{' (' + expectTime.fromNow() + ')'}
 					</div>
+					<div className='three wide column'>
+					</div>
+					<div className='one wide column'>
+						<i
+							className='write icon gray'
+							onClick={this.props.setCurrentTodo}
+						></i>
+					</div>
 				</div>
 
 			</div>
@@ -116,6 +127,12 @@ let TodoItem = React.createClass({
 			return false;
 		else
 			return true;
+	},
+
+	getPriorityColor() {
+		let priority = this.props.priority;
+		let target = _PRIORITYS_[priority];
+		return target.color;
 	},
 
 	buildPriorityRibon(priority) {
@@ -143,9 +160,10 @@ let TodoItem = React.createClass({
 
 	propTypes : {
 		// func
+		setPriorityFilter : PropTypes.func.isRequired,
+		setCurrentTodo : PropTypes.func.isRequired,
 		onComplete : PropTypes.func.isRequired,
 		onUndo : PropTypes.func.isRequired,
-		setPriorityFilter : PropTypes.func.isRequired,
 		// variable
 		id : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
