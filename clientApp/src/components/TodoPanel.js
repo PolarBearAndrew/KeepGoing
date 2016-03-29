@@ -8,7 +8,7 @@ import _PRIORITYS_ from '../config/Priority.js';
 let TodoPanel = React.createClass({
 
 	componentDidMount() {
-		$('#counter').progress({
+		$('.counterBar').progress({
 			label: 'ratio',
 			text: {
 				ratio: '{value}%'
@@ -30,6 +30,10 @@ let TodoPanel = React.createClass({
 			float : 'left',
 		};
 
+		styles.infoBlock = {
+			marginTop : '-33px',
+		};
+
 		return (
 			<div
 				style={styles.segment}
@@ -47,8 +51,7 @@ let TodoPanel = React.createClass({
 				<h4 className="ui inverted divider"></h4>
 
 				<div
-					id="counter"
-					className="ui progress green small"
+					className="ui progress green small counterBar"
 					data-value="15"
 					data-total="100"
 				>
@@ -57,22 +60,20 @@ let TodoPanel = React.createClass({
 					</div>
 				</div>
 
-				<p></p>
-
-				<div className='ui grid'>
+				<div className='ui grid' style={styles.infoBlock}>
 
 					<div className='one wide column'></div>
 
 					<div className='ten wide column'>
 						<div className="ui left icon input transparent large">
-							<input type="text" value={moment(this.props.expectAt).format('YYYY-MM-DD dddd')} />
+							<input type="text" defaultValue={moment(this.props.expectAt).format('YYYY-MM-DD dddd')} />
 							<i className="calendar icon"></i>
 						</div>
 					</div>
 
 					<div className='three wide column'>
 						<div className="ui left icon input transparent large">
-							<input type="number" value={this.props.needTime} />
+							<input type="number" defaultValue={this.props.needTime} />
 							<i className="clock icon"></i>
 						</div>
 					</div>
