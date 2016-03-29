@@ -3,7 +3,18 @@ import React, { Component, PropTypes } from 'react';
 
 import _PRIORITYS_ from '../config/Priority.js';
 
-export default class TodoPanel extends Component {
+// export default class TodoPanel extends Component {
+
+let TodoPanel = React.createClass({
+
+	componentDidMount() {
+		$('#counter').progress({
+			label: 'ratio',
+			text: {
+				ratio: '{value}%'
+			},
+		});
+	},
 
 	render() {
 
@@ -12,6 +23,7 @@ export default class TodoPanel extends Component {
 
 		styles.segment = {
 			width : '425px',
+			height : '820px',
 		};
 
 		styles.needTimeControls = {
@@ -34,6 +46,19 @@ export default class TodoPanel extends Component {
 
 				<h4 className="ui inverted divider"></h4>
 
+				<div
+					id="counter"
+					className="ui progress green small"
+					data-value="15"
+					data-total="100"
+				>
+					<div className="bar">
+						<div className="progress"></div>
+					</div>
+				</div>
+
+				<p></p>
+
 				<div className='ui grid'>
 
 					<div className='one wide column'></div>
@@ -51,26 +76,36 @@ export default class TodoPanel extends Component {
 							<i className="clock icon"></i>
 						</div>
 					</div>
+
+				</div>
+
+				<p></p>
+
+				<div className="ui form">
+					<div className="field">
+						<textarea rows="8">
+							{this.props.desc}
+						</textarea>
+					</div>
 				</div>
 
 			</div>
 
-
-
-
 		);
-	}
+	},
+
+	propTypes : {
+		id : PropTypes.number,
+		title : PropTypes.string,
+		completed : PropTypes.bool,
+		priority : PropTypes.number,
+		needTime : PropTypes.number,
+		expectAt : PropTypes.string,
+		desc : PropTypes.string,
+		endAt : PropTypes.string,
+	},
+
+});
 
 
-}
-
-TodoPanel.propTypes = {
-	id : PropTypes.number,
-	title : PropTypes.string,
-	completed : PropTypes.bool,
-	priority : PropTypes.number,
-	needTime : PropTypes.number,
-	expectAt : PropTypes.string,
-	desc : PropTypes.string,
-	endAt : PropTypes.string,
-};
+export default TodoPanel;
