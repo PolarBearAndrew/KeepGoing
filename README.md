@@ -1,6 +1,8 @@
 # KeepGoing
 A todo list  for my self
 
+[![Throughput Graph](https://graphs.waffle.io/PolarBearAndrew/KeepGoing/throughput.svg)](https://waffle.io/PolarBearAndrew/KeepGoing/metrics)
+
 ## How to start
 
 #### clientApp dev server
