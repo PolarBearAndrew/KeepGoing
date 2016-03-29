@@ -96,7 +96,7 @@ let TodoItem = React.createClass({
 							// expectTime.format('YYYY/MM/DD dddd HH:mm')
 						}
 						&nbsp;
-						{this.getTimeFromNow(expectTime)}
+						{this.getTimeFromNow(expectTime, this.props.completed)}
 					</div>
 					<div className='three wide column'>
 					</div>
@@ -149,12 +149,15 @@ let TodoItem = React.createClass({
 		);
 	},
 
-	getTimeFromNow(expectTime) {
+	getTimeFromNow(expectTime, completed) {
 		let t = expectTime.fromNow();
 		let style = {};
 
+		// 已經完成
+		if(completed)
+			style.color = 'gray';
 		// 一天之前的工作
-		if(moment(expectTime).isBefore(moment(), 'day'))
+		else if(moment(expectTime).isBefore(moment(), 'day'))
 			style.color = 'red';
 		// 一天之後的工作
 		else if(moment(expectTime).isAfter(moment(), 'day'))
