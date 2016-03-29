@@ -29,6 +29,9 @@ let TodoItem = React.createClass({
 		styles.checkIcon = {
 			cursor : 'pointer',
 		};
+		styles.editIcon = {
+			cursor : 'pointer',
+		};
 		// 是否擁有 priority 標籤
 		if(this.showPriorityRibon())
 			styles.title = { marginTop : '-27px' };
@@ -57,13 +60,11 @@ let TodoItem = React.createClass({
 			<div
 				className={segmentClass}
 				style={styles.segment}>
-
 				{
 					this.showPriorityRibon()
 						? this.buildPriorityRibon(this.props.priority)
 						: null
 				}
-
 				<h3
 					className='ui header'
 					style={styles.title}
@@ -96,13 +97,14 @@ let TodoItem = React.createClass({
 							// expectTime.format('YYYY/MM/DD dddd HH:mm')
 						}
 						&nbsp;
-						{this.getTimeFromNow(expectTime)}
+						{this.getTimeFromNow(expectTime, this.props.completed)}
 					</div>
 					<div className='three wide column'>
 					</div>
 					<div className='one wide column'>
 						<i
 							className='write icon gray'
+							style={styles.editIcon}
 							onClick={this.props.setCurrentTodo}
 						></i>
 					</div>
@@ -149,20 +151,26 @@ let TodoItem = React.createClass({
 		);
 	},
 
-	getTimeFromNow(expectTime) {
+	getTimeFromNow(expectTime, completed) {
 		let t = expectTime.fromNow();
 		let style = {};
-
+		// 已經完成
+		if(completed) {
+			style.color = 'gray';
+		}
 		// 一天之前的工作
-		if(moment(expectTime).isBefore(moment(), 'day'))
+		else if(moment(expectTime).isBefore(moment(), 'day')) {
 			style.color = 'red';
+		}
 		// 一天之後的工作
-		else if(moment(expectTime).isAfter(moment(), 'day'))
+		else if(moment(expectTime).isAfter(moment(), 'day')) {
 			style.color = 'blue';
+		}
 		// 今天
-		else
+		else {
 			style.color = 'green';
-
+			style.fontWeight = 'bolder';
+		}
 		return (
 			<a style={style}>
 				{' (' + t  + ')'}
