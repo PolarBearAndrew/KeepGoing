@@ -2,7 +2,7 @@
 'use strict';
 
 var debug = require('debug')('serverApp:todo.update');
-var errors = require('../../config/').errors;
+var errors = require('../../configs/').errors;
 var Promise = require('sequelize').Promise;
 var models = require('../../models/');
 

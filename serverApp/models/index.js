@@ -1,26 +1,15 @@
 
 "use strict";
 
-// var config = require('../config'); // 之後再處理
 var Sequelize = require('sequelize');
 var debug = require('debug')('serverApp:db');
+var config = require('../configs/').env.db;
 
 // 相容性修正
 Sequelize.Promise.prototype.complete = Sequelize.Promise.prototype.nodeify;
 
 // 實例化
-var instance = new Sequelize('keepGoing', 'root', 'root',
-	{
-		dialect : 'mysql',
-		host : 'localhost',
-		port : '8889',
-		pool: {
-			max: 20,
-			min: 0,
-			idle: 10000
-		},
-	}
-);
+var instance = new Sequelize('keepGoing', config.user, config.password, config);
 
 // instance._ObjectFactory = function(name) {
 //
