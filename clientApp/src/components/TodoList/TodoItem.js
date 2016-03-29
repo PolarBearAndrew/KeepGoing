@@ -29,6 +29,9 @@ let TodoItem = React.createClass({
 		styles.checkIcon = {
 			cursor : 'pointer',
 		};
+		styles.editIcon = {
+			cursor : 'pointer',
+		};
 		// 是否擁有 priority 標籤
 		if(this.showPriorityRibon())
 			styles.title = { marginTop : '-27px' };
@@ -57,13 +60,11 @@ let TodoItem = React.createClass({
 			<div
 				className={segmentClass}
 				style={styles.segment}>
-
 				{
 					this.showPriorityRibon()
 						? this.buildPriorityRibon(this.props.priority)
 						: null
 				}
-
 				<h3
 					className='ui header'
 					style={styles.title}
@@ -92,7 +93,6 @@ let TodoItem = React.createClass({
 						<i className='calendar icon large'></i>
 						{
 							expectTime.format('YYYY/MM/DD dddd')
-							// expectTime.format('YYYY/MM/DD dddd HH:mm')
 						}
 						&nbsp;
 						{' (' + expectTime.fromNow() + ')'}
@@ -102,6 +102,7 @@ let TodoItem = React.createClass({
 					<div className='one wide column'>
 						<i
 							className='write icon gray'
+							style={styles.editIcon}
 							onClick={this.props.setCurrentTodo}
 						></i>
 					</div>

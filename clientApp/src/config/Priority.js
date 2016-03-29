@@ -10,7 +10,7 @@ export default [
 	{
 		text : '無優先權',
 		color : 'gray',
-		icon : 'bug',
+		icon : 'trello',
 	},
 	// priority = 2
 	{
@@ -22,7 +22,7 @@ export default [
 	{
 		text : '重要',
 		color : 'orange',
-		icon : 'empty star',
+		icon : 'star',
 	},
 	// priority = 4
 	{
