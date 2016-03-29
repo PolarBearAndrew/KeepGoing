@@ -1,9 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
+import {markdown} from 'markdown';
 
 import _PRIORITYS_ from '../config/Priority.js';
 
-// export default class TodoPanel extends Component {
 
 let TodoPanel = React.createClass({
 
@@ -82,7 +82,9 @@ let TodoPanel = React.createClass({
 
 				<p></p>
 
+
 				<div className="ui form">
+					<div dangerouslySetInnerHTML={this.buildDesc(this.props.desc)} />
 					<div className="field">
 						<textarea rows="8">
 							{this.props.desc}
@@ -93,6 +95,21 @@ let TodoPanel = React.createClass({
 			</div>
 
 		);
+	},
+
+	buildDesc(desc) {
+		return {
+			__html : markdown.toHTML(`*************************
+
+#### 基本功能
+
+* 新增代辦項目
+	* 新增時選擇篩選優先權, 可以直接新增該優先權的工作項目
+	* 新增時預設為明天的工作 // todo
+	* 新增時預設該工作項目所需時間為 30 min // todo
+	* 新增時預設敘述為 null // todo
+`)
+		};
 	},
 
 	propTypes : {

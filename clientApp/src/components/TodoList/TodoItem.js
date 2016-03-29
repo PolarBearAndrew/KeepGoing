@@ -154,20 +154,23 @@ let TodoItem = React.createClass({
 	getTimeFromNow(expectTime, completed) {
 		let t = expectTime.fromNow();
 		let style = {};
-
 		// 已經完成
-		if(completed)
+		if(completed) {
 			style.color = 'gray';
+		}
 		// 一天之前的工作
-		else if(moment(expectTime).isBefore(moment(), 'day'))
+		else if(moment(expectTime).isBefore(moment(), 'day')) {
 			style.color = 'red';
+		}
 		// 一天之後的工作
-		else if(moment(expectTime).isAfter(moment(), 'day'))
+		else if(moment(expectTime).isAfter(moment(), 'day')) {
 			style.color = 'blue';
+		}
 		// 今天
-		else
+		else {
 			style.color = 'green';
-
+			style.fontWeight = 'bolder';
+		}
 		return (
 			<a style={style}>
 				{' (' + t  + ')'}
