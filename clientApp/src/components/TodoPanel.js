@@ -5,22 +5,29 @@ import React, { Component, PropTypes } from 'react';
 import _PRIORITYS_ from '../config/Priority.js';
 
 import markdown from 'marked';
+import highlightJS from 'highlight.js';
 
 markdown.setOptions({
-	renderer: new markdown.Renderer(),
-	gfm: true,
-	tables: true,
-	breaks: false,
-	pedantic: false,
-	sanitize: true,
-	smartLists: true,
-	smartypants: false
+	// renderer: new markdown.Renderer(),
+	// gfm: true,
+	// tables: true,
+	// breaks: false,
+	// pedantic: false,
+	// sanitize: true,
+	// smartLists: true,
+	// smartypants: false,
+
+	// Synchronous highlighting with highlight.js
+	highlight: function (code) {
+		return highlightJS.highlightAuto(code).value;
+	}
 });
 
 function semanticMarkdown(md) {
 	return markdown(md)
 		.replace(/<a /g, '<a target="_blank" ')
 		.replace(/<ul>/, '<ul class="ui list">')
+		.replace(/<code class="/, '<code style="width:100%;border:null;display:block;" class="ui secondary segment ')
 		.replace(/<table>/g, '<table class="ui table striped">')
 		.replace(/<img /g, '<img class="ui medium rounded image centered" ');
 }
@@ -125,6 +132,9 @@ let TodoPanel = React.createClass({
 
 		// var str = "# [Markdown] is a simple text-based \n\n\n [markup language]\n" +
 		// 	" ******* \n\n created by [John Gruber] \n\n" +
+		// 	"```js \n\n" +
+		// 	"console.log('test'); \n\n" +
+		// 	"``` \n\n" +
 		// 	" name | desc \n" +
 		// 	" ---- | ---- \n" +
 		// 	" abc | okok \n" +
@@ -139,8 +149,11 @@ let TodoPanel = React.createClass({
 		// 	" * item 2 \n" +
 		// 	" * item 3 \n" +
 		// 	"![熊熊好可愛](https://d26hyti2oua2hb.cloudfront.net/600/arts/201602142333-q8MQ2.jpg)";
+
+		var str = '```js\n console.log("hello"); \n```';
 		return {
-			__html : semanticMarkdown(this.props.desc || ''),
+			// __html : semanticMarkdown(this.props.desc || ''),
+			__html : semanticMarkdown(str),
 		};
 	},
 
