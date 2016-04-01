@@ -1,8 +1,29 @@
 
 import React, { Component, PropTypes } from 'react';
-import {markdown} from 'markdown';
+// import {markdown} from 'markdown';
 
 import _PRIORITYS_ from '../config/Priority.js';
+
+import markdown from 'marked';
+
+markdown.setOptions({
+	renderer: new markdown.Renderer(),
+	gfm: true,
+	tables: true,
+	breaks: false,
+	pedantic: false,
+	sanitize: true,
+	smartLists: true,
+	smartypants: false
+});
+
+function semanticMarkdown(md) {
+	return markdown(md)
+		.replace(/<a /g, '<a target="_blank" ')
+		.replace(/<ul>/, '<ul class="ui list">')
+		.replace(/<table>/g, '<table class="ui table striped">')
+		.replace(/<img /g, '<img class="ui medium rounded image centered" ');
+}
 
 
 let TodoPanel = React.createClass({
@@ -101,16 +122,25 @@ let TodoPanel = React.createClass({
 	},
 
 	buildDesc(desc) {
-		return {
-			__html : markdown.toHTML(`*************************
-				## 基本功能
 
-				* 新增代辦項目
-				 	* 新增時選擇篩選優先權, 可以直接新增該優先x權的工作項目
-					* 新增時預設為明天的工作 // todo
-					* 新增時預設該工作項目所需時間為 30 min // todo
-					* 新增時預設敘述為 null // todo
-				`)
+		// var str = "# [Markdown] is a simple text-based \n\n\n [markup language]\n" +
+		// 	" ******* \n\n created by [John Gruber] \n\n" +
+		// 	" name | desc \n" +
+		// 	" ---- | ---- \n" +
+		// 	" abc | okok \n" +
+		// 	"[John Gruber](http://daringfireball.net) \n\n" +
+		// 	" * item 1 \n" +
+		// 	" * item 2 \n" +
+		// 	" * item 3 \n" +
+		// 	"     * item 3.1 \n" +
+		// 	"     * item 3.2 \n" +
+		// 	"     * item 3.3 \n" +
+		// 	" * item 1 \n" +
+		// 	" * item 2 \n" +
+		// 	" * item 3 \n" +
+		// 	"![熊熊好可愛](https://d26hyti2oua2hb.cloudfront.net/600/arts/201602142333-q8MQ2.jpg)";
+		return {
+			__html : semanticMarkdown(this.props.desc || ''),
 		};
 	},
 
