@@ -20,11 +20,17 @@ export default [
 	},
 	// priority = 3
 	{
+		text : '每日',
+		color : 'purple',
+		icon : 'sun',
+	},
+	// priority = 4
+	{
 		text : '重要',
 		color : 'orange',
 		icon : 'star',
 	},
-	// priority = 4
+	// priority = 5
 	{
 		text : '緊急',
 		color : 'red',

@@ -261,7 +261,7 @@ export function updateTodoDesc(id, desc) {
 			debug('updateTodoDesc Fail', err);
 			// throw err pop out
 		});
-		
+
 	};
 
 }
