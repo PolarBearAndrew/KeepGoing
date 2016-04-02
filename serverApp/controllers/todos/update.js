@@ -16,9 +16,15 @@ module.exports = (req, res) => {
 	})
 	.then( todo => {
 		if(!todo) return Promise.reject(new Error(errors.TODO_NOT_FOUNT));
+		
 		Object.keys(req.body).forEach( key => {
 			todo[key] = req.body[key];
 		});
+
+		if(req.body.desc == '') {
+			todo.desc = null;
+		}
+
 		return todo.save();
 	})
 	.then( todo => {

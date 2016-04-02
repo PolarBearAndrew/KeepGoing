@@ -183,19 +183,58 @@ let TodoPanel = React.createClass({
 		// 	" * item 3 \n" +
 		// 	"![熊熊好可愛](https://d26hyti2oua2hb.cloudfront.net/600/arts/201602142333-q8MQ2.jpg)";
 		//
-		var html = {
-			__html : semanticMarkdown(desc || '點擊輸入備註...'),
-		};
+
+		if(desc) {
+
+			let html = {
+				__html : semanticMarkdown(desc || ''),
+			};
+
+			return (
+				<div
+					dangerouslySetInnerHTML={html}
+					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+				>
+					{ desc ? null : this.defaultDesc() }
+				</div>
+			);
+		}
+		else {
+
+			let style = {
+				width : '100%',
+				height : '200px',
+				backgroundColor : 'rgb(255, 251, 239)',
+				borderRadius : '4px',
+			};
+
+			return (
+				<div
+					style={style}
+					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+				>
+					{this.defaultDesc() }
+				</div>
+			);
+		}
+	},
+
+	defaultDesc() {
+		let style = { marginTop : '89px' };
 		return (
-			<div
-				dangerouslySetInnerHTML={html}
-				onDoubleClick={ e => this.props.setEditTodoDesc(true) }
-			/>
+			<center>
+				<i className="file text outline icon small grey"></i>
+				<h2 className="ui icon header" style={style}>
+						<div className="content">
+							<div className="sub header">寫下更多備註 ...</div>
+						</div>
+				</h2>
+			</center>
 		);
 	},
 
 	handleSaveTodoDesc(e) {
-		this.props.updateTodoDesc(this.props.id, this.newDesc.value);
+		this.props.updateTodoDesc(this.props.id, this.newDesc.value.trim());
 	},
 
 	propTypes : {
