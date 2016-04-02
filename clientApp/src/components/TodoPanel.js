@@ -139,7 +139,7 @@ let TodoPanel = React.createClass({
 				<textarea
 					rows="12"
 					style={styles.textarea}
-					value={this.props.desc || ''}
+					defaultValue={this.props.desc || ''}
 					ref={ (v) => this.newDesc = v }
 				>
 				</textarea>
