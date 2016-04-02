@@ -139,7 +139,7 @@ let TodoPanel = React.createClass({
 				<textarea
 					rows="12"
 					style={styles.textarea}
-					defaultValue={this.props.desc}
+					value={this.props.desc || ''}
 					ref={ (v) => this.newDesc = v }
 				>
 				</textarea>
@@ -154,6 +154,7 @@ let TodoPanel = React.createClass({
 				<button
 					className="ui circular icon button gray"
 					style={styles.btnFloatRight}
+					onClick={ e => this.props.setEditTodoDesc(false) }
 				>
 					<i className="reply icon"></i>
 				</button>
@@ -163,33 +164,8 @@ let TodoPanel = React.createClass({
 	},
 
 	showDesc(desc) {
-		// var str = "# [Markdown] is a simple text-based \n\n\n [markup language]\n" +
-		// 	" ******* \n\n created by [John Gruber] \n\n" +
-		// 	"```js \n\n" +
-		// 	"console.log('test'); \n\n" +
-		// 	"``` \n\n" +
-		// 	" name | desc \n" +
-		// 	" ---- | ---- \n" +
-		// 	" abc | okok \n" +
-		// 	"[John Gruber](http://daringfireball.net) \n\n" +
-		// 	" * item 1 \n" +
-		// 	" * item 2 \n" +
-		// 	" * item 3 \n" +
-		// 	"     * item 3.1 \n" +
-		// 	"     * item 3.2 \n" +
-		// 	"     * item 3.3 \n" +
-		// 	" * item 1 \n" +
-		// 	" * item 2 \n" +
-		// 	" * item 3 \n" +
-		// 	"![熊熊好可愛](https://d26hyti2oua2hb.cloudfront.net/600/arts/201602142333-q8MQ2.jpg)";
-		//
-
 		if(desc) {
-
-			let html = {
-				__html : semanticMarkdown(desc || ''),
-			};
-
+			let html = { __html : semanticMarkdown(desc || ''), };
 			return (
 				<div
 					dangerouslySetInnerHTML={html}
@@ -200,14 +176,12 @@ let TodoPanel = React.createClass({
 			);
 		}
 		else {
-
 			let style = {
 				width : '100%',
 				height : '200px',
 				backgroundColor : 'rgb(255, 251, 239)',
 				borderRadius : '4px',
 			};
-
 			return (
 				<div
 					style={style}
