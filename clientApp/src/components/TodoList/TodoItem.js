@@ -30,8 +30,14 @@ let TodoItem = React.createClass({
 			cursor : 'pointer',
 		};
 		styles.editIcon = {
+			float : 'right',
 			cursor : 'pointer',
 		};
+		styles.iconFloatRight = {
+			float : 'right',
+		};
+
+
 		// 是否擁有 priority 標籤
 		if(this.showPriorityRibon())
 			styles.title = { marginTop : '-27px' };
@@ -99,14 +105,20 @@ let TodoItem = React.createClass({
 						&nbsp;
 						{this.getTimeFromNow(expectTime, this.props.completed)}
 					</div>
-					<div className='three wide column'>
-					</div>
-					<div className='one wide column'>
+					<div className='five wide column'>
 						<i
-							className='write icon gray'
 							style={styles.editIcon}
+							className='write icon gray'
 							onClick={this.props.setCurrentTodo}
 						></i>
+						{
+							this.props.desc
+							? <i
+									style={styles.iconFloatRight}
+									className='file text outline icon'
+								></i>
+							: null
+						}
 					</div>
 				</div>
 
