@@ -12,8 +12,8 @@ var TodoList = React.createClass({
 		styles.wrapper = {
 			marginTop : '0px',
 			height : '705px',
-			'overflowX' :'visible',
-			'overflowY' :'scroll',
+			overflowX :'visible',
+			overflowY :'scroll',
 		};
 
 		return (

@@ -53,6 +53,8 @@ let TodoPanel = React.createClass({
 		styles.segment = {
 			width : '425px',
 			height : '820px',
+			overflowX :'visible',
+			overflowY :'scroll',
 		};
 
 		styles.needTimeControls = {
