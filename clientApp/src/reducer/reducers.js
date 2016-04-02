@@ -24,6 +24,9 @@ import {
 	CURRENT_CLEAR,
 	// todo filter types
 	CompletedFilters,
+	// editor
+	TODO_EDIT_DESC,
+	TODO_UPDATE_DESC,
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
@@ -107,6 +110,12 @@ function todos(state = [], action) {
 		case TODO_REMOVE :
 			return state.filter( todo => todo.id != action.id);
 
+		case TODO_UPDATE_DESC:
+			return state.map( todo => {
+				if(todo.id == action.id) todo.desc = action.desc;
+				return todo;
+			});
+
 		default :
 			return state;
 	}
@@ -150,6 +159,10 @@ function needTimeFilter(state = 0, action) {
 	}
 }
 
+// ==========================================
+// editor
+// ==========================================
+
 function currentId(state = null, action) {
 	switch (action.type) {
 		case CURRENT_SET :
@@ -161,11 +174,21 @@ function currentId(state = null, action) {
 	}
 }
 
+function editorDesc(state = false, action) {
+	switch (action.type) {
+		case TODO_EDIT_DESC :
+			return action.bool;
+		default :
+			return state;
+	}
+}
+
 const todoApp = combineReducers({
 	completedFilter,
 	priorityFilter,
 	needTimeFilter,
 	currentId,
+	editorDesc,
 	todos,
 });
 

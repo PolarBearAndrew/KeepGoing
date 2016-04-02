@@ -17,6 +17,9 @@ import {
 	setCurrentTodo,
 	// const
 	CompletedFilters,
+	// editor
+	setEditTodoDesc,
+	updateTodoDesc,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -26,7 +29,7 @@ import sort from '../algorithms/sort.js';
 import NavBar from '../components/NavBar.js';
 import AddTodo from '../components/AddTodo.js';
 import FilterBox from '../components/FilterBox.js';
-import Footer from '../components/Footer.js';
+// import Footer from '../components/Footer.js';
 import TodoPanel from '../components/TodoPanel.js';
 
 // components
@@ -145,25 +148,29 @@ class App extends Component {
 					style={styles.rightPanel}
 					className='two wide column'
 				>
-					{this.toggleTodoPanel(this.props.currentId)}
+					{
+						this.props.currentId
+							? <TodoPanel
+									// todo
+									todoId={this.props.currentTodo.id}
+									{ ...this.props.currentTodo }
+									// func
+									setEditTodoDesc={ bool =>
+										dispatch(setEditTodoDesc(bool))
+									}
+									updateTodoDesc={ (id, desc) =>
+										updateTodoDesc(id, desc)(dispatch)
+									}
+									// editor attr
+									editorDesc={this.props.editorDesc || false}
+								/>
+							: null
+					}
 				</div>
 
 			</div>
 		);
 	}
-
-	toggleTodoPanel(currentId) {
-		if(!currentId) return null;
-		return (
-			<TodoPanel
-				todoId={this.props.currentTodo.id}
-				{
-					...this.props.currentTodo
-				}
-			/>
-		);
-	}
-
 }
 
 
@@ -209,20 +216,24 @@ function todoFilters(state) {
 }
 
 function findCurrentTodo(state) {
-	console.log('state', state);
 	let targets = state.todos.filter( todo => {
 		return todo.id == state.currentId;
 	});
 	if(targets.length > 0)
 		return targets[0];
+	else if(!state.currentId)
+		return null;
 	else
-		return {};
+		return null;
 }
 
 function data(state) {
 	return {
+		// editor
 		currentId : state.currentId,
 		currentTodo : findCurrentTodo(state),
+		editorDesc : state.editorDesc,
+		// todo list
 		visibleTodos : todoFilters(state),
 		completedFilter : state.completedFilter,
 		priorityFilter : state.priorityFilter,

@@ -88,7 +88,6 @@ export function addTodo(todo) {
 			headers: {
 				'Accept': 'application/json',
 				'Content-Type': 'application/json'
-				// 'Content-Type': 'application/x-www-form-urlencoded'
 			},
 			body: JSON.stringify(todo),
 		})
@@ -222,4 +221,47 @@ export function setCurrentTodo(id) {
 export const CURRENT_CLEAR = 'CURRENT_CLEAR';
 export function clearCurrentTodo() {
 	return { type : CURRENT_CLEAR };
+}
+
+// ==========================================
+//	edit todo.desc
+// ==========================================
+
+export const TODO_EDIT_DESC = 'TODO_EDIT_DESC';
+export function setEditTodoDesc(bool) {
+	return { type : TODO_EDIT_DESC, bool };
+}
+
+export const TODO_UPDATE_DESC = 'TODO_UPDATE_DESC';
+function todoUpdateDesc(id, desc) {
+	return { type : TODO_UPDATE_DESC, id, desc };
+}
+
+
+export function updateTodoDesc(id, desc) {
+
+	return function(dispatch) {
+
+		let todo = { desc };
+
+		dispatch(todoUpdateDesc(id, desc));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res => {
+			dispatch(setEditTodoDesc(false)); // 關閉修改介面
+		})
+		.catch( err => {
+			debug('updateTodoDesc Fail', err);
+			// throw err pop out
+		});
+		
+	};
+
 }

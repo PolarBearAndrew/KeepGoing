@@ -7,15 +7,17 @@ import _PRIORITYS_ from '../config/Priority.js';
 import markdown from 'marked';
 import highlightJS from 'highlight.js';
 
+let styles = {};
+
 markdown.setOptions({
-	// renderer: new markdown.Renderer(),
-	// gfm: true,
-	// tables: true,
-	// breaks: false,
-	// pedantic: false,
-	// sanitize: true,
-	// smartLists: true,
-	// smartypants: false,
+	renderer: new markdown.Renderer(),
+	gfm: true,
+	tables: true,
+	breaks: false,
+	pedantic: false,
+	sanitize: true,
+	smartLists: true,
+	smartypants: false,
 
 	// Synchronous highlighting with highlight.js
 	highlight: function (code) {
@@ -46,7 +48,6 @@ let TodoPanel = React.createClass({
 
 	render() {
 
-		let styles = {};
 		let priority = _PRIORITYS_[this.props.priority];
 
 		styles.segment = {
@@ -60,6 +61,14 @@ let TodoPanel = React.createClass({
 
 		styles.infoBlock = {
 			marginTop : '-33px',
+		};
+
+		styles.btnFloatRight = {
+			float : 'right',
+		};
+
+		styles.textarea = {
+			marginBottom : '4px',
 		};
 
 		return (
@@ -110,16 +119,11 @@ let TodoPanel = React.createClass({
 
 				<p></p>
 
-
 				<div className="ui form">
-
-					<div dangerouslySetInnerHTML={this.buildDesc(this.props.desc)} />
 					{
-						// <div className="field">
-						// 	<textarea rows="8">
-						// 		{this.props.desc}
-						// 	</textarea>
-						// </div>
+						this.props.editorDesc
+							? this.showTextArea()
+							: this.showDesc(this.props.desc)
 					}
 				</div>
 
@@ -128,8 +132,37 @@ let TodoPanel = React.createClass({
 		);
 	},
 
-	buildDesc(desc) {
+	showTextArea() {
+		return (
+			<div className="field">
 
+				<textarea
+					rows="12"
+					style={styles.textarea}
+					defaultValue={this.props.desc}
+					ref={ (v) => this.newDesc = v }
+				>
+				</textarea>
+
+				<button
+					className="ui circular icon button blue"
+					style={styles.btnFloatRight}
+					onClick={ e => this.handleSaveTodoDesc(e) }
+				>
+					<i className="save icon"></i>
+				</button>
+				<button
+					className="ui circular icon button gray"
+					style={styles.btnFloatRight}
+				>
+					<i className="reply icon"></i>
+				</button>
+
+			</div>
+		);
+	},
+
+	showDesc(desc) {
 		// var str = "# [Markdown] is a simple text-based \n\n\n [markup language]\n" +
 		// 	" ******* \n\n created by [John Gruber] \n\n" +
 		// 	"```js \n\n" +
@@ -149,21 +182,29 @@ let TodoPanel = React.createClass({
 		// 	" * item 2 \n" +
 		// 	" * item 3 \n" +
 		// 	"![熊熊好可愛](https://d26hyti2oua2hb.cloudfront.net/600/arts/201602142333-q8MQ2.jpg)";
-
-		var str = '```js\n console.log("hello"); \n```';
-		return {
-			// __html : semanticMarkdown(this.props.desc || ''),
-			__html : semanticMarkdown(str),
+		//
+		var html = {
+			__html : semanticMarkdown(desc || '點擊輸入備註...'),
 		};
+		return (
+			<div
+				dangerouslySetInnerHTML={html}
+				onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+			/>
+		);
+	},
+
+	handleSaveTodoDesc(e) {
+		this.props.updateTodoDesc(this.props.id, this.newDesc.value);
 	},
 
 	propTypes : {
-		id : PropTypes.number,
-		title : PropTypes.string,
-		completed : PropTypes.bool,
-		priority : PropTypes.number,
-		needTime : PropTypes.number,
-		expectAt : PropTypes.string,
+		id : PropTypes.number.isRequired,
+		title : PropTypes.string.isRequired,
+		completed : PropTypes.bool.isRequired,
+		priority : PropTypes.number.isRequired,
+		needTime : PropTypes.number.isRequired,
+		expectAt : PropTypes.string.isRequired,
 		desc : PropTypes.string,
 		endAt : PropTypes.string,
 	},
