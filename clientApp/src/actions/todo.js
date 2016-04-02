@@ -11,7 +11,7 @@ var hostName = 'http://localhost:3000';
 // action types
 // ==========================================
 export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
-export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
+export const FILTER_SET_TYPE = 'FILTER_SET_TYPE';
 export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
 export const FILTERS_RESET = 'FILTERS_RESET';
 
@@ -72,8 +72,9 @@ export function addTodo(todo) {
 		id : todo.id,
 		title : todo.title,
 		desc : todo.desc || null,
-		priority : todo.priority || 0,
+		type : todo.type || 'normal',
 		needTime : todo.needTime || 30,
+		counter : 0,
 		expectAt : moment().add(1, 'days').format('YYYY-MM-DD HH:mm'), // 預設為明天的代辦事項
 		completed : false,
 		endAt : null,
@@ -197,8 +198,8 @@ export function setCompletedFilter(filter) {
 	return { type : FILTER_SET_COMPLETED, filter };
 }
 
-export function setPriorityFilter(filter) {
-	return { type : FILTER_SET_PRIORITY, filter };
+export function setTypeFilter(filter) {
+	return { type : FILTER_SET_TYPE, filter };
 }
 
 export function setNeeTimeFilter(filter) {

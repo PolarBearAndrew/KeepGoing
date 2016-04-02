@@ -1,5 +1,6 @@
 
 import moment from 'moment';
+import _TYPES_ from '../config/Types.js';
 
 // expectTime > priority > needTime > completed
 export default (todos) => {
@@ -14,8 +15,8 @@ export default (todos) => {
 		if( expectTimeA != expectTimeB ) {
 			return todoB.id - todoA.id;
 		}
-		else if(todoA.priority != todoB.priority) {
-			return todoB.priority - todoA.priority;
+		else if(todoA.type != todoB.type) {
+			return _TYPES_[todoB.type].priority - _TYPES_[todoA.type].priority;
 		}
 		else if(todoA.needTime != todoB.needTime) {
 			return todoA.needTime - todoB.needTime;

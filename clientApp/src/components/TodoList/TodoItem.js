@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import _PRIORITYS_ from '../../config/Priority.js';
+import _TYPES_ from '../../config/Types.js';
 import { Width } from '../../config/Styles.js';
 
 import moment from 'moment';
@@ -18,7 +18,7 @@ let TodoItem = React.createClass({
 
 		let styles = {};
 		let checkIconClass;
-		let segmentClass = 'ui segment ' + this.getPriorityColor();
+		let segmentClass = 'ui segment ' + this.getTypeColor();
 		let expectTime = moment(this.props.expectAt);
 		let hover = this.state.hoverCheckIcon;
 		let completed = this.props.completed;
@@ -38,8 +38,8 @@ let TodoItem = React.createClass({
 		};
 
 
-		// 是否擁有 priority 標籤
-		if(this.showPriorityRibon())
+		// 是否擁有 type 標籤
+		if(this.showTypeRibon())
 			styles.title = { marginTop : '-27px' };
 		else
 			styles.title = null;
@@ -67,8 +67,8 @@ let TodoItem = React.createClass({
 				className={segmentClass}
 				style={styles.segment}>
 				{
-					this.showPriorityRibon()
-						? this.buildPriorityRibon(this.props.priority)
+					this.showTypeRibon()
+						? this.buildTypeRibon(this.props.type)
 						: null
 				}
 				<h3
@@ -135,27 +135,23 @@ let TodoItem = React.createClass({
 		this.setState({hoverCheckIcon: false});
 	},
 
-	showPriorityRibon() {
-		let priority = this.props.priority;
-		let target = _PRIORITYS_[priority];
-		if(target.text == '無優先權')
+	showTypeRibon() {
+		if(this.props.type == 'none')
 			return false;
 		else
 			return true;
 	},
 
-	getPriorityColor() {
-		let priority = this.props.priority;
-		let target = _PRIORITYS_[priority];
-		return target.color;
+	getTypeColor() {
+		return _TYPES_[this.props.type].color;
 	},
 
-	buildPriorityRibon(priority) {
-		let target = _PRIORITYS_[priority];
+	buildTypeRibon(type) {
+		let target = _TYPES_[type];
 		return (
 			<a
 				className={"ui right ribbon label " + target.color}
-				onClick={this.props.setPriorityFilter.bind(null, priority)}
+				onClick={this.props.setTypeFilter.bind(null, type)}
 			>
 				<i className={"icon " + target.icon}></i>
 				{target.text}
@@ -202,7 +198,7 @@ let TodoItem = React.createClass({
 
 	propTypes : {
 		// func
-		setPriorityFilter : PropTypes.func.isRequired,
+		setTypeFilter : PropTypes.func.isRequired,
 		setCurrentTodo : PropTypes.func.isRequired,
 		onComplete : PropTypes.func.isRequired,
 		onUndo : PropTypes.func.isRequired,
@@ -210,7 +206,7 @@ let TodoItem = React.createClass({
 		id : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
-		priority : PropTypes.number.isRequired,
+		type : PropTypes.string.isRequired,
 		needTime : PropTypes.number.isRequired,
 		expectAt : PropTypes.string.isRequired,
 		// not required

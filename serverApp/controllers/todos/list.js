@@ -17,7 +17,7 @@ module.exports = (req, res) => {
 				id : todo.id,
 				title : todo.title,
 				desc : todo.desc || null,
-				priority : todo.priority,
+				type : todo.type,
 				needTime : todo.needTime,
 				expectAt : todo.expectAt,
 				endAt : todo.endAt,

@@ -11,7 +11,7 @@ data: [
 		id: 48,
 		title: "做報告",
 		desc: null,
-		priority: 1,
+		type: 'none',
 		needTime: 30,
 		expectAt: "2016-03-26T09:03:37.000Z",
 		endAt: "2016-03-29T14:52:52.000Z",
@@ -21,7 +21,7 @@ data: [
 		id: 49,
 		title: "寫作業",
 		desc: null,
-		priority: 2,
+		type: 'none',
 		needTime: 30,
 		expectAt: "2016-03-26T09:03:41.000Z",
 		endAt: null,
@@ -42,7 +42,7 @@ name | type | desc
 ---- | ---- | ----
 title | string, isRequired |
 desc | string, isRequired |
-priority | number, isRequired |
+type | string, isRequired |
 needTime | number, isRequired |
 expectAt | date, isRequired |
 endAt | date, default null |
@@ -72,7 +72,7 @@ name | type | desc
 ---- | ---- | ----
 title | string, isRequired |
 desc | string, isRequired |
-priority | number, isRequired |
+type | string, isRequired |
 needTime | number, isRequired |
 expectAt | date, isRequired |
 endAt | date, default null |

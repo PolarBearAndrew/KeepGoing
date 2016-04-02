@@ -2,13 +2,25 @@
 import React, { Component, PropTypes } from 'react';
 const debug = require('debug')('app:FilterBox');
 
-import Prioritys from '../config/Priority.js';
+import _TYPES_ from '../config/Types.js';
 import { CompletedFilters } from '../actions/todo.js';
+
+// init types
+let types = [];
+
+Object.keys(_TYPES_).forEach( key => {
+	types.push({
+		..._TYPES_[key],
+		key
+	});
+});
+types = types.sort( (tA, tB) => {
+	return tA.priority - tB.priority;
+});
 
 let FilterBox = React.createClass({
 
 	getInitialState() {
-		// Prioritys = Prioritys.reverse();
 		return {
 			value: null,
 		};
@@ -16,7 +28,8 @@ let FilterBox = React.createClass({
 
 	componentDidMount() {
 		$('.ui.dropdown').dropdown({
-			 // 不會自動顯示 dropdown 選取了什麼, 自動顯示的話會造成 react-id 重複
+			// action = hide 不會自動顯示 dropdown 選取了什麼
+			// 自動顯示的話會造成 react-id 重複
 			action: 'hide',
 		});
 		$('#needTimeFilterInput').popup();
@@ -43,8 +56,8 @@ let FilterBox = React.createClass({
 			marginTop : '-10px',
 		};
 
-		const priority = Prioritys[this.props.priorityFilter] ||
-			{ color : 'black', text : 'Priority Filter' };
+		const currentType = _TYPES_[this.props.typeFilter] ||
+			{ color : 'grey', text : 'Type Filter' };
 
 		const completedItems = [
 			{ text : '未完成', status : 0, value : CompletedFilters.SHOW_ACTIVE },
@@ -69,8 +82,8 @@ let FilterBox = React.createClass({
 					<div className="ui floating dropdown labeled icon button mini">
 						<i className="filter icon"></i>
 						<span className='text' style={styles.colorBall}>
-							<div className={'ui empty circular label ' + priority.color}></div>
-							{priority.text}
+							<div className={'ui empty circular label ' + currentType.color}></div>
+							{currentType.text}
 						</span>
 						<div className="menu">
 							<div className="ui icon search input">
@@ -80,10 +93,10 @@ let FilterBox = React.createClass({
 							<div className="divider"></div>
 							<div className="header">
 								<i className="tags icon"></i>
-								Priority
+								Types
 							</div>
 							<div className="scrolling menu">
-								{this.buildPriorityItems(Prioritys)}
+								{this.buildTypeItems(_TYPES_)}
 							</div>
 						</div>
 					</div>
@@ -115,14 +128,14 @@ let FilterBox = React.createClass({
 		return this.props.setNeeTimeFilter(parseInt(min, 10));
 	},
 
-	buildPriorityItems(prioritys) {
-		return prioritys.map( (priority, index) => {
+	buildTypeItems() {
+		return types.map( (type, index) => {
 			return (
 				<div className='item' key={index} data-index={index} onClick={ () => {
-					this.props.setPriorityFilter(index);
+					this.props.setTypeFilter(type.key);
 				}}>
-					<div className={'ui empty circular label ' + priority.color}></div>
-					{priority.text}
+					<div className={'ui empty circular label ' + type.color}></div>
+					{type.text}
 				</div>
 			);
 		});
@@ -153,10 +166,10 @@ let FilterBox = React.createClass({
 
 });
 
-// require setPriorityFilter
+// require setTypeFilter
 // require setCompletedFilter
 
 // require completedFilter
-// require priorityFilter
+// require typeFilter
 
 export default FilterBox;

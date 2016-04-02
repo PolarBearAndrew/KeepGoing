@@ -17,7 +17,7 @@ import {
 	TODO_REMOVE,
 	// todo filter action
 	FILTER_SET_COMPLETED,
-	FILTER_SET_PRIORITY,
+	FILTER_SET_TYPE,
 	FILTER_SET_NEETTIME,
 	FILTERS_RESET,
 	CURRENT_SET,
@@ -137,12 +137,12 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 }
 
 // index 1 = 無狀態
-function priorityFilter(state = 1, action) {
+function typeFilter(state = 'none', action) {
 	switch (action.type) {
-		case FILTER_SET_PRIORITY :
+		case FILTER_SET_TYPE :
 			return action.filter;
 		case FILTERS_RESET :
-			return 1;
+			return 'none';
 		default :
 			return state;
 	}
@@ -185,7 +185,7 @@ function editorDesc(state = false, action) {
 
 const todoApp = combineReducers({
 	completedFilter,
-	priorityFilter,
+	typeFilter,
 	needTimeFilter,
 	currentId,
 	editorDesc,

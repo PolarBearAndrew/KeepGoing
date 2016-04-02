@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 // import {markdown} from 'markdown';
 
-import _PRIORITYS_ from '../config/Priority.js';
+import _TYPES_ from '../config/Types.js';
 
 import markdown from 'marked';
 import highlightJS from 'highlight.js';
@@ -48,7 +48,7 @@ let TodoPanel = React.createClass({
 
 	render() {
 
-		let priority = _PRIORITYS_[this.props.priority];
+		let type = _TYPES_[this.props.type];
 
 		styles.segment = {
 			width : '425px',
@@ -80,7 +80,7 @@ let TodoPanel = React.createClass({
 			>
 
 				<h2 className="ui header">
-					<i className={"icon  " +  priority.icon + ' ' + priority.color}></i>
+					<i className={"icon  " +  type.icon + ' ' + type.color}></i>
 					<div className="content">
 						{this.props.title}
 						<div className="sub header">{'# ' + this.props.todoId}</div>
@@ -217,7 +217,7 @@ let TodoPanel = React.createClass({
 		id : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
-		priority : PropTypes.number.isRequired,
+		type : PropTypes.string.isRequired,
 		needTime : PropTypes.number.isRequired,
 		expectAt : PropTypes.string.isRequired,
 		desc : PropTypes.string,
