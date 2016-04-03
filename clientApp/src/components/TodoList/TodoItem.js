@@ -86,7 +86,19 @@ let TodoItem = React.createClass({
 						onMouseOver={this.mouseOver}
 						onMouseOut={this.mouseOut}
 					></i>
-					<div className='content'>{this.props.title}</div>
+					<div className='content'>
+						{this.props.title}
+						{
+							this.props.type == 'daily'
+							? <a
+								style={styles.iconFloatRight}
+								className="ui purple circular label"
+								>
+									{ 'Day : ' + (this.props.counter+1) }
+								</a>
+							: null
+						}
+					</div>
 				</h3>
 
 				<div className='ui grid'>
