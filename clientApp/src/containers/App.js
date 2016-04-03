@@ -20,6 +20,7 @@ import {
 	// editor
 	setEditTodoDesc,
 	updateTodoDesc,
+	updateTodoNeedTime,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -160,6 +161,9 @@ class App extends Component {
 									}
 									updateTodoDesc={ (id, desc) =>
 										updateTodoDesc(id, desc)(dispatch)
+									}
+									updateTodoNeedTime={ (id, oNeedTime, nNeedTime) =>
+										updateTodoNeedTime(id, oNeedTime, nNeedTime)(dispatch)
 									}
 									// editor attr
 									editorDesc={this.props.editorDesc || false}

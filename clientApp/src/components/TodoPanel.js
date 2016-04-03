@@ -2,11 +2,29 @@
 import React, { Component, PropTypes } from 'react';
 import { markdown } from '../libs/';
 import _TYPES_ from '../config/TodoTypes.js';
-// let debug = require('debug')('app:TodoPanel');
+let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
 
 let TodoPanel = React.createClass({
+
+	getInitialState() {
+		return {
+			id : this.props.todoId,
+			desc : this.props.desc,
+			needTime : this.props.needTime,
+		};
+	},
+
+	componentWillReceiveProps(nextProps) {
+		if(this.state.id != nextProps.todoId) {
+			return this.setState({
+				id : nextProps.todoId,
+				desc : nextProps.desc,
+				needTime : nextProps.needTime,
+			});
+		}
+	},
 
 	componentDidMount() {
 		$('.counterBar').progress({
@@ -20,6 +38,7 @@ let TodoPanel = React.createClass({
 	},
 
 	componentDidUpdate() {
+		// reset progress bar
 		$('.counterBar').progress({
 			label : 'ratio',
 			value : this.props.counter,
@@ -96,8 +115,15 @@ let TodoPanel = React.createClass({
 					</div>
 
 					<div className='three wide column'>
-						<div className="ui left icon input transparent large">
-							<input type="number" defaultValue={this.props.needTime} />
+						<div className="ui left icon input transparent large" >
+							<input
+								type="number"
+								onKeyDown={this.handleKeyDown}
+								value={this.state.needTime}
+								onChange={ e =>
+									this.handleChange('needTime', e.target.value)
+								}
+							/>
 							<i className="clock icon"></i>
 						</div>
 					</div>
@@ -109,7 +135,7 @@ let TodoPanel = React.createClass({
 				<div className="ui form">
 					{
 						this.props.editorDesc
-							? this.showTextArea()
+							? this.showTextArea(this.props.desc)
 							: this.showDesc(this.props.desc)
 					}
 				</div>
@@ -119,15 +145,23 @@ let TodoPanel = React.createClass({
 		);
 	},
 
-	showTextArea() {
+	handleChange(key, value) {
+		let obj = {};
+		obj[key] = value;
+		return this.setState(obj);
+	},
+
+	showTextArea(desc) {
 		return (
 			<div className="field">
 
 				<textarea
 					rows="12"
 					style={styles.textarea}
-					defaultValue={this.props.desc || ''}
-					ref={ (v) => this.newDesc = v }
+					value={this.state.desc || ''}
+					onChange={ e =>
+						this.handleChange('desc', e.target.value)
+					}
 				>
 				</textarea>
 
@@ -158,7 +192,6 @@ let TodoPanel = React.createClass({
 					dangerouslySetInnerHTML={html}
 					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
 				>
-					{ desc ? null : this.defaultDesc() }
 				</div>
 			);
 		}
@@ -174,7 +207,7 @@ let TodoPanel = React.createClass({
 					style={style}
 					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
 				>
-					{this.defaultDesc() }
+					{this.defaultArea() }
 				</div>
 			);
 		}
@@ -195,7 +228,23 @@ let TodoPanel = React.createClass({
 	},
 
 	handleSaveTodoDesc(e) {
-		this.props.updateTodoDesc(this.props.id, this.newDesc.value.trim());
+		this.props.updateTodoDesc(this.props.id, this.state.desc.trim());
+	},
+
+	handleKeyDown(e) {
+		// let t = parseInt(this.needTime.value, 10);
+		let t = parseInt(this.state.needTime, 10);
+		if(e.keyCode == 38) {  // up
+			this.setState({ needTime : t + 4});
+			// this.needTime.value = t + 4;
+		}
+		else if(e.keyCode == 40) { // down
+			this.setState({ needTime : t - 4});
+			// this.needTime.value = t - 4;
+		}
+		else if(e.keyCode == 13) { // enter
+			this.props.updateTodoNeedTime(this.props.id, this.props.needTime, t);
+		}
 	},
 
 	propTypes : {

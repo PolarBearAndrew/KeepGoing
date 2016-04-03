@@ -25,7 +25,7 @@ export default class AddTodo extends Component {
 					type='text'
 					style={styles.input}
 					placeholder=' New Jobs'
-					ref={ (c) => this.newJob = c }
+					ref={ v => this.newJob = v }
 					onKeyDown={this.handleKeyDown.bind(this)}
 				/>
 
