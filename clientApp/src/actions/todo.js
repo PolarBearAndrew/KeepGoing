@@ -174,11 +174,12 @@ export function undoTodo(id) {
 		fetch(hostName + '/api/v1/todo/' + id.toString() + '/undo', {
 			method : 'PUT',
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			todoUndoSuccess(res.data);
+			return dispatch(todoUndoSuccess(res.data));
 		})
 		.catch( err => {
-			todoCompletedFail(todoUndoFail(id));
+			return dispatch(todoUndoFail(id));
 		});
 	};
 }
@@ -257,11 +258,53 @@ export function updateTodoDesc(id, desc) {
 			},
 			body: JSON.stringify(todo),
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			dispatch(setEditTodoDesc(false)); // 關閉修改介面
+			return dispatch(setEditTodoDesc(false)); // 關閉修改介面
 		})
 		.catch( err => {
 			debug('updateTodoDesc Fail', err);
+			// throw err pop out
+		});
+
+	};
+
+}
+
+// ==========================================
+//	edit todo.needTime
+// ==========================================
+export const TODO_UPDATE_NEEDTIME = 'TODO_UPDATE_NEEDTIME';
+function todoUpdateNeedTime(id, needTime) {
+	return { type : TODO_UPDATE_NEEDTIME, id, needTime };
+}
+
+export function updateTodoNeedTime(id, oNeedTime, nNeedTime) {
+
+	debug('updateTodoNeedTime', id, oNeedTime, nNeedTime);
+
+	return function(dispatch) {
+
+		let todo = { needTime : nNeedTime };
+
+		dispatch(todoUpdateNeedTime(id, nNeedTime));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoNeedTime success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoDesc fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
 			// throw err pop out
 		});
 
