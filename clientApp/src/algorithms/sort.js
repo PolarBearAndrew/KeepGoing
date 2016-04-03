@@ -1,6 +1,6 @@
 
 import moment from 'moment';
-import _TYPES_ from '../config/Types.js';
+import _TYPES_ from '../config/TodoTypes.js';
 
 // expectTime > priority > needTime > completed
 export default (todos) => {

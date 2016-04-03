@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-import _TYPES_ from '../config/types.js';
+import _TYPES_ from '../config/TodoTypes.js';
 
 import {
 	// todos
@@ -252,6 +252,7 @@ let Todo = PropTypes.shape({
 	type : PropTypes.string.isRequired,
 	needTime : PropTypes.number.isRequired,
 	expectAt : PropTypes.string.isRequired,
+	counter : PropTypes.number.isRequired,
 	desc : PropTypes.string,
 	endAt : PropTypes.string,
 });

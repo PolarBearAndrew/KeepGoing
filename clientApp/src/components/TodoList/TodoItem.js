@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import _TYPES_ from '../../config/Types.js';
+import _TYPES_ from '../../config/TodoTypes.js';
 import { Width } from '../../config/Styles.js';
 
 import moment from 'moment';
@@ -209,6 +209,7 @@ let TodoItem = React.createClass({
 		type : PropTypes.string.isRequired,
 		needTime : PropTypes.number.isRequired,
 		expectAt : PropTypes.string.isRequired,
+		counter : PropTypes.number.isRequired,
 		// not required
 		desc : PropTypes.string,
 		endAt : PropTypes.string,

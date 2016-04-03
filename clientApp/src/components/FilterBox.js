@@ -2,7 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 const debug = require('debug')('app:FilterBox');
 
-import _TYPES_ from '../config/Types.js';
+import _TYPES_ from '../config/TodoTypes.js';
 import { CompletedFilters } from '../actions/todo.js';
 
 // init types

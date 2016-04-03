@@ -120,8 +120,8 @@ function todoCompleted(id) {
 }
 
 export const TODO_COMPLETE_SUCCESS = 'TODO_COMPLETE_SUCCESS';
-function todoCompletedSuccess(id) {
-	return { type: TODO_COMPLETE_SUCCESS, id };
+function todoCompletedSuccess(info) {
+	return { type: TODO_COMPLETE_SUCCESS, ...info };
 }
 
 export const TODO_COMPLETE_FAIL = 'TODO_COMPLETE_FAIL';
@@ -137,11 +137,13 @@ export function completeTodo(id) {
 		fetch(hostName + '/api/v1/todo/' + id.toString() + '/complete', {
 			method : 'PUT',
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			todoCompletedSuccess(res.data);
+			debug('res.data', res.data);
+			return dispatch(todoCompletedSuccess(res.data));
 		})
 		.catch( err => {
-			todoCompletedFail(todoCompletedFail(id));
+			return dispatch(todoCompletedFail(id));
 		});
 	};
 }

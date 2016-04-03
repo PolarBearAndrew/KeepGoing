@@ -78,7 +78,13 @@ function todos(state = [], action) {
 			});
 
 		case TODO_COMPLETE_SUCCESS :
-			return state;
+			return state.map( todo => {
+				if(todo.id == action.id) {
+					todo.completed = action.completed;
+					todo.counter = action.counter;
+				}
+				return todo;
+			});
 
 		case TODO_COMPLETE_FAIL :
 			return state.map( todo => {

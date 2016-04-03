@@ -2,10 +2,12 @@
 import React, { Component, PropTypes } from 'react';
 // import {markdown} from 'markdown';
 
-import _TYPES_ from '../config/Types.js';
+import _TYPES_ from '../config/TodoTypes.js';
 
 import markdown from 'marked';
 import highlightJS from 'highlight.js';
+
+let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
 
@@ -39,9 +41,22 @@ let TodoPanel = React.createClass({
 
 	componentDidMount() {
 		$('.counterBar').progress({
-			label: 'ratio',
-			text: {
-				ratio: '{value}%'
+			label : 'ratio',
+			value : this.props.counter,
+			total : 100,
+			text : {
+				ratio : '{value}%'
+			},
+		});
+	},
+
+	componentDidUpdate() {
+		$('.counterBar').progress({
+			label : 'ratio',
+			value : this.props.counter,
+			total : 100,
+			text : {
+				ratio : '{value}%'
 			},
 		});
 	},
@@ -61,9 +76,10 @@ let TodoPanel = React.createClass({
 			float : 'left',
 		};
 
-		styles.infoBlock = {
-			marginTop : '-33px',
-		};
+		if(this.props.type == 'daily')
+			styles.infoBlock = { marginTop : '-33px', };
+		else
+			styles.infoBlock = { marginTop : '-7px', };
 
 		styles.btnFloatRight = {
 			float : 'right',
@@ -89,15 +105,15 @@ let TodoPanel = React.createClass({
 
 				<h4 className="ui inverted divider"></h4>
 
-				<div
-					className="ui progress green small counterBar"
-					data-value="15"
-					data-total="100"
-				>
-					<div className="bar">
-						<div className="progress"></div>
-					</div>
-				</div>
+				{
+					this.props.type == 'daily'
+					? <div className="ui progress green small counterBar">
+							<div className="bar">
+								<div className="progress"></div>
+							</div>
+						</div>
+					: null
+				}
 
 				<div className='ui grid' style={styles.infoBlock}>
 
@@ -220,11 +236,11 @@ let TodoPanel = React.createClass({
 		type : PropTypes.string.isRequired,
 		needTime : PropTypes.number.isRequired,
 		expectAt : PropTypes.string.isRequired,
+		counter : PropTypes.number.isRequired,
 		desc : PropTypes.string,
 		endAt : PropTypes.string,
 	},
 
 });
-
 
 export default TodoPanel;
