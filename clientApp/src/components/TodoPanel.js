@@ -1,41 +1,10 @@
 
 import React, { Component, PropTypes } from 'react';
-// import {markdown} from 'markdown';
-
+import { markdown } from '../libs/';
 import _TYPES_ from '../config/TodoTypes.js';
-
-import markdown from 'marked';
-import highlightJS from 'highlight.js';
-
-let debug = require('debug')('app:TodoPanel');
+// let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
-
-markdown.setOptions({
-	renderer: new markdown.Renderer(),
-	gfm: true,
-	tables: true,
-	breaks: false,
-	pedantic: false,
-	sanitize: true,
-	smartLists: true,
-	smartypants: false,
-
-	// Synchronous highlighting with highlight.js
-	highlight: function (code) {
-		return highlightJS.highlightAuto(code).value;
-	}
-});
-
-function semanticMarkdown(md) {
-	return markdown(md)
-		.replace(/<a /g, '<a target="_blank" ')
-		.replace(/<ul>/, '<ul class="ui list">')
-		.replace(/<code class="/, '<code style="width:100%;border:null;display:block;" class="ui secondary segment ')
-		.replace(/<table>/g, '<table class="ui table striped">')
-		.replace(/<img /g, '<img class="ui medium rounded image centered" ');
-}
-
 
 let TodoPanel = React.createClass({
 
@@ -183,7 +152,7 @@ let TodoPanel = React.createClass({
 
 	showDesc(desc) {
 		if(desc) {
-			let html = { __html : semanticMarkdown(desc || ''), };
+			let html = { __html : markdown(desc || ''), };
 			return (
 				<div
 					dangerouslySetInnerHTML={html}
