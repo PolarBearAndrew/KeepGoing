@@ -17,12 +17,31 @@ module.exports = (req, res) => {
 	})
 	.then( todo => {
 		if(!todo) return Promise.reject(new Error(errors.TODO_NOT_FOUNT));
-		todo.completed = true;
-		todo.endAt = moment();
+		if(todo.type != 'daily') {
+			todo.completed = true;
+			todo.endAt = moment();
+		}
+		else if(
+			todo.type == 'daily' &&
+			todo.counter >= 100
+		) {
+			todo.completed = true;
+			todo.endAt = moment();
+		}
+		else {
+			todo.counter = todo.counter + 1;
+			todo.expectAt = moment().add(1, 'days');
+		}
 		return todo.save();
 	})
 	.then( todo => {
-		res.return(todo.id);
+		let data = {
+			id : todo.id,
+			completed : todo.completed,
+			counter : todo.counter,
+			expectAt : todo.expectAt,
+		};
+		res.return(data);
 	})
 	.catch( err => {
 		res.return(err);

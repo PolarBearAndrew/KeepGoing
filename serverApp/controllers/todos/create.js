@@ -8,7 +8,7 @@ var _ = require('lodash');
 module.exports = (req, res) => {
 
 	var data = _.pick(req.body, [
-		'title', 'desc', 'priority', 'needTime',
+		'title', 'desc', 'type', 'needTime',
 		'expectAt', 'endAt',
 	]);
 

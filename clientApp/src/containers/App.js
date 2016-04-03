@@ -1,7 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
-
+import _TYPES_ from '../config/TodoTypes.js';
 
 import {
 	// todos
@@ -11,7 +11,7 @@ import {
 	undoTodo,
 	// filters
 	setCompletedFilter,
-	setPriorityFilter,
+	setTypeFilter,
 	setNeeTimeFilter,
 	resetAllFilters,
 	setCurrentTodo,
@@ -20,6 +20,7 @@ import {
 	// editor
 	setEditTodoDesc,
 	updateTodoDesc,
+	updateTodoNeedTime,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -68,7 +69,7 @@ class App extends Component {
 			dispatch,
 			visibleTodos,
 			completedFilter,
-			priorityFilter,
+			typeFilter,
 			needTimeFilter,
 		} = this.props;
 
@@ -100,7 +101,7 @@ class App extends Component {
 					<NavBar />
 
 					<AddTodo
-						priorityFilter={priorityFilter}
+						typeFilter={typeFilter}
 						onAddClick={ todo =>
 							addTodo(todo)(dispatch)
 						}
@@ -109,11 +110,11 @@ class App extends Component {
 					<p></p>
 
 					<FilterBox
-						priorityFilter={priorityFilter}
+						typeFilter={typeFilter}
 						completedFilter={completedFilter}
 						needTimeFilter={needTimeFilter}
-						setPriorityFilter={ index =>
-							dispatch(setPriorityFilter(index))
+						setTypeFilter={ key =>
+							dispatch(setTypeFilter(key))
 						}
 						setCompletedFilter={ filter =>
 							dispatch(setCompletedFilter(filter))
@@ -134,8 +135,8 @@ class App extends Component {
 						onUndo={ id =>
 							undoTodo(id)(dispatch)
 						}
-						setPriorityFilter={ index =>
-							dispatch(setPriorityFilter(index))
+						setTypeFilter={ key =>
+							dispatch(setTypeFilter(key))
 						}
 						setCurrentTodo={ id =>
 							dispatch(setCurrentTodo(id))
@@ -160,6 +161,9 @@ class App extends Component {
 									}
 									updateTodoDesc={ (id, desc) =>
 										updateTodoDesc(id, desc)(dispatch)
+									}
+									updateTodoNeedTime={ (id, oNeedTime, nNeedTime) =>
+										updateTodoNeedTime(id, oNeedTime, nNeedTime)(dispatch)
 									}
 									// editor attr
 									editorDesc={this.props.editorDesc || false}
@@ -188,12 +192,12 @@ function todoCompletedFilter(todos, filter) {
 	}
 }
 
-function todoPriorityFilter(todos, filter) {
+function todoTypeFilter(todos, filter) {
 	switch (filter) {
-		case 1 :
+		case 'none' :
 			return todos;
 		default :
-			return todos.filter(todo => filter == todo.priority);
+			return todos.filter(todo => filter == todo.type);
 	}
 }
 
@@ -210,7 +214,7 @@ function todoNeedTimeFilter(todos, filter) {
 function todoFilters(state) {
 	let todoTemps;
 	todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
-	todoTemps = todoPriorityFilter(todoTemps, state.priorityFilter);
+	todoTemps = todoTypeFilter(todoTemps, state.typeFilter);
 	todoTemps = todoNeedTimeFilter(todoTemps, state.needTimeFilter);
 	return sort(todoTemps);
 }
@@ -235,8 +239,8 @@ function data(state) {
 		editorDesc : state.editorDesc,
 		// todo list
 		visibleTodos : todoFilters(state),
+		typeFilter : state.typeFilter,
 		completedFilter : state.completedFilter,
-		priorityFilter : state.priorityFilter,
 		needTimeFilter : state.needTimeFilter,
 	};
 }
@@ -249,9 +253,10 @@ let Todo = PropTypes.shape({
 	id : PropTypes.number.isRequired,
 	title : PropTypes.string.isRequired,
 	completed : PropTypes.bool.isRequired,
-	priority : PropTypes.number.isRequired,
+	type : PropTypes.string.isRequired,
 	needTime : PropTypes.number.isRequired,
 	expectAt : PropTypes.string.isRequired,
+	counter : PropTypes.number.isRequired,
 	desc : PropTypes.string,
 	endAt : PropTypes.string,
 });
@@ -266,9 +271,9 @@ App.propTypes = {
 		'SHOW_ACTIVE'
 	]).isRequired,
 	// 優先權篩選器
-	priorityFilter: PropTypes.oneOf([
-		0, 1, 2, 3, 4,
-	]).isRequired,
+	typeFilter: PropTypes.oneOf(
+		Object.keys(_TYPES_)
+	).isRequired,
 };
 
 export default connect(data)(App);

@@ -12,8 +12,8 @@ var TodoList = React.createClass({
 		styles.wrapper = {
 			marginTop : '0px',
 			height : '705px',
-			'overflowX' :'visible',
-			'overflowY' :'scroll',
+			overflowX :'visible',
+			overflowY :'scroll',
 		};
 
 		return (
@@ -27,7 +27,7 @@ var TodoList = React.createClass({
 							onComplete={ () => this.props.onComplete(todo.id) }
 							onUndo={ () => this.props.onUndo(todo.id) }
 							setCurrentTodo={ () => this.props.setCurrentTodo(todo.id)}
-							setPriorityFilter={this.props.setPriorityFilter}
+							setTypeFilter={this.props.setTypeFilter}
 						/>
 					)
 				}
@@ -38,7 +38,7 @@ var TodoList = React.createClass({
 
 	propTypes : {
 		// func
-		setPriorityFilter : PropTypes.func.isRequired,
+		setTypeFilter : PropTypes.func.isRequired,
 		setCurrentTodo : PropTypes.func.isRequired,
 		onComplete : PropTypes.func.isRequired,
 		onUndo : PropTypes.func.isRequired,
@@ -47,9 +47,10 @@ var TodoList = React.createClass({
 			id : PropTypes.number.isRequired,
 			title : PropTypes.string.isRequired,
 			completed : PropTypes.bool.isRequired,
-			priority : PropTypes.number.isRequired,
+			type : PropTypes.string.isRequired,
 			needTime : PropTypes.number.isRequired,
 			expectAt : PropTypes.string.isRequired,
+			counter : PropTypes.number.isRequired,
 			desc : PropTypes.string,
 			endAt : PropTypes.string,
 		}).isRequired).isRequired

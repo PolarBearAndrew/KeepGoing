@@ -11,7 +11,7 @@ var hostName = 'http://localhost:3000';
 // action types
 // ==========================================
 export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
-export const FILTER_SET_PRIORITY = 'FILTER_SET_PRIORITY';
+export const FILTER_SET_TYPE = 'FILTER_SET_TYPE';
 export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
 export const FILTERS_RESET = 'FILTERS_RESET';
 
@@ -72,8 +72,9 @@ export function addTodo(todo) {
 		id : todo.id,
 		title : todo.title,
 		desc : todo.desc || null,
-		priority : todo.priority || 0,
+		type : todo.type || 'normal',
 		needTime : todo.needTime || 30,
+		counter : 0,
 		expectAt : moment().add(1, 'days').format('YYYY-MM-DD HH:mm'), // 預設為明天的代辦事項
 		completed : false,
 		endAt : null,
@@ -119,8 +120,8 @@ function todoCompleted(id) {
 }
 
 export const TODO_COMPLETE_SUCCESS = 'TODO_COMPLETE_SUCCESS';
-function todoCompletedSuccess(id) {
-	return { type: TODO_COMPLETE_SUCCESS, id };
+function todoCompletedSuccess(info) {
+	return { type: TODO_COMPLETE_SUCCESS, ...info };
 }
 
 export const TODO_COMPLETE_FAIL = 'TODO_COMPLETE_FAIL';
@@ -136,11 +137,13 @@ export function completeTodo(id) {
 		fetch(hostName + '/api/v1/todo/' + id.toString() + '/complete', {
 			method : 'PUT',
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			todoCompletedSuccess(res.data);
+			debug('res.data', res.data);
+			return dispatch(todoCompletedSuccess(res.data));
 		})
 		.catch( err => {
-			todoCompletedFail(todoCompletedFail(id));
+			return dispatch(todoCompletedFail(id));
 		});
 	};
 }
@@ -171,11 +174,12 @@ export function undoTodo(id) {
 		fetch(hostName + '/api/v1/todo/' + id.toString() + '/undo', {
 			method : 'PUT',
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			todoUndoSuccess(res.data);
+			return dispatch(todoUndoSuccess(res.data));
 		})
 		.catch( err => {
-			todoCompletedFail(todoUndoFail(id));
+			return dispatch(todoUndoFail(id));
 		});
 	};
 }
@@ -197,8 +201,8 @@ export function setCompletedFilter(filter) {
 	return { type : FILTER_SET_COMPLETED, filter };
 }
 
-export function setPriorityFilter(filter) {
-	return { type : FILTER_SET_PRIORITY, filter };
+export function setTypeFilter(filter) {
+	return { type : FILTER_SET_TYPE, filter };
 }
 
 export function setNeeTimeFilter(filter) {
@@ -254,14 +258,56 @@ export function updateTodoDesc(id, desc) {
 			},
 			body: JSON.stringify(todo),
 		})
+		.then( res =>  res.json() )
 		.then( res => {
-			dispatch(setEditTodoDesc(false)); // 關閉修改介面
+			return dispatch(setEditTodoDesc(false)); // 關閉修改介面
 		})
 		.catch( err => {
 			debug('updateTodoDesc Fail', err);
 			// throw err pop out
 		});
-		
+
+	};
+
+}
+
+// ==========================================
+//	edit todo.needTime
+// ==========================================
+export const TODO_UPDATE_NEEDTIME = 'TODO_UPDATE_NEEDTIME';
+function todoUpdateNeedTime(id, needTime) {
+	return { type : TODO_UPDATE_NEEDTIME, id, needTime };
+}
+
+export function updateTodoNeedTime(id, oNeedTime, nNeedTime) {
+
+	debug('updateTodoNeedTime', id, oNeedTime, nNeedTime);
+
+	return function(dispatch) {
+
+		let todo = { needTime : nNeedTime };
+
+		dispatch(todoUpdateNeedTime(id, nNeedTime));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoNeedTime success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoDesc fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
 	};
 
 }

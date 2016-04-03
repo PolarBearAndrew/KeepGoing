@@ -25,7 +25,7 @@ export default class AddTodo extends Component {
 					type='text'
 					style={styles.input}
 					placeholder=' New Jobs'
-					ref={ (c) => this.newJob = c }
+					ref={ v => this.newJob = v }
 					onKeyDown={this.handleKeyDown.bind(this)}
 				/>
 
@@ -51,7 +51,7 @@ export default class AddTodo extends Component {
 		let todo = {
 			id : Math.ceil(Math.random() * 1000000),
 			title : this.newJob.value,
-			priority : this.props.priorityFilter,
+			type : this.props.typeFilter,
 			// needTime : action.needTime || 30,
 			// expectTime : moment().toString(),
 		};

@@ -17,9 +17,10 @@ module.exports = (req, res) => {
 				id : todo.id,
 				title : todo.title,
 				desc : todo.desc || null,
-				priority : todo.priority,
+				type : todo.type,
 				needTime : todo.needTime,
 				expectAt : todo.expectAt,
+				counter : todo.counter,
 				endAt : todo.endAt,
 				completed : todo.completed,
 			};

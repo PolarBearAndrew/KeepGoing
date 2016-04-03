@@ -20,12 +20,17 @@ module.exports = function(sequelize, models) {
 			validate : { notEmpty : true },
 		},
 
-		priority : {
+		type : {
+			type : Sequelize.STRING,
+			defaultValue : 'none',
+		},
+
+		needTime : {
 			type : Sequelize.INTEGER,
 			defaultValue : 0,
 		},
 
-		needTime : {
+		counter : {
 			type : Sequelize.INTEGER,
 			defaultValue : 0,
 		},

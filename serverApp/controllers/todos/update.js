@@ -8,6 +8,8 @@ var models = require('../../models/');
 
 module.exports = (req, res) => {
 
+	debug('req.body', req.body);
+
 	models.todos.findOne({
 		where : {
 			id : req.params.id,
@@ -16,7 +18,6 @@ module.exports = (req, res) => {
 	})
 	.then( todo => {
 		if(!todo) return Promise.reject(new Error(errors.TODO_NOT_FOUNT));
-		
 		Object.keys(req.body).forEach( key => {
 			todo[key] = req.body[key];
 		});

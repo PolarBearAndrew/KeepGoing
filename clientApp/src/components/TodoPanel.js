@@ -1,67 +1,73 @@
 
 import React, { Component, PropTypes } from 'react';
-// import {markdown} from 'markdown';
-
-import _PRIORITYS_ from '../config/Priority.js';
-
-import markdown from 'marked';
-import highlightJS from 'highlight.js';
+import { markdown } from '../libs/';
+import _TYPES_ from '../config/TodoTypes.js';
+let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
 
-markdown.setOptions({
-	renderer: new markdown.Renderer(),
-	gfm: true,
-	tables: true,
-	breaks: false,
-	pedantic: false,
-	sanitize: true,
-	smartLists: true,
-	smartypants: false,
-
-	// Synchronous highlighting with highlight.js
-	highlight: function (code) {
-		return highlightJS.highlightAuto(code).value;
-	}
-});
-
-function semanticMarkdown(md) {
-	return markdown(md)
-		.replace(/<a /g, '<a target="_blank" ')
-		.replace(/<ul>/, '<ul class="ui list">')
-		.replace(/<code class="/, '<code style="width:100%;border:null;display:block;" class="ui secondary segment ')
-		.replace(/<table>/g, '<table class="ui table striped">')
-		.replace(/<img /g, '<img class="ui medium rounded image centered" ');
-}
-
-
 let TodoPanel = React.createClass({
+
+	getInitialState() {
+		return {
+			id : this.props.todoId,
+			desc : this.props.desc,
+			needTime : this.props.needTime,
+		};
+	},
+
+	componentWillReceiveProps(nextProps) {
+		if(this.state.id != nextProps.todoId) {
+			return this.setState({
+				id : nextProps.todoId,
+				desc : nextProps.desc,
+				needTime : nextProps.needTime,
+			});
+		}
+	},
 
 	componentDidMount() {
 		$('.counterBar').progress({
-			label: 'ratio',
-			text: {
-				ratio: '{value}%'
+			label : 'ratio',
+			value : this.props.counter,
+			total : 100,
+			text : {
+				ratio : '{value}%'
+			},
+		});
+	},
+
+	componentDidUpdate() {
+		// reset progress bar
+		$('.counterBar').progress({
+			label : 'ratio',
+			value : this.props.counter,
+			total : 100,
+			text : {
+				ratio : '{value}%'
 			},
 		});
 	},
 
 	render() {
 
-		let priority = _PRIORITYS_[this.props.priority];
+		let type = _TYPES_[this.props.type];
 
 		styles.segment = {
 			width : '425px',
 			height : '820px',
+			overflowX :'visible',
+			overflowY :'scroll',
 		};
 
 		styles.needTimeControls = {
 			float : 'left',
 		};
 
-		styles.infoBlock = {
-			marginTop : '-33px',
-		};
+		if(this.props.type == 'daily')
+			styles.infoBlock = { marginTop : '-33px', };
+		else
+			styles.infoBlock = { marginTop : '-7px', };
 
 		styles.btnFloatRight = {
 			float : 'right',
@@ -78,7 +84,7 @@ let TodoPanel = React.createClass({
 			>
 
 				<h2 className="ui header">
-					<i className={"icon  " +  priority.icon + ' ' + priority.color}></i>
+					<i className={"icon  " +  type.icon + ' ' + type.color}></i>
 					<div className="content">
 						{this.props.title}
 						<div className="sub header">{'# ' + this.props.todoId}</div>
@@ -87,15 +93,15 @@ let TodoPanel = React.createClass({
 
 				<h4 className="ui inverted divider"></h4>
 
-				<div
-					className="ui progress green small counterBar"
-					data-value="15"
-					data-total="100"
-				>
-					<div className="bar">
-						<div className="progress"></div>
-					</div>
-				</div>
+				{
+					this.props.type == 'daily'
+					? <div className="ui progress green small counterBar">
+							<div className="bar">
+								<div className="progress"></div>
+							</div>
+						</div>
+					: null
+				}
 
 				<div className='ui grid' style={styles.infoBlock}>
 
@@ -109,8 +115,15 @@ let TodoPanel = React.createClass({
 					</div>
 
 					<div className='three wide column'>
-						<div className="ui left icon input transparent large">
-							<input type="number" defaultValue={this.props.needTime} />
+						<div className="ui left icon input transparent large" >
+							<input
+								type="number"
+								onKeyDown={this.handleKeyDown}
+								value={this.state.needTime}
+								onChange={ e =>
+									this.handleChange('needTime', e.target.value)
+								}
+							/>
 							<i className="clock icon"></i>
 						</div>
 					</div>
@@ -122,7 +135,7 @@ let TodoPanel = React.createClass({
 				<div className="ui form">
 					{
 						this.props.editorDesc
-							? this.showTextArea()
+							? this.showTextArea(this.props.desc)
 							: this.showDesc(this.props.desc)
 					}
 				</div>
@@ -132,15 +145,23 @@ let TodoPanel = React.createClass({
 		);
 	},
 
-	showTextArea() {
+	handleChange(key, value) {
+		let obj = {};
+		obj[key] = value;
+		return this.setState(obj);
+	},
+
+	showTextArea(desc) {
 		return (
 			<div className="field">
 
 				<textarea
 					rows="12"
 					style={styles.textarea}
-					defaultValue={this.props.desc || ''}
-					ref={ (v) => this.newDesc = v }
+					value={this.state.desc || ''}
+					onChange={ e =>
+						this.handleChange('desc', e.target.value)
+					}
 				>
 				</textarea>
 
@@ -165,13 +186,12 @@ let TodoPanel = React.createClass({
 
 	showDesc(desc) {
 		if(desc) {
-			let html = { __html : semanticMarkdown(desc || ''), };
+			let html = { __html : markdown(desc || ''), };
 			return (
 				<div
 					dangerouslySetInnerHTML={html}
 					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
 				>
-					{ desc ? null : this.defaultDesc() }
 				</div>
 			);
 		}
@@ -187,13 +207,13 @@ let TodoPanel = React.createClass({
 					style={style}
 					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
 				>
-					{this.defaultDesc() }
+					{this.defaultArea() }
 				</div>
 			);
 		}
 	},
 
-	defaultDesc() {
+	defaultArea() {
 		let style = { marginTop : '89px' };
 		return (
 			<center>
@@ -208,21 +228,37 @@ let TodoPanel = React.createClass({
 	},
 
 	handleSaveTodoDesc(e) {
-		this.props.updateTodoDesc(this.props.id, this.newDesc.value.trim());
+		this.props.updateTodoDesc(this.props.id, this.state.desc.trim());
+	},
+
+	handleKeyDown(e) {
+		// let t = parseInt(this.needTime.value, 10);
+		let t = parseInt(this.state.needTime, 10);
+		if(e.keyCode == 38) {  // up
+			this.setState({ needTime : t + 4});
+			// this.needTime.value = t + 4;
+		}
+		else if(e.keyCode == 40) { // down
+			this.setState({ needTime : t - 4});
+			// this.needTime.value = t - 4;
+		}
+		else if(e.keyCode == 13) { // enter
+			this.props.updateTodoNeedTime(this.props.id, this.props.needTime, t);
+		}
 	},
 
 	propTypes : {
 		id : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
-		priority : PropTypes.number.isRequired,
+		type : PropTypes.string.isRequired,
 		needTime : PropTypes.number.isRequired,
 		expectAt : PropTypes.string.isRequired,
+		counter : PropTypes.number.isRequired,
 		desc : PropTypes.string,
 		endAt : PropTypes.string,
 	},
 
 });
-
 
 export default TodoPanel;

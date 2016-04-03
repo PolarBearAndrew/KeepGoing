@@ -17,7 +17,7 @@ import {
 	TODO_REMOVE,
 	// todo filter action
 	FILTER_SET_COMPLETED,
-	FILTER_SET_PRIORITY,
+	FILTER_SET_TYPE,
 	FILTER_SET_NEETTIME,
 	FILTERS_RESET,
 	CURRENT_SET,
@@ -27,6 +27,7 @@ import {
 	// editor
 	TODO_EDIT_DESC,
 	TODO_UPDATE_DESC,
+	TODO_UPDATE_NEEDTIME,
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
@@ -78,7 +79,14 @@ function todos(state = [], action) {
 			});
 
 		case TODO_COMPLETE_SUCCESS :
-			return state;
+			return state.map( todo => {
+				if(todo.id == action.id) {
+					todo.completed = action.completed;
+					todo.counter = action.counter;
+					todo.expectAt = action.expectAt;
+				}
+				return todo;
+			});
 
 		case TODO_COMPLETE_FAIL :
 			return state.map( todo => {
@@ -110,9 +118,18 @@ function todos(state = [], action) {
 		case TODO_REMOVE :
 			return state.filter( todo => todo.id != action.id);
 
+		// ==========================================
+		// update todo
+		// ==========================================
 		case TODO_UPDATE_DESC:
 			return state.map( todo => {
 				if(todo.id == action.id) todo.desc = action.desc;
+				return todo;
+			});
+
+		case TODO_UPDATE_NEEDTIME:
+			return state.map( todo => {
+				if(todo.id == action.id) todo.needTime = action.needTime;
 				return todo;
 			});
 
@@ -137,12 +154,12 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 }
 
 // index 1 = 無狀態
-function priorityFilter(state = 1, action) {
+function typeFilter(state = 'none', action) {
 	switch (action.type) {
-		case FILTER_SET_PRIORITY :
+		case FILTER_SET_TYPE :
 			return action.filter;
 		case FILTERS_RESET :
-			return 1;
+			return 'none';
 		default :
 			return state;
 	}
@@ -185,7 +202,7 @@ function editorDesc(state = false, action) {
 
 const todoApp = combineReducers({
 	completedFilter,
-	priorityFilter,
+	typeFilter,
 	needTimeFilter,
 	currentId,
 	editorDesc,
