@@ -83,6 +83,7 @@ function todos(state = [], action) {
 				if(todo.id == action.id) {
 					todo.completed = action.completed;
 					todo.counter = action.counter;
+					todo.expectAt = action.expectAt;
 				}
 				return todo;
 			});

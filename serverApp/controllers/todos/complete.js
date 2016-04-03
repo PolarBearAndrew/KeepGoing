@@ -30,6 +30,7 @@ module.exports = (req, res) => {
 		}
 		else {
 			todo.counter = todo.counter + 1;
+			todo.expectAt = moment().add(1, 'days');
 		}
 		return todo.save();
 	})
@@ -38,6 +39,7 @@ module.exports = (req, res) => {
 			id : todo.id,
 			completed : todo.completed,
 			counter : todo.counter,
+			expectAt : todo.expectAt,
 		};
 		res.return(data);
 	})

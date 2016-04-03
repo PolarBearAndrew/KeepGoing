@@ -213,7 +213,7 @@ let TodoPanel = React.createClass({
 		}
 	},
 
-	defaultDesc() {
+	defaultArea() {
 		let style = { marginTop : '89px' };
 		return (
 			<center>
