@@ -58,7 +58,7 @@ export default class Calendar extends Component {
 								key={d.date}
 								index={index}
 								isTitle={false}
-								onSelect={this.props.onSelect}
+								onChange={this.props.onChange}
 								{...d}
 							/>
 						);

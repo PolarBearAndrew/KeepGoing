@@ -71,7 +71,7 @@ export default class CalendarDay extends Component {
 
 	handleClick(e) {
 		if(
-			this.props.onSelect &&
+			this.props.onChange &&
 			this.props.isTitle == false
 		) {
 			let info = {
@@ -79,7 +79,7 @@ export default class CalendarDay extends Component {
 				color : this.props.color,
 				statistic : this.props.statistic,
 			};
-			return this.props.onSelect(info);
+			return this.props.onChange(info);
 		}
 		else {
 			return false;
@@ -90,7 +90,7 @@ export default class CalendarDay extends Component {
 
 CalendarDay.propTypes = {
 	// func
-	onSelect : PropTypes.func,
+	onChange : PropTypes.func,
 	// var
 	text : PropTypes.string.isRequired,
 	isTitle : PropTypes.bool.isRequired,
