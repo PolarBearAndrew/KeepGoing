@@ -1,0 +1,5 @@
+
+.myDatePicker .days:hover {
+	border : 2px solid blue;
+	border-radius : 2px;
+}

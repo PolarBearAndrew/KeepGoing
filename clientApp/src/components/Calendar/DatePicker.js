@@ -41,7 +41,7 @@ let DatePicker = React.createClass({
 		};
 
 		return (
-			<div className="ui left icon input transparent large">
+			<div className="ui left icon input transparent large myDatePicker">
 				<input
 					type="text"
 					value={this.state.value}
@@ -81,6 +81,7 @@ let DatePicker = React.createClass({
 				<Calendar
 					style={styles.calendar}
 					WeekDates={WeekDates}
+					selectedDate={moment(this.state.value).format('YYYY-MM-DD')}
 					onChange={this.handleOnCahnge}
 				/>
 				<p></p>
