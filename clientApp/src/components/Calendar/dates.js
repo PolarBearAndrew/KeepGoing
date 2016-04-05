@@ -9,8 +9,6 @@ var endOfDay = moment().endOf("month");
 var lastMonthNums = parseInt(startOfDay.isoWeekday(), 10) - 1;
 var nextMonthNums = 7 - parseInt(endOfDay.isoWeekday(), 10);
 
-var weekDay = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
 // ---------------------------------
 // last month
 // ---------------------------------
@@ -43,10 +41,14 @@ var nextMonth = buildData(
 data = data.concat(nextMonth);
 
 function buildData(offsetMonth, start, end) {
-	var arr = [];
-	for (var i = start; i <= end; i++) {
-		var d = moment().add(offsetMonth, 'month').set('date', i);
+	let arr = [];
+	for (let i = start; i <= end; i++) {
+		let d = moment().add(offsetMonth, 'month').set('date', i);
+		let today = moment().get('date');
 		arr.push({
+			isToday : offsetMonth == 0 && i == today ? true : false,
+			isThisMonth : offsetMonth == 0 ? true : false,
+			// text : i < 10 ? '0' + i.toString() : i.toString(),
 			text : i.toString(),
 			date : d.format('YYYY-MM-DD'),
 			weekDay : d.isoWeekday(), // 禮拜幾

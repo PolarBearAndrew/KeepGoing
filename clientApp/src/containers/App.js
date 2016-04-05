@@ -36,6 +36,7 @@ import TodoPanel from '../components/TodoPanel.js';
 // components
 import LeftMenu from '../components/LeftMenu/';
 import TodoList from '../components/TodoList/';
+import Calendar from '../components/Calendar/';
 
 class App extends Component {
 
@@ -91,9 +92,13 @@ class App extends Component {
 			<div className='ui grid'>
 
 				<div className='four wide column'>
+
+					<Calendar/>
+
 					<LeftMenu
 						menuList={this.state.menuList}
 					/>
+					
 				</div>
 
 				<div className='eight wide column' style={styles.wrapper}>
