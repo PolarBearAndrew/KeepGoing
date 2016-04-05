@@ -2,6 +2,9 @@
 import React, { Component, PropTypes } from 'react';
 import { markdown } from '../libs/';
 import _TYPES_ from '../config/TodoTypes.js';
+import DatePicker from './Calendar/DatePicker.js';
+
+
 let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
@@ -108,10 +111,9 @@ let TodoPanel = React.createClass({
 					<div className='one wide column'></div>
 
 					<div className='ten wide column'>
-						<div className="ui left icon input transparent large">
-							<input type="text" defaultValue={moment(this.props.expectAt).format('YYYY-MM-DD dddd')} />
-							<i className="calendar icon"></i>
-						</div>
+						<DatePicker
+							value={this.props.expectAt}
+						/>
 					</div>
 
 					<div className='three wide column'>

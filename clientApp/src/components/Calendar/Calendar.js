@@ -29,6 +29,14 @@ export default class Calendar extends Component {
 			marginLeft : '33px',
 		};
 
+		if(this.props.WeekDates) {
+			WeekDates = this.props.WeekDates;
+		}
+		if(this.props.style) {
+			styles.wrapper = this.props.style;
+		}
+
+
 		return (
 			<div style={styles.wrapper}>
 				{
