@@ -13,7 +13,8 @@ export default class CalendarDay extends Component {
 			position : 'relative',
 			float : 'left',
 			width : '12%',
-			height : '44px',
+			// height : '44px',
+			height : '16.6%',
 			paddingTop : '12px',
 			margin : '1px',
 		};
@@ -22,10 +23,13 @@ export default class CalendarDay extends Component {
 			styles.wrapper.clear = 'left';
 
 		if(this.props.isTitle) {
-			// styles.wrapper.borderBottom = '2px solid black';
+			styles.wrapper.borderBottom = '2px solid black';
 		}
 		else {
-			styles.wrapper.backgroundColor = 'rgba(0, 128, 0, @op)'.replace(/@op/, Math.random());
+			// 透過色差顯示工作量
+			// styles.wrapper.backgroundColor = 'rgba(0, 128, 0, @op)'.replace(/@op/, Math.random());
+
+			// 透過長條圖顯示工作量
 			// styles.bar = {
 			// 	position : 'absolute',
 			// 	right : '0px',
@@ -36,8 +40,6 @@ export default class CalendarDay extends Component {
 			// 	zIndex : '-1',
 			// };
 		}
-
-
 
 		if(this.props.isToday) {
 			styles.wrapper.paddingTop = '8px';
@@ -68,9 +70,9 @@ export default class CalendarDay extends Component {
 CalendarDay.propTypes = {
 	text : PropTypes.string.isRequired,
 	isTitle : PropTypes.bool.isRequired,
-	isToday : PropTypes.bool,
-	isThisMonth : PropTypes.bool,
 	date : PropTypes.string,
 	color : PropTypes.string,
+	isToday : PropTypes.bool,
 	statistic : PropTypes.number,
+	isThisMonth : PropTypes.bool,
 };

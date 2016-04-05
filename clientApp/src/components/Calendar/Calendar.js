@@ -60,11 +60,3 @@ export default class Calendar extends Component {
 	}
 
 }
-
-// Calendar.propTypes = {
-// 	// onTodoClick: PropTypes.func.isRequired,
-// 	menuList: PropTypes.arrayOf(PropTypes.shape({
-// 		text: PropTypes.string.isRequired,
-// 		active: PropTypes.bool
-// 	}).isRequired).isRequired
-// };
