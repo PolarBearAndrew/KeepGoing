@@ -1,10 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
 
-// import Dates from './dates.js';
 import Calendar from './Calendar.js';
 
-var debug = require('debug')('app:calendar');
+let debug = require('debug')('app:datePicker');
 
 let WeekDates = [
 	{ text : 'Mo' },
@@ -16,17 +15,24 @@ let WeekDates = [
 	{ text : 'Su' }
 ];
 
+let _FORMAT_DATE = 'YYYY-MM-DD dddd';
+
 let DatePicker = React.createClass({
 
 	getInitialState() {
 		return {
 			showDatePicker : false,
+			value : moment(this.props.value).format(_FORMAT_DATE),
 		};
 	},
 
-	render() {
+	componentWillReceiveProps(nextProps) {
+		return this.setState({
+			value : moment(nextProps.value).format(_FORMAT_DATE),
+		});
+	},
 
-		let value = moment(this.props.value).format('YYYY-MM-DD dddd');
+	render() {
 
 		let styles = {};
 
@@ -35,12 +41,13 @@ let DatePicker = React.createClass({
 		};
 
 		return (
-			<div className="ui left icon input transparent large">
+			<div className="ui left icon input transparent large myDatePicker">
 				<input
 					type="text"
-					defaultValue={value}
+					value={this.state.value}
 					style={styles.input}
 					onFocus={this.handleFocus}
+					onChange={ e => false }
 				/>
 				{
 					this.state.showDatePicker == true
@@ -74,6 +81,8 @@ let DatePicker = React.createClass({
 				<Calendar
 					style={styles.calendar}
 					WeekDates={WeekDates}
+					selectedDate={moment(this.state.value).format('YYYY-MM-DD')}
+					onChange={this.handleOnCahnge}
 				/>
 				<p></p>
 			</div>
@@ -82,7 +91,15 @@ let DatePicker = React.createClass({
 
 	handleFocus() {
 		this.setState({ showDatePicker : true });
-	}
+	},
+
+	handleOnCahnge(info) {
+		this.setState({
+			showDatePicker : false,
+			value : moment(info.date).format(_FORMAT_DATE),
+		});
+		this.props.onUpdate(this.props.value, info.date);
+	},
 
 });
 

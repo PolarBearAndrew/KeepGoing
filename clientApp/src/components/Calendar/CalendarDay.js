@@ -13,10 +13,12 @@ export default class CalendarDay extends Component {
 			position : 'relative',
 			float : 'left',
 			width : '12%',
-			// height : '44px',
 			height : '16.6%',
-			paddingTop : '12px',
 			margin : '1px',
+			cursor : 'pointer',
+			display: 'flex',
+			alignItems : 'center',
+			justifyContent : 'center',
 		};
 
 		if(this.props.index % 7 == 0 )
@@ -42,32 +44,64 @@ export default class CalendarDay extends Component {
 		}
 
 		if(this.props.isToday) {
-			styles.wrapper.paddingTop = '8px';
+			styles.wrapper.paddingTop = '0px';
 			styles.text = {
 				width : '27px',
 				height : '27px',
 				border : '2px solid red',
-				paddingTop : '3px',
 				borderRadius : '50%',
+				display: 'flex',
+				alignItems : 'center',
+				justifyContent : 'center',
 			};
 		}
-
-		if(this.props.isThisMonth == false)
+		if(this.props.isSelected == true) {
+			styles.text = styles.text || {};
+			styles.text.color = 'blue';
+			styles.text.fontWeight = 'bolder';
+		}
+		if(this.props.isThisMonth == false) {
 			styles.wrapper.color = '#bababa';
+		}
 
 		return (
-			<div style={styles.wrapper} key={this.props.date}>
-				<div style={styles.bar}></div>
-				<center>
-					<div style={styles.text}>{this.props.text}</div>
-				</center>
+			<div
+				className='days'
+				style={styles.wrapper}
+				key={this.props.date}
+				onClick={this.handleClick.bind(this)}
+			>
+				{
+					// <div style={styles.bar}></div>
+				}
+				<div style={styles.text}>{this.props.text}</div>
 			</div>
 		);
+	}
+
+	handleClick(e) {
+		if(
+			this.props.onChange &&
+			this.props.isTitle == false
+		) {
+			let info = {
+				date : this.props.date,
+				color : this.props.color,
+				statistic : this.props.statistic,
+			};
+			return this.props.onChange(info);
+		}
+		else {
+			return false;
+		}
 	}
 
 }
 
 CalendarDay.propTypes = {
+	// func
+	onChange : PropTypes.func,
+	// var
 	text : PropTypes.string.isRequired,
 	isTitle : PropTypes.bool.isRequired,
 	date : PropTypes.string,

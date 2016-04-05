@@ -55,9 +55,11 @@ export default class Calendar extends Component {
 					Dates.map( (d, index) => {
 						return (
 							<CalendarDay
+								key={d.date}
 								index={index}
 								isTitle={false}
-								key={d.date}
+								isSelected={this.props.selectedDate == d.date ? true : false}
+								onChange={this.props.onChange}
 								{...d}
 							/>
 						);

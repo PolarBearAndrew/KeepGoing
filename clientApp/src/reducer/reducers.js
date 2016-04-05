@@ -28,6 +28,7 @@ import {
 	TODO_EDIT_DESC,
 	TODO_UPDATE_DESC,
 	TODO_UPDATE_NEEDTIME,
+	TODO_UPDATE_EXPECTAT,
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
@@ -130,6 +131,12 @@ function todos(state = [], action) {
 		case TODO_UPDATE_NEEDTIME:
 			return state.map( todo => {
 				if(todo.id == action.id) todo.needTime = action.needTime;
+				return todo;
+			});
+
+		case TODO_UPDATE_EXPECTAT:
+			return state.map( todo => {
+				if(todo.id == action.id) todo.expectAt = action.expectAt;
 				return todo;
 			});
 
