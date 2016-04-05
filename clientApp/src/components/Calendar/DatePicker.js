@@ -1,10 +1,9 @@
 
 import React, { Component, PropTypes } from 'react';
 
-// import Dates from './dates.js';
 import Calendar from './Calendar.js';
 
-var debug = require('debug')('app:calendar');
+let debug = require('debug')('app:datePicker');
 
 let WeekDates = [
 	{ text : 'Mo' },
@@ -74,6 +73,7 @@ let DatePicker = React.createClass({
 				<Calendar
 					style={styles.calendar}
 					WeekDates={WeekDates}
+					onSelect={this.onSelect}
 				/>
 				<p></p>
 			</div>
@@ -82,7 +82,13 @@ let DatePicker = React.createClass({
 
 	handleFocus() {
 		this.setState({ showDatePicker : true });
-	}
+	},
+
+	onSelect(info) {
+		debug('DatePicker onSelect', info);
+		this.setState({ showDatePicker : false });
+		this.props.onUpdate(this.props.value, info.date);
+	},
 
 });
 

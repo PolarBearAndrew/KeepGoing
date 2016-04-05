@@ -309,5 +309,45 @@ export function updateTodoNeedTime(id, oNeedTime, nNeedTime) {
 		});
 
 	};
+}
+
+// ==========================================
+//	edit todo.expectAt
+// ==========================================
+export const TODO_UPDATE_EXPECTAT = 'TODO_UPDATE_EXPECTAT';
+function todoUpdateExpectAt(id, expectAt) {
+	return { type : TODO_UPDATE_EXPECTAT, id, expectAt };
+}
+
+export function updateTodoExpectAt(id, oExpectAt, nExpectAt) {
+
+	debug('updateTodoExpectAt', id, oExpectAt, nExpectAt);
+
+	return function(dispatch) {
+
+		let todo = { expectAt : nExpectAt };
+
+		dispatch(todoUpdateExpectAt(id, nExpectAt));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoExpectAt success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoExpectAt fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
+	};
 
 }

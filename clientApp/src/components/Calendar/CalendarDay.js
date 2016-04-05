@@ -56,7 +56,11 @@ export default class CalendarDay extends Component {
 			styles.wrapper.color = '#bababa';
 
 		return (
-			<div style={styles.wrapper} key={this.props.date}>
+			<div
+				style={styles.wrapper}
+				key={this.props.date}
+				onClick={this.handleClick.bind(this)}
+			>
 				<div style={styles.bar}></div>
 				<center>
 					<div style={styles.text}>{this.props.text}</div>
@@ -65,9 +69,29 @@ export default class CalendarDay extends Component {
 		);
 	}
 
+	handleClick(e) {
+		if(
+			this.props.onSelect &&
+			this.props.isTitle == false
+		) {
+			let info = {
+				date : this.props.date,
+				color : this.props.color,
+				statistic : this.props.statistic,
+			};
+			return this.props.onSelect(info);
+		}
+		else {
+			return false;
+		}
+	}
+
 }
 
 CalendarDay.propTypes = {
+	// func
+	onSelect : PropTypes.func,
+	// var
 	text : PropTypes.string.isRequired,
 	isTitle : PropTypes.bool.isRequired,
 	date : PropTypes.string,

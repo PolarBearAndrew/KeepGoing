@@ -113,6 +113,7 @@ let TodoPanel = React.createClass({
 					<div className='ten wide column'>
 						<DatePicker
 							value={this.props.expectAt}
+							onUpdate={this.props.updateTodoExpectAt.bind(null, this.props.todoId)}
 						/>
 					</div>
 
@@ -248,6 +249,8 @@ let TodoPanel = React.createClass({
 			this.props.updateTodoNeedTime(this.props.id, this.props.needTime, t);
 		}
 	},
+
+	// 一堆 func 要補
 
 	propTypes : {
 		id : PropTypes.number.isRequired,

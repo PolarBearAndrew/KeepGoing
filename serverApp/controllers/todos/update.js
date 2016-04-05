@@ -26,6 +26,8 @@ module.exports = (req, res) => {
 			todo.desc = null;
 		}
 
+		debug('todo.expectAt', todo.expectAt);
+
 		return todo.save();
 	})
 	.then( todo => {

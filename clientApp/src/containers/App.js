@@ -21,6 +21,7 @@ import {
 	setEditTodoDesc,
 	updateTodoDesc,
 	updateTodoNeedTime,
+	updateTodoExpectAt,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -98,7 +99,7 @@ class App extends Component {
 					<LeftMenu
 						menuList={this.state.menuList}
 					/>
-					
+
 				</div>
 
 				<div className='eight wide column' style={styles.wrapper}>
@@ -169,6 +170,9 @@ class App extends Component {
 									}
 									updateTodoNeedTime={ (id, oNeedTime, nNeedTime) =>
 										updateTodoNeedTime(id, oNeedTime, nNeedTime)(dispatch)
+									}
+									updateTodoExpectAt={ (id, oExpectAt, nExpectAt) =>
+										updateTodoExpectAt(id, oExpectAt, nExpectAt)(dispatch)
 									}
 									// editor attr
 									editorDesc={this.props.editorDesc || false}
