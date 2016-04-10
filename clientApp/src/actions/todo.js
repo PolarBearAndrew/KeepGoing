@@ -351,3 +351,43 @@ export function updateTodoExpectAt(id, oExpectAt, nExpectAt) {
 	};
 
 }
+
+// ==========================================
+//	edit todo.type
+// ==========================================
+export const TODO_UPDATE_TYPE = 'TODO_UPDATE_TYPE';
+function todoUpdateType(id, type) {
+	return { type : TODO_UPDATE_TYPE, id, todoType : type };
+}
+
+export function updateTodoType(id, oType, nType) {
+
+	debug('updateTodoType', id, oType, nType);
+
+	return function(dispatch) {
+
+		let todo = { type : nType };
+
+		dispatch(todoUpdateType(id, nType));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoType success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoType fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
+	};
+}

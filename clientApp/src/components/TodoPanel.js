@@ -4,10 +4,20 @@ import { markdown } from '../libs/';
 import _TYPES_ from '../config/TodoTypes.js';
 import DatePicker from './Calendar/DatePicker.js';
 
-
 let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
+let types = [];
+
+Object.keys(_TYPES_).forEach( key => {
+	types.push({
+		..._TYPES_[key],
+		key
+	});
+});
+types = types.sort( (tA, tB) => {
+	return tA.priority - tB.priority;
+});
 
 let TodoPanel = React.createClass({
 
@@ -39,6 +49,16 @@ let TodoPanel = React.createClass({
 			text : {
 				ratio : '{value}%'
 			},
+		});
+		$('#typeIcon').popup({
+			popup: '#typePopout',
+			inline : true,
+			hoverable : true,
+			position : 'bottom left',
+			delay : {
+				show : 200,
+				hide : 800,
+			}
 		});
 	},
 
@@ -82,19 +102,43 @@ let TodoPanel = React.createClass({
 			marginBottom : '4px',
 		};
 
+		styles.typeIcons = {
+			cursor : 'pointer',
+		};
+
 		return (
 			<div
 				style={styles.segment}
 				className="ui stacked segment"
 			>
 
+
 				<h2 className="ui header">
-					<i className={"icon  " +  type.icon + ' ' + type.color}></i>
+
+					<i id='typeIcon' className={"icon  " +  type.icon + ' ' + type.color}></i>
+
 					<div className="content">
 						{this.props.title}
 						<div className="sub header">{'# ' + this.props.todoId}</div>
 					</div>
+
 				</h2>
+
+				<div id='typePopout' className="ui flowing popup transition hidden">
+					{
+						types.map( t =>
+							<i
+								key={t.priority}
+								style={styles.typeIcons}
+								onClick={ e =>
+									this.props.updateTodoType(this.props.todoId, this.props.type, t.key)
+								}
+								className={'typeIcons circular icon ' + t.color + ' ' + t.icon}>
+							</i>
+						)
+					}
+				</div>
+
 
 				<h4 className="ui inverted divider"></h4>
 

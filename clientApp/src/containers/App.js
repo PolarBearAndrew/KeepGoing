@@ -21,6 +21,7 @@ import {
 	updateTodoDesc,
 	updateTodoNeedTime,
 	updateTodoExpectAt,
+	updateTodoType,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -169,6 +170,9 @@ class App extends Component {
 									}
 									updateTodoExpectAt={ (id, oExpectAt, nExpectAt) =>
 										updateTodoExpectAt(id, oExpectAt, nExpectAt)(dispatch)
+									}
+									updateTodoType={ (id, oType, nType) =>
+										updateTodoType(id, oType, nType)(dispatch)
 									}
 								/>
 							: null
