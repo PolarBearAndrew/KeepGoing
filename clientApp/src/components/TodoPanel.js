@@ -36,7 +36,7 @@ let TodoPanel = React.createClass({
 				id : nextProps.todoId,
 				desc : nextProps.desc,
 				needTime : nextProps.needTime,
-				onEnditDesc : true,
+				onEnditDesc : false,
 			});
 		}
 	},
