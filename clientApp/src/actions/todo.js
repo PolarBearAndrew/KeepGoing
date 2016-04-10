@@ -391,3 +391,44 @@ export function updateTodoType(id, oType, nType) {
 
 	};
 }
+
+
+// ==========================================
+//	edit todo.title
+// ==========================================
+export const TODO_UPDATE_TITLE = 'TODO_UPDATE_TITLE';
+function todoUpdateTitle(id, title) {
+	return { type : TODO_UPDATE_TITLE, id, title };
+}
+
+export function updateTodoTitle(id, oTitle, nTitle) {
+
+	debug('updateTodoTitle', id, oTitle, nTitle);
+
+	return function(dispatch) {
+
+		let todo = { title : nTitle };
+
+		dispatch(todoUpdateTitle(id, nTitle));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoTitle success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoTitle fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
+	};
+}

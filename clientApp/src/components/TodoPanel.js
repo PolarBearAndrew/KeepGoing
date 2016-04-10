@@ -24,9 +24,11 @@ let TodoPanel = React.createClass({
 	getInitialState() {
 		return {
 			id : this.props.todoId,
+			title : this.props.title,
 			desc : this.props.desc,
 			needTime : this.props.needTime,
 			onEnditDesc : false,
+			onEditTitle : false,
 		};
 	},
 
@@ -34,9 +36,11 @@ let TodoPanel = React.createClass({
 		if(this.state.id != nextProps.todoId) {
 			return this.setState({
 				id : nextProps.todoId,
+				title : nextProps.title,
 				desc : nextProps.desc,
 				needTime : nextProps.needTime,
 				onEnditDesc : false,
+				onEditTitle : false,
 			});
 		}
 	},
@@ -106,6 +110,15 @@ let TodoPanel = React.createClass({
 			cursor : 'pointer',
 		};
 
+		styles.editTitle = {
+			height : '40px',
+			width : '240px',
+		};
+
+		styles.editTitleCheck = {
+			cursor : 'pointer',
+		};
+
 		return (
 			<div
 				style={styles.segment}
@@ -117,8 +130,17 @@ let TodoPanel = React.createClass({
 
 					<i id='typeIcon' className={"icon  " +  type.icon + ' ' + type.color}></i>
 
-					<div className="content">
-						{this.props.title}
+					<div
+						className="content"
+						onDoubleClick={ e =>
+							this.setState({onEditTitle : true})
+						}
+					>
+						{
+							this.state.onEditTitle
+								? this.editTitle()
+								: this.props.title
+						}
 						<div className="sub header">{'# ' + this.props.todoId}</div>
 					</div>
 
@@ -167,7 +189,7 @@ let TodoPanel = React.createClass({
 						<div className="ui left icon input transparent large" >
 							<input
 								type="number"
-								onKeyDown={this.handleKeyDown}
+								onKeyDown={this.handleNeedTimeKeyDown}
 								value={this.state.needTime}
 								onChange={ e =>
 									this.handleChange('needTime', e.target.value)
@@ -283,7 +305,7 @@ let TodoPanel = React.createClass({
 		this.props.updateTodoDesc(this.props.id, this.state.desc.trim());
 	},
 
-	handleKeyDown(e) {
+	handleNeedTimeKeyDown(e) {
 		let t = parseInt(this.state.needTime, 10);
 		if(e.keyCode == 38) {  // up
 			this.setState({ needTime : t + 4});
@@ -296,10 +318,37 @@ let TodoPanel = React.createClass({
 		}
 	},
 
+	editTitle() {
+		return (
+			<div className="ui small icon input" style={styles.editTitle}>
+				<input
+					type="text"
+					value={this.state.title}
+					onKeyDown={this.handleTitleKeyDown}
+					onChange={ e =>
+						this.handleChange('title', e.target.value)
+					}
+				/>
+				<i
+					style={styles.editTitleCheck}
+					className="edit icon black">
+				</i>
+			</div>
+		);
+	},
+
+	handleTitleKeyDown(e) {
+		if(e.keyCode == 13) { // enter
+			this.setState({onEditTitle: false});
+			this.props.updateTodoTitle(this.props.todoId, this.props.title, this.state.title);
+		}
+	},
+
 	// 一堆 func 要補
 
 	propTypes : {
 		id : PropTypes.number.isRequired,
+		todoId : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
 		type : PropTypes.string.isRequired,
