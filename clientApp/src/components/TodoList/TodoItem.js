@@ -25,6 +25,7 @@ let TodoItem = React.createClass({
 
 		styles.segment = {
 			width : Width.MAIN_CONTENT.toString() + 'px',
+			// cursor : 'pointer',
 		};
 		styles.checkIcon = {
 			cursor : 'pointer',
@@ -65,7 +66,9 @@ let TodoItem = React.createClass({
 		return (
 			<div
 				className={segmentClass}
-				style={styles.segment}>
+				style={styles.segment}
+				onClick={this.props.setCurrentTodo}
+			>
 				{
 					this.showTypeRibon()
 						? this.buildTypeRibon(this.props.type)
@@ -78,10 +81,13 @@ let TodoItem = React.createClass({
 					<i
 						className={checkIconClass}
 						style={styles.checkIcon}
-						onClick={
+						onClick={ e => {
+							e.stopPropagation();
 							this.props.completed
-							? this.props.onUndo
-							: this.props.onComplete
+							? this.props.onUndo()
+							: this.props.onComplete();
+						}
+
 						}
 						onMouseOver={this.mouseOver}
 						onMouseOut={this.mouseOut}
@@ -141,10 +147,12 @@ let TodoItem = React.createClass({
 
 	mouseOver() {
 		this.setState({hoverCheckIcon: true});
+		return false;
 	},
 
 	mouseOut() {
 		this.setState({hoverCheckIcon: false});
+		return false;
 	},
 
 	showTypeRibon() {

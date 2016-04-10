@@ -4,18 +4,31 @@ import { markdown } from '../libs/';
 import _TYPES_ from '../config/TodoTypes.js';
 import DatePicker from './Calendar/DatePicker.js';
 
-
 let debug = require('debug')('app:TodoPanel');
 
 let styles = {};
+let types = [];
+
+Object.keys(_TYPES_).forEach( key => {
+	types.push({
+		..._TYPES_[key],
+		key
+	});
+});
+types = types.sort( (tA, tB) => {
+	return tA.priority - tB.priority;
+});
 
 let TodoPanel = React.createClass({
 
 	getInitialState() {
 		return {
 			id : this.props.todoId,
+			title : this.props.title,
 			desc : this.props.desc,
 			needTime : this.props.needTime,
+			onEnditDesc : false,
+			onEditTitle : false,
 		};
 	},
 
@@ -23,8 +36,11 @@ let TodoPanel = React.createClass({
 		if(this.state.id != nextProps.todoId) {
 			return this.setState({
 				id : nextProps.todoId,
+				title : nextProps.title,
 				desc : nextProps.desc,
 				needTime : nextProps.needTime,
+				onEnditDesc : false,
+				onEditTitle : false,
 			});
 		}
 	},
@@ -37,6 +53,16 @@ let TodoPanel = React.createClass({
 			text : {
 				ratio : '{value}%'
 			},
+		});
+		$('#typeIcon').popup({
+			popup: '#typePopout',
+			inline : true,
+			hoverable : true,
+			position : 'bottom left',
+			delay : {
+				show : 200,
+				hide : 800,
+			}
 		});
 	},
 
@@ -80,19 +106,61 @@ let TodoPanel = React.createClass({
 			marginBottom : '4px',
 		};
 
+		styles.typeIcons = {
+			cursor : 'pointer',
+		};
+
+		styles.editTitle = {
+			height : '40px',
+			width : '240px',
+		};
+
+		styles.editTitleCheck = {
+			cursor : 'pointer',
+		};
+
 		return (
 			<div
 				style={styles.segment}
 				className="ui stacked segment"
 			>
 
+
 				<h2 className="ui header">
-					<i className={"icon  " +  type.icon + ' ' + type.color}></i>
-					<div className="content">
-						{this.props.title}
+
+					<i id='typeIcon' className={"icon  " +  type.icon + ' ' + type.color}></i>
+
+					<div
+						className="content"
+						onDoubleClick={ e =>
+							this.setState({onEditTitle : true})
+						}
+					>
+						{
+							this.state.onEditTitle
+								? this.editTitle()
+								: this.props.title
+						}
 						<div className="sub header">{'# ' + this.props.todoId}</div>
 					</div>
+
 				</h2>
+
+				<div id='typePopout' className="ui flowing popup transition hidden">
+					{
+						types.map( t =>
+							<i
+								key={t.priority}
+								style={styles.typeIcons}
+								onClick={ e =>
+									this.props.updateTodoType(this.props.todoId, this.props.type, t.key)
+								}
+								className={'typeIcons circular icon ' + t.color + ' ' + t.icon}>
+							</i>
+						)
+					}
+				</div>
+
 
 				<h4 className="ui inverted divider"></h4>
 
@@ -121,7 +189,7 @@ let TodoPanel = React.createClass({
 						<div className="ui left icon input transparent large" >
 							<input
 								type="number"
-								onKeyDown={this.handleKeyDown}
+								onKeyDown={this.handleNeedTimeKeyDown}
 								value={this.state.needTime}
 								onChange={ e =>
 									this.handleChange('needTime', e.target.value)
@@ -137,7 +205,7 @@ let TodoPanel = React.createClass({
 
 				<div className="ui form">
 					{
-						this.props.editorDesc
+						this.state.onEnditDesc
 							? this.showTextArea(this.props.desc)
 							: this.showDesc(this.props.desc)
 					}
@@ -171,14 +239,17 @@ let TodoPanel = React.createClass({
 				<button
 					className="ui circular icon button blue"
 					style={styles.btnFloatRight}
-					onClick={ e => this.handleSaveTodoDesc(e) }
+					onClick={ e => {
+						this.handleSaveTodoDesc(e);
+						this.setState({onEnditDesc : false});
+					}}
 				>
 					<i className="save icon"></i>
 				</button>
 				<button
 					className="ui circular icon button gray"
 					style={styles.btnFloatRight}
-					onClick={ e => this.props.setEditTodoDesc(false) }
+					onClick={ e => this.setState({onEnditDesc : false}) }
 				>
 					<i className="reply icon"></i>
 				</button>
@@ -193,7 +264,7 @@ let TodoPanel = React.createClass({
 			return (
 				<div
 					dangerouslySetInnerHTML={html}
-					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+					onDoubleClick={ e => this.setState({onEnditDesc : true}) }
 				>
 				</div>
 			);
@@ -208,7 +279,7 @@ let TodoPanel = React.createClass({
 			return (
 				<div
 					style={style}
-					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+					onDoubleClick={ e => this.setState({onEnditDesc : true}) }
 				>
 					{this.defaultArea() }
 				</div>
@@ -234,19 +305,42 @@ let TodoPanel = React.createClass({
 		this.props.updateTodoDesc(this.props.id, this.state.desc.trim());
 	},
 
-	handleKeyDown(e) {
-		// let t = parseInt(this.needTime.value, 10);
+	handleNeedTimeKeyDown(e) {
 		let t = parseInt(this.state.needTime, 10);
 		if(e.keyCode == 38) {  // up
 			this.setState({ needTime : t + 4});
-			// this.needTime.value = t + 4;
 		}
 		else if(e.keyCode == 40) { // down
 			this.setState({ needTime : t - 4});
-			// this.needTime.value = t - 4;
 		}
 		else if(e.keyCode == 13) { // enter
 			this.props.updateTodoNeedTime(this.props.id, this.props.needTime, t);
+		}
+	},
+
+	editTitle() {
+		return (
+			<div className="ui small icon input" style={styles.editTitle}>
+				<input
+					type="text"
+					value={this.state.title}
+					onKeyDown={this.handleTitleKeyDown}
+					onChange={ e =>
+						this.handleChange('title', e.target.value)
+					}
+				/>
+				<i
+					style={styles.editTitleCheck}
+					className="edit icon black">
+				</i>
+			</div>
+		);
+	},
+
+	handleTitleKeyDown(e) {
+		if(e.keyCode == 13) { // enter
+			this.setState({onEditTitle: false});
+			this.props.updateTodoTitle(this.props.todoId, this.props.title, this.state.title);
 		}
 	},
 
@@ -254,6 +348,7 @@ let TodoPanel = React.createClass({
 
 	propTypes : {
 		id : PropTypes.number.isRequired,
+		todoId : PropTypes.number.isRequired,
 		title : PropTypes.string.isRequired,
 		completed : PropTypes.bool.isRequired,
 		type : PropTypes.string.isRequired,

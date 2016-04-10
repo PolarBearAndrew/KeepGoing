@@ -231,10 +231,10 @@ export function clearCurrentTodo() {
 //	edit todo.desc
 // ==========================================
 
-export const TODO_EDIT_DESC = 'TODO_EDIT_DESC';
-export function setEditTodoDesc(bool) {
-	return { type : TODO_EDIT_DESC, bool };
-}
+// export const TODO_EDIT_DESC = 'TODO_EDIT_DESC';
+// export function setEditTodoDesc(bool) {
+// 	return { type : TODO_EDIT_DESC, bool };
+// }
 
 export const TODO_UPDATE_DESC = 'TODO_UPDATE_DESC';
 function todoUpdateDesc(id, desc) {
@@ -260,7 +260,7 @@ export function updateTodoDesc(id, desc) {
 		})
 		.then( res =>  res.json() )
 		.then( res => {
-			return dispatch(setEditTodoDesc(false)); // 關閉修改介面
+			debug('updateTodoDesc Success');
 		})
 		.catch( err => {
 			debug('updateTodoDesc Fail', err);
@@ -350,4 +350,85 @@ export function updateTodoExpectAt(id, oExpectAt, nExpectAt) {
 
 	};
 
+}
+
+// ==========================================
+//	edit todo.type
+// ==========================================
+export const TODO_UPDATE_TYPE = 'TODO_UPDATE_TYPE';
+function todoUpdateType(id, type) {
+	return { type : TODO_UPDATE_TYPE, id, todoType : type };
+}
+
+export function updateTodoType(id, oType, nType) {
+
+	debug('updateTodoType', id, oType, nType);
+
+	return function(dispatch) {
+
+		let todo = { type : nType };
+
+		dispatch(todoUpdateType(id, nType));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoType success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoType fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
+	};
+}
+
+
+// ==========================================
+//	edit todo.title
+// ==========================================
+export const TODO_UPDATE_TITLE = 'TODO_UPDATE_TITLE';
+function todoUpdateTitle(id, title) {
+	return { type : TODO_UPDATE_TITLE, id, title };
+}
+
+export function updateTodoTitle(id, oTitle, nTitle) {
+
+	debug('updateTodoTitle', id, oTitle, nTitle);
+
+	return function(dispatch) {
+
+		let todo = { title : nTitle };
+
+		dispatch(todoUpdateTitle(id, nTitle));
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'PUT',
+			headers: {
+				'Accept': 'application/json',
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(todo),
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			debug('updateTodoTitle success ');
+			// dispatch(setEditTodoDesc(false));
+		})
+		.catch( err => {
+			debug('updateTodoTitle fail', err);
+			// dispatch(todoUpdateNeedTimeFail(id, oNeedTime));
+			// throw err pop out
+		});
+
+	};
 }

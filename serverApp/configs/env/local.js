@@ -8,10 +8,10 @@ module.exports = {
 			collate : "utf8mb4_general_ci"
 		},
 		dialect : 'mysql',
-		// host : 'localhost', // local
-		host : '192.168.99.100', // docker
-		// port : '8889',
-		port : '3306',
+		host : 'localhost', // local
+		port : '8889',
+		// host : '192.168.99.100', // docker
+		// port : '3306',
 		pool: {
 			max: 20,
 			min: 0,

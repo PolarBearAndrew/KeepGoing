@@ -25,10 +25,11 @@ import {
 	// todo filter types
 	CompletedFilters,
 	// editor
-	TODO_EDIT_DESC,
 	TODO_UPDATE_DESC,
 	TODO_UPDATE_NEEDTIME,
 	TODO_UPDATE_EXPECTAT,
+	TODO_UPDATE_TYPE,
+	TODO_UPDATE_TITLE,
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
@@ -140,6 +141,18 @@ function todos(state = [], action) {
 				return todo;
 			});
 
+		case TODO_UPDATE_TYPE:
+			return state.map( todo => {
+				if(todo.id == action.id) todo.type = action.todoType;
+				return todo;
+			});
+
+		case TODO_UPDATE_TITLE:
+			return state.map( todo => {
+				if(todo.id == action.id) todo.title = action.title;
+				return todo;
+			});
+
 		default :
 			return state;
 	}
@@ -198,21 +211,11 @@ function currentId(state = null, action) {
 	}
 }
 
-function editorDesc(state = false, action) {
-	switch (action.type) {
-		case TODO_EDIT_DESC :
-			return action.bool;
-		default :
-			return state;
-	}
-}
-
 const todoApp = combineReducers({
 	completedFilter,
 	typeFilter,
 	needTimeFilter,
 	currentId,
-	editorDesc,
 	todos,
 });
 

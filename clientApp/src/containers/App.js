@@ -18,10 +18,11 @@ import {
 	// const
 	CompletedFilters,
 	// editor
-	setEditTodoDesc,
 	updateTodoDesc,
 	updateTodoNeedTime,
 	updateTodoExpectAt,
+	updateTodoType,
+	updateTodoTitle,
 } from '../actions/todo.js';
 
 // Algoithms
@@ -162,9 +163,6 @@ class App extends Component {
 									todoId={this.props.currentTodo.id}
 									{ ...this.props.currentTodo }
 									// func
-									setEditTodoDesc={ bool =>
-										dispatch(setEditTodoDesc(bool))
-									}
 									updateTodoDesc={ (id, desc) =>
 										updateTodoDesc(id, desc)(dispatch)
 									}
@@ -174,10 +172,15 @@ class App extends Component {
 									updateTodoExpectAt={ (id, oExpectAt, nExpectAt) =>
 										updateTodoExpectAt(id, oExpectAt, nExpectAt)(dispatch)
 									}
-									// editor attr
-									editorDesc={this.props.editorDesc || false}
+									updateTodoType={ (id, oType, nType) =>
+										updateTodoType(id, oType, nType)(dispatch)
+									}
+									updateTodoTitle={ (id, oTitle, nTitle) =>
+										updateTodoTitle(id, oTitle, nTitle)(dispatch)
+									}
 								/>
 							: null
+							// 這邊以後接上 statistic
 					}
 				</div>
 
@@ -245,7 +248,6 @@ function data(state) {
 		// editor
 		currentId : state.currentId,
 		currentTodo : findCurrentTodo(state),
-		editorDesc : state.editorDesc,
 		// todo list
 		visibleTodos : todoFilters(state),
 		typeFilter : state.typeFilter,
