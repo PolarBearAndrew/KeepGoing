@@ -25,7 +25,6 @@ import {
 	// todo filter types
 	CompletedFilters,
 	// editor
-	TODO_EDIT_DESC,
 	TODO_UPDATE_DESC,
 	TODO_UPDATE_NEEDTIME,
 	TODO_UPDATE_EXPECTAT,
@@ -198,21 +197,11 @@ function currentId(state = null, action) {
 	}
 }
 
-function editorDesc(state = false, action) {
-	switch (action.type) {
-		case TODO_EDIT_DESC :
-			return action.bool;
-		default :
-			return state;
-	}
-}
-
 const todoApp = combineReducers({
 	completedFilter,
 	typeFilter,
 	needTimeFilter,
 	currentId,
-	editorDesc,
 	todos,
 });
 

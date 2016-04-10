@@ -231,10 +231,10 @@ export function clearCurrentTodo() {
 //	edit todo.desc
 // ==========================================
 
-export const TODO_EDIT_DESC = 'TODO_EDIT_DESC';
-export function setEditTodoDesc(bool) {
-	return { type : TODO_EDIT_DESC, bool };
-}
+// export const TODO_EDIT_DESC = 'TODO_EDIT_DESC';
+// export function setEditTodoDesc(bool) {
+// 	return { type : TODO_EDIT_DESC, bool };
+// }
 
 export const TODO_UPDATE_DESC = 'TODO_UPDATE_DESC';
 function todoUpdateDesc(id, desc) {
@@ -260,7 +260,7 @@ export function updateTodoDesc(id, desc) {
 		})
 		.then( res =>  res.json() )
 		.then( res => {
-			return dispatch(setEditTodoDesc(false)); // 關閉修改介面
+			debug('updateTodoDesc Success');
 		})
 		.catch( err => {
 			debug('updateTodoDesc Fail', err);

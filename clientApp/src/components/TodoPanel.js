@@ -16,6 +16,7 @@ let TodoPanel = React.createClass({
 			id : this.props.todoId,
 			desc : this.props.desc,
 			needTime : this.props.needTime,
+			onEnditDesc : false,
 		};
 	},
 
@@ -25,6 +26,7 @@ let TodoPanel = React.createClass({
 				id : nextProps.todoId,
 				desc : nextProps.desc,
 				needTime : nextProps.needTime,
+				onEnditDesc : true,
 			});
 		}
 	},
@@ -137,7 +139,7 @@ let TodoPanel = React.createClass({
 
 				<div className="ui form">
 					{
-						this.props.editorDesc
+						this.state.onEnditDesc
 							? this.showTextArea(this.props.desc)
 							: this.showDesc(this.props.desc)
 					}
@@ -171,14 +173,17 @@ let TodoPanel = React.createClass({
 				<button
 					className="ui circular icon button blue"
 					style={styles.btnFloatRight}
-					onClick={ e => this.handleSaveTodoDesc(e) }
+					onClick={ e => {
+						this.handleSaveTodoDesc(e);
+						this.setState({onEnditDesc : false});
+					}}
 				>
 					<i className="save icon"></i>
 				</button>
 				<button
 					className="ui circular icon button gray"
 					style={styles.btnFloatRight}
-					onClick={ e => this.props.setEditTodoDesc(false) }
+					onClick={ e => this.setState({onEnditDesc : false}) }
 				>
 					<i className="reply icon"></i>
 				</button>
@@ -193,7 +198,7 @@ let TodoPanel = React.createClass({
 			return (
 				<div
 					dangerouslySetInnerHTML={html}
-					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+					onDoubleClick={ e => this.setState({onEnditDesc : true}) }
 				>
 				</div>
 			);
@@ -208,7 +213,7 @@ let TodoPanel = React.createClass({
 			return (
 				<div
 					style={style}
-					onDoubleClick={ e => this.props.setEditTodoDesc(true) }
+					onDoubleClick={ e => this.setState({onEnditDesc : true}) }
 				>
 					{this.defaultArea() }
 				</div>
@@ -235,15 +240,12 @@ let TodoPanel = React.createClass({
 	},
 
 	handleKeyDown(e) {
-		// let t = parseInt(this.needTime.value, 10);
 		let t = parseInt(this.state.needTime, 10);
 		if(e.keyCode == 38) {  // up
 			this.setState({ needTime : t + 4});
-			// this.needTime.value = t + 4;
 		}
 		else if(e.keyCode == 40) { // down
 			this.setState({ needTime : t - 4});
-			// this.needTime.value = t - 4;
 		}
 		else if(e.keyCode == 13) { // enter
 			this.props.updateTodoNeedTime(this.props.id, this.props.needTime, t);
