@@ -2,6 +2,7 @@
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import _TYPES_ from '../config/TodoTypes.js';
+import _LeftMenu from '../config/LeftMenu.js';
 
 import {
 	// todos
@@ -13,6 +14,7 @@ import {
 	setCompletedFilter,
 	setTypeFilter,
 	setNeeTimeFilter,
+	setDateFilter,
 	resetAllFilters,
 	setCurrentTodo,
 	// const
@@ -44,25 +46,9 @@ class App extends Component {
 
 	constructor(props, context) {
 		super(props, context);
-		var menuList = [
-			{
-				id : 1,
-				text : 'Today\'s Jobs',
-				active : true,
-			},
-			{
-				id : 2,
-				text : 'Weekly Jobs',
-			},
-			{
-				id : 3,
-				text : 'All Jobs',
-			},
-		];
 		if(this.props.visibleTodos) {
 			initTodo()(this.props.dispatch);
 		}
-		this.state = {menuList};
 	}
 
 	render() {
@@ -75,6 +61,7 @@ class App extends Component {
 			typeFilter,
 			needTimeFilter,
 		} = this.props;
+
 
 		let styles = {};
 
@@ -98,7 +85,10 @@ class App extends Component {
 					<Calendar/>
 
 					<LeftMenu
-						menuList={this.state.menuList}
+						dateFilter={this.props.dateFilter}
+						setDateFilter={ filter =>
+							dispatch(setDateFilter(filter))
+						}
 					/>
 
 				</div>
@@ -223,11 +213,27 @@ function todoNeedTimeFilter(todos, filter) {
 	}
 }
 
+function dateFilter(todos, filter) {
+	switch (filter) {
+		case 'none' :
+			return todos;
+		case 'today' :
+			var today = moment().add(1, 'days');
+			return todos.filter(todo => moment(todo.expectAt).isBefore(today, 'day'));
+		case 'thisWeek' :
+			var theDay = moment().add(8, 'days');
+			return todos.filter(todo => moment(todo.expectAt).isBefore(theDay, 'day'));
+		default :
+			return todos;
+	}
+}
+
 function todoFilters(state) {
 	let todoTemps;
 	todoTemps = todoCompletedFilter(state.todos, state.completedFilter);
 	todoTemps = todoTypeFilter(todoTemps, state.typeFilter);
 	todoTemps = todoNeedTimeFilter(todoTemps, state.needTimeFilter);
+	todoTemps = dateFilter(todoTemps, state.dateFilter);
 	return sort(todoTemps);
 }
 
@@ -253,13 +259,13 @@ function data(state) {
 		typeFilter : state.typeFilter,
 		completedFilter : state.completedFilter,
 		needTimeFilter : state.needTimeFilter,
+		dateFilter : state.dateFilter,
 	};
 }
 
 // ==========================================
 // props
 // ==========================================
-
 let Todo = PropTypes.shape({
 	id : PropTypes.number.isRequired,
 	title : PropTypes.string.isRequired,
@@ -274,13 +280,17 @@ let Todo = PropTypes.shape({
 
 App.propTypes = {
 	// todos
-	visibleTodos: PropTypes.arrayOf(Todo),
+	visibleTodos : PropTypes.arrayOf(Todo),
 	// 可見度篩選
-	completedFilter: PropTypes.oneOf([
+	completedFilter : PropTypes.oneOf([
 		'SHOW_ALL',
 		'SHOW_COMPLETED',
 		'SHOW_ACTIVE'
 	]).isRequired,
+	// 本日, 本週, 全部
+	dateFilter : PropTypes.oneOf(
+		_LeftMenu.map( o => o.key)
+	).isRequired,
 	// 優先權篩選器
 	typeFilter: PropTypes.oneOf(
 		Object.keys(_TYPES_)

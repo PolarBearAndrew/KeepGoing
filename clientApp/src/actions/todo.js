@@ -8,14 +8,6 @@ var debug = require('debug')('clientApp:todo.actions');
 var hostName = 'http://localhost:3000';
 
 // ==========================================
-// action types
-// ==========================================
-export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
-export const FILTER_SET_TYPE = 'FILTER_SET_TYPE';
-export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
-export const FILTERS_RESET = 'FILTERS_RESET';
-
-// ==========================================
 // filter types
 // ==========================================
 export const CompletedFilters = {
@@ -196,22 +188,31 @@ export function removeTodo(id) {
 // set todo filters
 // ==========================================
 
-
+export const FILTER_SET_COMPLETED = 'FILTER_SET_COMPLETED';
 export function setCompletedFilter(filter) {
 	return { type : FILTER_SET_COMPLETED, filter };
 }
 
+export const FILTER_SET_TYPE = 'FILTER_SET_TYPE';
 export function setTypeFilter(filter) {
 	return { type : FILTER_SET_TYPE, filter };
 }
 
+export const FILTER_SET_NEETTIME = 'FILTER_SET_NEETTIME';
 export function setNeeTimeFilter(filter) {
 	return { type : FILTER_SET_NEETTIME, filter };
 }
 
+export const FILTERS_RESET = 'FILTERS_RESET';
 export function resetAllFilters(filter) {
 	return { type : FILTERS_RESET, filter };
 }
+
+export const FILTERS_SET_DATE = 'FILTERS_SET_DATE';
+export function setDateFilter(filter) {
+	return { type : FILTERS_SET_DATE, filter };
+}
+
 
 // ==========================================
 //	current todo

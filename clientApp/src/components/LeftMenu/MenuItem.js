@@ -6,16 +6,18 @@ export default class MenuItem extends Component {
 	render() {
 
 		let className = 'item ';
-		if(this.props.active) className += 'active';
-
+		if(this.props.active) {
+			className += 'active';
+		}
 		return (
-			<a className={ className }>
+			<a
+				className={ className }
+				onClick={this.props.setDateFilter}
+			>
 				{this.props.text}
 			</a>
 		);
-
 	}
-
 }
 
 MenuItem.propTypes = {

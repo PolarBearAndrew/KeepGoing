@@ -1,6 +1,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import MenuItem from './MenuItem.js';
+import _LeftMenu from '../../config/LeftMenu.js';
 
 import { Width } from '../../config/Styles';
 
@@ -17,9 +18,11 @@ export default class LeftMenu extends Component {
 		return (
 			<div className="ui vertical fluid tabular menu" style={styles.menu}>
 				{
-					this.props.menuList.map( (item) =>
+					_LeftMenu.map( (item) =>
 						<MenuItem
-							key={item.id}
+							key={item.key}
+							active={this.props.dateFilter == item.key}
+							setDateFilter={ e => this.props.setDateFilter(item.key)}
 							{...item}
 						/>
 					)
@@ -31,9 +34,5 @@ export default class LeftMenu extends Component {
 }
 
 LeftMenu.propTypes = {
-	// onTodoClick: PropTypes.func.isRequired,
-	menuList: PropTypes.arrayOf(PropTypes.shape({
-		text: PropTypes.string.isRequired,
-		active: PropTypes.bool
-	}).isRequired).isRequired
+	setDateFilter: PropTypes.func.isRequired,
 };

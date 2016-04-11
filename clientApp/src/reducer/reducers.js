@@ -30,6 +30,7 @@ import {
 	TODO_UPDATE_EXPECTAT,
 	TODO_UPDATE_TYPE,
 	TODO_UPDATE_TITLE,
+	FILTERS_SET_DATE,
 } from '../actions/todo.js';
 
 const { SHOW_ACTIVE } = CompletedFilters;
@@ -173,7 +174,6 @@ function completedFilter(state = SHOW_ACTIVE, action) {
 	}
 }
 
-// index 1 = 無狀態
 function typeFilter(state = 'none', action) {
 	switch (action.type) {
 		case FILTER_SET_TYPE :
@@ -192,6 +192,16 @@ function needTimeFilter(state = 0, action) {
 		case FILTERS_RESET :
 			return 0;
 		default :
+			return state;
+	}
+}
+
+// enums : ['none', 'today', 'thisWeek']
+function dateFilter(state = 'none', action) {
+	switch (action.type) {
+		case FILTERS_SET_DATE:
+			return action.filter;
+		default:
 			return state;
 	}
 }
@@ -215,6 +225,7 @@ const todoApp = combineReducers({
 	completedFilter,
 	typeFilter,
 	needTimeFilter,
+	dateFilter,
 	currentId,
 	todos,
 });
