@@ -1,34 +1,71 @@
-// import { Component, PropTypes } from 'react';
+
 import React, { Component, PropTypes } from 'react';
-import { Input, Button } from 'react-bootstrap';
+
+import { Width } from '../config/Styles';
 
 export default class AddTodo extends Component {
+
 	render() {
+
+		let styles = {};
+
+		let inputWidth = Width.MAIN_CONTENT - 117;
+
+		styles.input = {
+			width : inputWidth.toString() + 'px',
+		};
+
 		return (
-			<div>
-				<Input
-					type="text"
-					ref="input" // TODO: 這個有問題
-					placeholder="新工作"
-					buttonAfter={this.addButton()}/>
+
+			<div className='ui input left icon right labeled' >
+
+				<i className="plus icon"></i>
+
+				<input
+					type='text'
+					style={styles.input}
+					placeholder=' New Jobs'
+					ref={ v => this.newJob = v }
+					onKeyDown={this.handleKeyDown.bind(this)}
+				/>
+
+				<a
+					className="ui blue tag label"
+					onClick={e => this.handleClick(e)}>
+					ADD TODO
+				</a>
+
 			</div>
 		);
 	}
 
-	addButton(){
-		return (
-			<Button bsStyle='primary' onClick={e => this.handleClick(e)}>
-				新增工作
-			</Button>
-		);
+	handleClick(e) {
+		// 至少輸入 todo.title 才可建立
+		if(
+			! this.newJob ||
+			! this.newJob.value ||
+			this.newJob.value == ''
+		) {
+			return false;
+		}
+		let todo = {
+			id : Math.ceil(Math.random() * 1000000),
+			title : this.newJob.value,
+			type : this.props.typeFilter,
+			// needTime : action.needTime || 30,
+			// expectTime : moment().toString(),
+		};
+		this.props.onAddClick(todo);
+		this.newJob.value = '';
 	}
 
-	handleClick(e) {
-		const node = this.refs.input;
-		const text = node.value.trim();
-		this.props.onAddClick(text);
-		node.value = '';
+	handleKeyDown(e) {
+		// enter
+		if(e.keyCode == 13) {
+			return this.handleClick();
+		}
 	}
+
 }
 
 AddTodo.propTypes = {
