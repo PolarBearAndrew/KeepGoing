@@ -9,7 +9,7 @@ var config = require('../configs/').env.db;
 Sequelize.Promise.prototype.complete = Sequelize.Promise.prototype.nodeify;
 
 // 實例化
-var instance = new Sequelize('KeepGoing', config.user, config.password, config);
+var instance = new Sequelize(config.db, config.user, config.password, config);
 
 // instance._ObjectFactory = function(name) {
 //
