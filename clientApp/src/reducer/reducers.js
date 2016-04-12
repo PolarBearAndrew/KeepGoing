@@ -15,6 +15,8 @@ import {
 	TODO_UNDO_SUCCESS,
 	TODO_UNDO_FAIL,
 	TODO_REMOVE,
+	TODO_REMOVE_SUCCESS,
+	TODO_REMOVE_FAIL,
 	// todo filter action
 	FILTER_SET_COMPLETED,
 	FILTER_SET_TYPE,
@@ -121,6 +123,13 @@ function todos(state = [], action) {
 		case TODO_REMOVE :
 			return state.filter( todo => todo.id != action.id);
 
+		case TODO_REMOVE_SUCCESS :
+			return state;
+
+		// 目前沒有還原機制
+		// case TODO_REMOVE_FAIL :
+		// 	return state.filter( todo => todo.id != action.id);
+
 		// ==========================================
 		// update todo
 		// ==========================================
@@ -197,7 +206,7 @@ function needTimeFilter(state = 0, action) {
 }
 
 // enums : ['none', 'today', 'thisWeek']
-function dateFilter(state = 'none', action) {
+function dateFilter(state = 'today', action) {
 	switch (action.type) {
 		case FILTERS_SET_DATE:
 			return action.filter;

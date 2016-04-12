@@ -1,6 +1,8 @@
 
 import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
+
 import _TYPES_ from '../config/TodoTypes.js';
 import _LeftMenu from '../config/LeftMenu.js';
 
@@ -10,6 +12,7 @@ import {
 	addTodo,
 	completeTodo,
 	undoTodo,
+	removeTodo,
 	// filters
 	setCompletedFilter,
 	setTypeFilter,
@@ -168,6 +171,9 @@ class App extends Component {
 									updateTodoTitle={ (id, oTitle, nTitle) =>
 										updateTodoTitle(id, oTitle, nTitle)(dispatch)
 									}
+									removeTodo={ id =>
+										removeTodo(id)(dispatch)
+									}
 								/>
 							: null
 							// 這邊以後接上 statistic
@@ -218,10 +224,10 @@ function dateFilter(todos, filter) {
 		case 'none' :
 			return todos;
 		case 'today' :
-			var today = moment().add(1, 'days');
+			var today = moment().add(2, 'days');
 			return todos.filter(todo => moment(todo.expectAt).isBefore(today, 'day'));
 		case 'thisWeek' :
-			var theDay = moment().add(8, 'days');
+			var theDay = moment().add(9, 'days');
 			return todos.filter(todo => moment(todo.expectAt).isBefore(theDay, 'day'));
 		default :
 			return todos;

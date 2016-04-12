@@ -1,7 +1,8 @@
 
 module.exports = {
 	db : {
-		db : 'KeepGoing_dev',
+		db : 'KeepGoing',
+		// db : 'KeepGoing_dev',
 		user : 'root',
 		password : 'root',
 		define : {

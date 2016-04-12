@@ -119,6 +119,14 @@ let TodoPanel = React.createClass({
 			cursor : 'pointer',
 		};
 
+		styles.removeTodo = {
+			position : 'absolute',
+			right : '0px',
+			bottom : '0px',
+			paddingBottom : '6px',
+			cursor : 'pointer',
+		};
+
 		return (
 			<div
 				style={styles.segment}
@@ -141,7 +149,7 @@ let TodoPanel = React.createClass({
 								? this.editTitle()
 								: this.props.title
 						}
-						<div className="sub header">{'# ' + this.props.todoId}</div>
+						<div className="sub header">{'# ' + this.state.id}</div>
 					</div>
 
 				</h2>
@@ -181,7 +189,7 @@ let TodoPanel = React.createClass({
 					<div className='ten wide column'>
 						<DatePicker
 							value={this.props.expectAt}
-							onUpdate={this.props.updateTodoExpectAt.bind(null, this.props.todoId)}
+							onUpdate={this.props.updateTodoExpectAt.bind(null, this.state.id)}
 						/>
 					</div>
 
@@ -209,6 +217,13 @@ let TodoPanel = React.createClass({
 							? this.showTextArea(this.props.desc)
 							: this.showDesc(this.props.desc)
 					}
+				</div>
+
+				<div id='removeTodo' style={styles.removeTodo}>
+					<i
+						onClick={ e => this.props.removeTodo(this.state.id)}
+						className="trash outline larges icon grey">
+					</i>
 				</div>
 
 			</div>
@@ -281,7 +296,7 @@ let TodoPanel = React.createClass({
 					style={style}
 					onDoubleClick={ e => this.setState({onEnditDesc : true}) }
 				>
-					{this.defaultArea() }
+					{this.defaultArea()}
 				</div>
 			);
 		}

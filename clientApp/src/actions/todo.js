@@ -60,6 +60,8 @@ function todoAddFail(info) {
 
 export function addTodo(todo) {
 
+	if(todo.type == 'none') todo.type = 'normal';
+
 	todo = {
 		id : todo.id,
 		title : todo.title,
@@ -91,7 +93,7 @@ export function addTodo(todo) {
 			}
 			let ids = {
 				oldId : todo.id,
-				newId : parseInt(res.data, 10),
+				newId : parseInt(res.data.id, 10),
 			};
 			return dispatch(todoAddSuccess(ids));
 		})
@@ -180,8 +182,38 @@ export function undoTodo(id) {
 // remove todo
 // ==========================================
 export const TODO_REMOVE = 'TODO_REMOVE';
-export function removeTodo(id) {
+export function todoRemove(id) {
 	return { type: TODO_REMOVE, id };
+}
+
+export const TODO_REMOVE_SUCCESS = 'TODO_REMOVE_SUCCESS';
+function todoRemoveSuccess(id) {
+	return { type: TODO_REMOVE_SUCCESS, id };
+}
+
+export const TODO_REMOVE_FAIL = 'TODO_REMOVE_FAIL';
+function todoRemoveFail(id) {
+	return { type: TODO_REMOVE_FAIL, id };
+}
+
+export function removeTodo(id) {
+
+	return function(dispatch) {
+
+		dispatch(todoRemove(id));
+		dispatch(clearCurrentTodo());
+
+		fetch(hostName + '/api/v1/todo/' + id.toString(), {
+			method : 'DELETE',
+		})
+		.then( res =>  res.json() )
+		.then( res => {
+			return dispatch(todoRemoveSuccess(res.data));
+		})
+		.catch( err => {
+			return dispatch(todoRemoveFail(id));
+		});
+	};
 }
 
 // ==========================================
